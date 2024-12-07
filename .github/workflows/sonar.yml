@@ -46,6 +46,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Nécessaire pour récupérer les informations de PR, si applicable
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    # Token SonarQube
         run: |
-          pip install sonar-scanner         
           sonar-scanner -Dsonar.projectKey=my_python_project  
           sonar-scanner -Dsonar.sources=src 
