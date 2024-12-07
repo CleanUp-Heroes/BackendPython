@@ -32,7 +32,7 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
-      # Cache pip packages (caching dependencies, similar to Gradle caching in Java version)
+      # Cache pip packages (caching dependencies)
       - name: Cache pip packages
         uses: actions/cache@v4
         with:
@@ -45,6 +45,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Nécessaire pour récupérer les informations de PR, si applicable
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    # Token SonarQube
+          
         run: |
-          sonar-scanner -Dsonar.projectKey=my_python_project  
-          sonar-scanner -Dsonar.sources=src 
+          pip install pysonar-scanner
+          pysonar-scanner -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+          pysonar-scanner -Dsonar.projectHome=backendPython
