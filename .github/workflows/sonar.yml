@@ -1,0 +1,51 @@
+name: SonarQube Cloud
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    name: Build and analyze
+    runs-on: ubuntu-latest
+    steps:
+      # Vérifier le code source
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      # Installer Python
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'  # Remplacer '3.x' par la version de Python souhaitée (par exemple, '3.10')
+
+      # Cache SonarQube Cloud
+      - name: Cache SonarQube Cloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      # Cache pip packages (caching dependencies, similar to Gradle caching in Java version)
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip
+
+      # Exécuter l'analyse SonarQube
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Nécessaire pour récupérer les informations de PR, si applicable
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    # Token SonarQube
+        run: |
+          pip install sonar-scanner         
+          sonar-scanner -Dsonar.projectKey=my_python_project  
+          sonar-scanner -Dsonar.sources=src 

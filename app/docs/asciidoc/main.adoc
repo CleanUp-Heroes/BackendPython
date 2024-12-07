@@ -1,0 +1,45 @@
+= Backend APP
+
+== CleanUp Heroes
+Adjedomole, Barry, Rahim
+
+== Objectif de l'application
+Application pour encourager le tri des déchets.
+
+== How to install?
+
+=== Note
+
+Tested with Django 5.1.4 and Python 3.10 
+
+=== If you have `git` on your computer
+
+Simply run:
+[source,shell]
+----
+git clone https://github.com/CleanUp-Heroes/BackendPython.git
+----
+
+=== If you do not have `git` on your computer
+
+Go to https://github.com/CleanUp-Heroes/BackendPython.git download the zip file, and uncompress it.
+
+== How to run?
+
+Simply run:
+[source,shell]
+----
+python manage.py runserver
+----
+
+== Here is the class diagram
+....
+[plantuml, docs/asciidoc/models/diagram.puml, svg]
+....
+
+// == Here is the source code of the main script:
+
+// [source,python]
+// ----
+// include::../../../manage.py[]
+// ----

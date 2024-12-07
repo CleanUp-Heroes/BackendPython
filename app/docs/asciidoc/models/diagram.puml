@@ -1,0 +1,42 @@
+@startuml
+
+package myproject {
+    class App {
+        + main() : void
+    }
+
+    package controllers {
+        class HelloController {
+            + get_hello(request) : HttpResponse
+        }
+    }
+
+    package models {
+        class HelloModel {
+            + say_hello() : str
+        }
+    }
+
+    ' Relationships
+    App --> HelloController : "creates"
+    HelloController --> HelloModel
+}
+
+' Django context
+package django {
+    interface HttpResponse
+    interface HttpRequest
+    interface views
+
+    HelloController --> HttpResponse
+}
+
+package io.swagger.v3.oas.annotations {
+    interface Operation
+    interface Tag
+
+    HelloController --> Operation
+    HelloController --> Tag
+}
+
+@enduml
