@@ -29,9 +29,10 @@ from drf_yasg import openapi
 # challenges/urls.py
 from django.contrib import admin
 #from django.urls import path
-from challenges.views import ChallengeView
+#from challenges.views import ChallengeView
 from django.urls import path, include
-from challenges import views  # Importer la vue depuis l'application challenges
+#from challenges import views  # Importer la vue depuis l'application challenges
+from challenges.views import home  # Assurez-vous d'importer la vue home
 
 
 schema_view = get_schema_view(
@@ -53,19 +54,10 @@ urlpatterns = [
    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('hello/', hello_controller.hello_api, name='hello-api'),  # Affichage texte brut
     #ajout claire
+    path('', home, name='home'),  # Route pour la page d'accueil (racine)
     path('admin/', admin.site.urls),
-    path('challenge/', ChallengeView.as_view()), # Inclure les routes de l'application 'challenges'
-    path('', views.home, name='home'),  # La vue pour la racine
+    path('challenges/', include('challenges.urls')),  # Inclure les URLs de l'application 'challenges'de l'application challenge
 ]
-
-
-
-
-    #path('admin/', admin.site.urls),
-    #path('swagger/', include('swagger.urls')),
-    #path('challenge/', include('challenges.urls')),
- 
-
 
 
 

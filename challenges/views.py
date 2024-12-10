@@ -1,25 +1,31 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from .models import Challenge, Participation
-from .serializers import ChallengeSerializer, ParticipationSerializer
+# challenges/views.py
+from django.shortcuts import render
+from django.views.generic import CreateView, TemplateView
+from django.http import HttpResponse  # Ajout de l'import pour HttpResponse
+from .models import Challenge
+from .forms import ChallengeForm
 
-class ChallengeView(APIView):
-    def get(self, request):
-        challenges = Challenge.objects.all()
-        serializer = ChallengeSerializer(challenges, many=True)
-        return Response(serializer.data)
+# Vue pour la création de défi (avec un formulaire)
+class ChallengeCreateView(CreateView):
+    model = Challenge
+    template_name = 'challenges/challenge_form.html'
+    fields = ['name', 'description', 'start_date', 'end_date']
 
-    def post(self, request):
-        serializer = ParticipationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# Vue pour afficher les statistiques des défis
+class ChallengeStatsView(TemplateView):
+    template_name = 'challenges/challenge_stats.html'
 
-# creation de view pour la page d'acceuil
-from django.http import HttpResponse
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['challenges_count'] = Challenge.objects.count()  # Compter le nombre de défis
+        return context
 
+# Vue pour afficher la liste des défis
+def challenge_list(request):
+    challenges = Challenge.objects.all()
+    return render(request, 'challenges/challenge_list.html', {'challenges': challenges})
+
+# Vue pour la page d'accueil
 def home(request):
-    return HttpResponse("Bienvenue sur la page d'accueil de l'application!")
-
+    #return HttpResponse("Bienvenue sur la page d'accueil de l'application!")
+    return render(request, 'challenges/home.html')

@@ -1,20 +1,11 @@
 # challenges/urls.py
-from django.urls import path
-from .views import ChallengeCreateView, ChallengeStatsView
 
-from django.contrib import admin
-from django.urls import path, include
-from challenges import views  # Importer la vue depuis l'application challenges
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('challenge/', ChallengeCreateView.as_view(), name='challenge-create'),
-    path('challenge/stats/', ChallengeStatsView.as_view(), name='challenge-stats'),
-    
-    path('', views.home, name='home'),  # La vue pour la racine
-    path('admin/', admin.site.urls),
-    path('swagger/', include('swagger.urls')),
-    path('challenge/', include('challenges.urls')),
-    # Autres routes...
+    path('', views.home, name='home'),  # La page d'accueil
+    path('challenges/', views.challenge_list, name='challenge_list'),  # Liste des défis
+    path('challenge/create/', views.ChallengeCreateView.as_view(), name='challenge_create'),  # Création de défi
+    path('challenge/stats/', views.ChallengeStatsView.as_view(), name='challenge_stats'),  # Statistiques des défis
 ]
-
-
