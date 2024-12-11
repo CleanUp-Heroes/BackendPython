@@ -25,6 +25,16 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
+# claire ajout
+# challenges/urls.py
+from django.contrib import admin
+#from django.urls import path
+#from challenges.views import ChallengeView
+from django.urls import path, include
+#from challenges import views  # Importer la vue depuis l'application challenges
+from challenges.views import home  # Assurez-vous d'importer la vue home
+
+
 schema_view = get_schema_view(
    openapi.Info(
       title="Snippets API",
@@ -43,4 +53,12 @@ urlpatterns = [
    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('hello/', hello_controller.hello_api, name='hello-api'),  # Affichage texte brut
+    #ajout claire
+    path('', home, name='home'),  # Route pour la page d'accueil (racine)
+    path('admin/', admin.site.urls),
+    path('challenges/', include('challenges.urls')),  # Inclure les URLs de l'application 'challenges'de l'application challenge
 ]
+
+
+
+
