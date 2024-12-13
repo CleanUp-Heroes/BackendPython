@@ -19,7 +19,7 @@ from django.urls import path
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from django.views.generic import RedirectView
-from app.views import hello_controller
+from app.views import hello_controller, reporting_controller
 from django.urls import re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -57,6 +57,9 @@ urlpatterns = [
     path('', home, name='home'),  # Route pour la page d'accueil (racine)
     path('admin/', admin.site.urls),
     path('challenges/', include('challenges.urls')),  # Inclure les URLs de l'application 'challenges'de l'application challenge
+    path('reports/report/', reporting_controller.add_report, name='add_report'),
+    path('reports/get_reports/', reporting_controller.get_reports, name='get_report'),
+
 ]
 
 
