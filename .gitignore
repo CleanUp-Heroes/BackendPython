@@ -3,3 +3,4 @@ app/__pycache__
 backendPython/__pycache__
 app/fr/parisnanterre/cleanup_heroes/backendPython/controller/__pycache__
 app/migrations
+media/

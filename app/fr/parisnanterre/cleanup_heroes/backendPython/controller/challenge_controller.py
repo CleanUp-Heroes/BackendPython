@@ -1,24 +1,22 @@
 from django.http import JsonResponse
-from app.models import *
+from app.models import Participation, CompletedChallenge, User, Challenge, Proof
 from django.db.models import Sum
 from datetime import date
-import json
-
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework.decorators import api_view
-
+from django.utils.dateparse import parse_date
+from django.core.exceptions import ObjectDoesNotExist
+import uuid, os
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 
 @swagger_auto_schema(
-    method='post',
+    method='get',
     operation_description="Retrieve statistics about a user's challenges.",
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        properties={
-            'username': openapi.Schema(type=openapi.TYPE_STRING, description="Username of the user."),
-        },
-        required=['username'],
-    ),
+    manual_parameters=[  # Utilisation de query params pour GET
+        openapi.Parameter('username', openapi.IN_QUERY, type=openapi.TYPE_STRING, description="Username of the user.", required=True),
+    ],
     responses={
         200: openapi.Response(
             description="Statistics about user's challenges.",
@@ -58,15 +56,17 @@ from rest_framework.decorators import api_view
         404: openapi.Response(description="User not found."),
     },
 )
-@api_view(['POST'])
-# Function to retrieve the statistics of a user's challenges
+@api_view(['GET'])
 def get_challenges_statistiques(request):
+    # Vérifier si 'username' est dans les paramètres GET
+    if "username" not in request.GET:
+        return JsonResponse({"error": "Username is required"}, status=400)
+    
+    # Extraire le username depuis les query params
+    username = request.GET.get('username')
+    
+    # Trouver l'utilisateur par username
     try:
-        # Extract username from JSON body
-        body = json.loads(request.body)
-        username = body.get("username")
-        
-        # Find the user by username
         user = User.objects.get(name=username)
     except User.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
@@ -148,15 +148,11 @@ def get_progress(user):
     return progress_data
 
 @swagger_auto_schema(
-    method='post',
+    method='get',
     operation_description="Retrieve a list of challenges a user has not participated in.",
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        properties={
-            'username': openapi.Schema(type=openapi.TYPE_STRING, description="Username of the user."),
-        },
-        required=['username'],
-    ),
+    manual_parameters=[  # Utilisation de query params pour GET
+        openapi.Parameter('username', openapi.IN_QUERY, type=openapi.TYPE_STRING, description="Username of the user.", required=True),
+    ],
     responses={
         200: openapi.Response(
             description="List of challenges the user has not participated in.",
@@ -180,11 +176,14 @@ def get_progress(user):
         404: openapi.Response(description="User not found."),
     },
 )
-@api_view(['POST'])
+@api_view(['GET'])
 def get_unparticipated_challenges(request):
-    # Extraire les données JSON
-    body = json.loads(request.body)
-    username = body.get("username")
+    # Vérifier si 'username' est dans les paramètres GET
+    if "username" not in request.GET:
+        return JsonResponse({"error": "Username is required"}, status=400)
+    
+    # Extraire le username depuis les query params
+    username = request.GET.get('username')
     
     # Vérifier si l'utilisateur existe
     try:
@@ -202,3 +201,112 @@ def get_unparticipated_challenges(request):
     challenges_data = [{"id": challenge.id, "name": challenge.name, "description": challenge.description} for challenge in unparticipated_challenges]
     
     return JsonResponse({"unparticipated_challenges": challenges_data}, status=200)
+
+def generate_unique_filename(filename):
+    # Générer un suffixe UUID pour garantir l'unicité
+    unique_suffix = uuid.uuid4().hex  # UUID sans tirets
+    return f"{filename.split('.')[0]}_{unique_suffix}.{filename.split('.')[-1]}"
+
+@swagger_auto_schema(
+    method='post',
+    operation_description="Add a participation to a challenge, including an optional photo proof.",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'challenge_id': openapi.Schema(type=openapi.TYPE_INTEGER, description="ID of the challenge."),
+            'action_date': openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_DATETIME, description="Date of the action taken."),
+            'action_quantity': openapi.Schema(type=openapi.TYPE_NUMBER, description="Quantity of action performed (e.g., waste collected in kg)."),
+            'challenge_name': openapi.Schema(type=openapi.TYPE_STRING, description="Name of the challenge."),
+            'photo': openapi.Schema(type=openapi.TYPE_FILE, description="Optional photo to prove the participation."),
+        },
+        required=['challenge_id', 'action_date', 'action_quantity', 'challenge_name'],
+    ),
+    responses={
+        201: openapi.Response(
+            description="Participation added successfully.",
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    "message": openapi.Schema(type=openapi.TYPE_STRING, description="Success message."),
+                },
+            ),
+        ),
+        400: openapi.Response(
+            description="Missing required fields or invalid data.",
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    "error": openapi.Schema(type=openapi.TYPE_STRING, description="Error message."),
+                },
+            ),
+        ),
+        404: openapi.Response(description="Challenge not found."),
+        405: openapi.Response(description="Invalid request method."),
+        500: openapi.Response(description="Server error."),
+    },
+)
+@api_view(['POST'])
+def add_participation(request):
+    if request.method == 'POST':
+        try:
+            # Récupérer les données des champs du formulaire
+            challenge_id = request.POST.get('challenge_id')
+            action_date = request.POST.get('action_date')
+            action_quantity = request.POST.get('action_quantity')
+            challenge_name = request.POST.get('challenge_name')
+            user_id = request.POST.get('user_id')
+
+            # Liste des champs obligatoires
+            required_fields = [challenge_id, action_date, action_quantity, challenge_name]
+            
+            # Vérification si tous les champs obligatoires sont présents
+            missing_fields = [field for field, value in zip(required_fields, [challenge_id, action_date, action_quantity, challenge_name]) if not value]
+
+            if missing_fields:
+                return JsonResponse({'error': f'Missing required fields: {", ".join(missing_fields)}'}, status=400)
+
+            # Vérifier si un fichier photo est envoyé dans la requête
+            if 'photo' not in request.FILES:
+                return JsonResponse({'error': 'Photo file is required'}, status=400)
+
+            # Vérifier si le challenge existe
+            try:
+                challenge = Challenge.objects.get(id=challenge_id)
+            except ObjectDoesNotExist:
+                return JsonResponse({'error': 'Challenge not found'}, status=404)
+
+            # Créer la participation
+            Participation.objects.create(
+                user_id=user_id,
+                challenge=challenge,
+                action_quantity=action_quantity,
+                action_date=parse_date(action_date),
+            )
+
+            # Récupérer le fichier photo envoyé
+            photo = request.FILES['photo']
+
+            # Extraire le nom du fichier
+            original_photo_name = photo.name  # Récupère le nom du fichier original
+
+            # Générer un nouveau nom unique pour la photo
+            unique_photo_name = generate_unique_filename(original_photo_name)
+            
+           # Définir le chemin du fichier dans le dossier 'proof_photos'
+            file_path = os.path.join('proof_photos', unique_photo_name)
+
+            # Enregistrer l'image dans le dossier spécifié
+            file_url = default_storage.save(file_path, ContentFile(photo.read()))
+
+            # Créer la preuve et l'enregistrer (enregistrant seulement le nom du fichier)
+            Proof.objects.create(
+                photo=file_url,  # Enregistrer le nom du fichier unique
+                creation_date=parse_date(action_date),
+            )
+
+            return JsonResponse({'message': 'Participation and proof added successfully'}, status=201)
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)

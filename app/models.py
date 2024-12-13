@@ -34,20 +34,28 @@ class CompletedChallenge(models.Model):
 class Participation(models.Model):
     user = models.ForeignKey('User', models.DO_NOTHING)
     challenge = models.ForeignKey(Challenge, models.DO_NOTHING)
-    action_description = models.TextField()
     action_quantity = models.FloatField()
-    evidence = models.CharField(max_length=255, blank=True, null=True)
     action_date = models.DateField()
+    photo = models.ForeignKey('Proof', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'participation'
 
 
+class Proof(models.Model):
+    photo = models.CharField(max_length=255)
+    creation_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'proof'
+
+
 class Report(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=255)
-    photo = models.CharField(max_length=255, blank=True, null=True)
+    photo = models.ForeignKey(Proof, models.DO_NOTHING, blank=True, null=True)
     creation_date = models.DateTimeField()
     user = models.ForeignKey('User', models.DO_NOTHING)
 
@@ -65,8 +73,8 @@ class Unit(models.Model):
 
 
 class User(models.Model):
-    name = models.CharField(max_length=255, unique=True)
-    email = models.CharField(max_length=255)
+    name = models.CharField(unique=True, max_length=255)
+    email = models.CharField(unique=True, max_length=255)
 
     class Meta:
         managed = False

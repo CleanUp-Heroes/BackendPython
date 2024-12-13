@@ -18,12 +18,10 @@ Including another URLconf
 from django.urls import path
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from django.views.generic import RedirectView
 from app.views import *
 from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-from app import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -45,4 +43,6 @@ urlpatterns = [
     path('hello/', hello_controller.hello_api, name='hello-api'),
     path('challenges/statistics/', challenge_controller.get_challenges_statistiques, name='get_challenges_statistics'),
     path('challenges/unparticipated/', challenge_controller.get_unparticipated_challenges, name='get_unparticipated_challenges'),
-]
+    path('challenges/participation/', challenge_controller.add_participation, name='add_participation'),
+    
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
