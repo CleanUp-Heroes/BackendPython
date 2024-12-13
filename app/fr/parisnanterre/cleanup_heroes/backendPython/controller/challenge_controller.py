@@ -7,9 +7,9 @@ from drf_yasg import openapi
 from rest_framework.decorators import api_view
 from django.utils.dateparse import parse_date
 from django.core.exceptions import ObjectDoesNotExist
-import uuid, os
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
+import uuid
+from app.fr.parisnanterre.cleanup_heroes.backendPython.utils.utils import save_uploaded_file
+from django.utils import timezone
 
 @swagger_auto_schema(
     method='get',
@@ -202,11 +202,6 @@ def get_unparticipated_challenges(request):
     
     return JsonResponse({"unparticipated_challenges": challenges_data}, status=200)
 
-def generate_unique_filename(filename):
-    # Générer un suffixe UUID pour garantir l'unicité
-    unique_suffix = uuid.uuid4().hex  # UUID sans tirets
-    return f"{filename.split('.')[0]}_{unique_suffix}.{filename.split('.')[-1]}"
-
 @swagger_auto_schema(
     method='post',
     operation_description="Add a participation to a challenge, including an optional photo proof.",
@@ -274,6 +269,18 @@ def add_participation(request):
                 challenge = Challenge.objects.get(id=challenge_id)
             except ObjectDoesNotExist:
                 return JsonResponse({'error': 'Challenge not found'}, status=404)
+            
+            # Récupérer le fichier photo envoyé
+            photo = request.FILES['photo']
+
+            # Sauvegarder le fichier photo dans le répertoire approprié avec un nom unique
+            photo_url = save_uploaded_file(photo)
+
+            # Créer la preuve et l'enregistrer (enregistrant seulement le nom du fichier)
+            proof = Proof.objects.create(
+                photo=photo_url,  # Enregistrer le nom du fichier unique
+                creation_date=timezone.now(),
+            )
 
             # Créer la participation
             Participation.objects.create(
@@ -281,27 +288,7 @@ def add_participation(request):
                 challenge=challenge,
                 action_quantity=action_quantity,
                 action_date=parse_date(action_date),
-            )
-
-            # Récupérer le fichier photo envoyé
-            photo = request.FILES['photo']
-
-            # Extraire le nom du fichier
-            original_photo_name = photo.name  # Récupère le nom du fichier original
-
-            # Générer un nouveau nom unique pour la photo
-            unique_photo_name = generate_unique_filename(original_photo_name)
-            
-           # Définir le chemin du fichier dans le dossier 'proof_photos'
-            file_path = os.path.join('proof_photos', unique_photo_name)
-
-            # Enregistrer l'image dans le dossier spécifié
-            file_url = default_storage.save(file_path, ContentFile(photo.read()))
-
-            # Créer la preuve et l'enregistrer (enregistrant seulement le nom du fichier)
-            Proof.objects.create(
-                photo=file_url,  # Enregistrer le nom du fichier unique
-                creation_date=parse_date(action_date),
+                photo_id=proof.id,
             )
 
             return JsonResponse({'message': 'Participation and proof added successfully'}, status=201)
