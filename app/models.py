@@ -5,6 +5,7 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+from django.utils import timezone
 from django.db import models
 
 
@@ -45,7 +46,7 @@ class Participation(models.Model):
 
 class Proof(models.Model):
     photo = models.CharField(max_length=255)
-    creation_date = models.DateTimeField()
+    creation_date = models.DateTimeField(default=timezone.now())
 
     class Meta:
         managed = False
@@ -56,7 +57,7 @@ class Report(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=255)
     photo = models.ForeignKey(Proof, models.DO_NOTHING, blank=True, null=True)
-    creation_date = models.DateTimeField()
+    creation_date = models.DateTimeField(default=timezone.now())
     user = models.ForeignKey('User', models.DO_NOTHING)
 
     class Meta:
