@@ -40,7 +40,6 @@ urlpatterns = [
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('hello/', hello_controller.hello_api, name='hello-api'),
     path('challenges/statistics/', challenge_controller.get_challenges_statistiques, name='get_challenges_statistics'),
     path('challenges/unparticipated/', challenge_controller.get_unparticipated_challenges, name='get_unparticipated_challenges'),
     path('challenges/participation/', challenge_controller.add_participation, name='add_participation'),
