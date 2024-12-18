@@ -2,3 +2,4 @@ Django>=4.0,<5.0         # Framework Django
 mysqlclient>=2.1.0       # Connecteur MySQL
 djangorestframework>=3.12.0  # REST framework pour Django
 drf-yasg==1.21.5
+django-cors-headers
