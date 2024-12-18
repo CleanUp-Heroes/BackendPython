@@ -67,7 +67,7 @@ def get_challenges_statistiques(request):
     
     # Trouver l'utilisateur par username
     try:
-        user = User.objects.get(name=username)
+        user = User.objects.get(first_name=username)
     except User.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
 
@@ -187,7 +187,7 @@ def get_unparticipated_challenges(request):
     
     # Vérifier si l'utilisateur existe
     try:
-        user = User.objects.get(name=username)
+        user = User.objects.get(first_name=username)
     except User.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
     
@@ -251,7 +251,7 @@ def add_participation(request):
             user_id = request.POST.get('user_id')
 
             # Liste des champs obligatoires
-            required_fields = [challenge_id, action_date, action_quantity ]
+            required_fields = [challenge_id, action_date, action_quantity]
             
             # Vérification si tous les champs obligatoires sont présents
             missing_fields = [field for field, value in zip(required_fields, [challenge_id, action_date, action_quantity]) if not value]
