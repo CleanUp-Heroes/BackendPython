@@ -15,6 +15,7 @@ class Challenge(models.Model):
     end_date = models.DateField()
     expected_actions = models.IntegerField()
     unit = models.ForeignKey('Unit', models.DO_NOTHING)
+    points = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -56,7 +57,7 @@ class Report(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=255)
     photo = models.ForeignKey(Proof, models.DO_NOTHING, blank=True, null=True)
-    creation_date = models.DateTimeField()
+    creation_date = models.DateField()
     user = models.ForeignKey('User', models.DO_NOTHING)
 
     class Meta:

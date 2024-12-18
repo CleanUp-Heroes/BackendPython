@@ -99,6 +99,12 @@ def get_challenges_statistiques(request):
 
     # Progression on ongoing challenges
     progress_data = get_progress(user)
+    
+    # Total score
+    total_score = (
+        completed_challenges
+        .aggregate(total_points=Sum('challenge__points'))['total_points'] or 0
+    )
 
     # Return the statistics in a JSON response
     response_data =  {
@@ -106,6 +112,7 @@ def get_challenges_statistiques(request):
         "completed_challenges_list": completed_challenges_data,
         "quantities": quantities_data,
         "progress": progress_data,
+        "total_score": total_score,
     }
     
     return JsonResponse(response_data, status=200)
@@ -271,6 +278,8 @@ def add_participation(request):
             
             # Récupérer le fichier photo envoyé
             photo = request.FILES['photo']
+            if not photo:
+                return JsonResponse({'error': 'Photo file is required'}, status=400)
 
             # Sauvegarder le fichier photo dans le répertoire approprié avec un nom unique
             photo_url = save_uploaded_file(photo)
@@ -286,9 +295,12 @@ def add_participation(request):
                 user_id=user_id,
                 challenge=challenge,
                 action_quantity=action_quantity,
-                action_date=parse_date(action_date),
+                action_date=action_date,
                 photo_id=proof.id,
             )
+            
+            # Vérifier si l'utilisateur a complété le défi
+            check_and_update_completed_challenges(user_id, challenge)
 
             return JsonResponse({'message': 'Participation and proof added successfully'}, status=201)
 
@@ -296,3 +308,36 @@ def add_participation(request):
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+from django.db.models import Sum
+from django.utils.timezone import now
+
+def check_and_update_completed_challenges(user_id, challenge):
+    # Vérifie si l'utilisateur a atteint ou dépassé la quantité attendue pour un défi et marque le défi comme complété si ce n'est pas déjà fait.
+
+    # Calculer la somme totale des quantités (en forçant le résultat à un entier)
+    total_quantity = int(
+        Participation.objects.filter(
+            user_id=user_id,
+            challenge_id=challenge.id,
+            action_date__range=[challenge.start_date, challenge.end_date]  # Début et fin du défi
+        ).aggregate(total=Sum('action_quantity'))['total'] or 0
+    )
+
+    print(f"Total quantity: {total_quantity}")
+    print(challenge.expected_actions)
+
+    # Si la quantité totale est égale ou supérieure à la quantité attendue
+    if total_quantity >= challenge.expected_actions:
+        print("Quantité suffisante pour compléter le défi.")
+        
+        # Vérifier si ce défi n'est pas déjà marqué comme complété
+        if not CompletedChallenge.objects.filter(user_id=user_id, challenge_id=challenge.id).exists():
+            print("Marquage du défi comme complété.")
+            
+            # Ajouter le défi comme complété
+            CompletedChallenge.objects.create(
+                user_id=user_id,
+                challenge=challenge,
+                completion_date=now()
+            )
