@@ -246,16 +246,15 @@ def add_participation(request):
         try:
             # Récupérer les données des champs du formulaire
             challenge_id = request.POST.get('challenge_id')
-            action_date = request.POST.get('action_date')
-            action_quantity = request.POST.get('action_quantity')
-            challenge_name = request.POST.get('challenge_name')
+            action_date = request.POST.get('date')
+            action_quantity = request.POST.get('quantity')
             user_id = request.POST.get('user_id')
 
             # Liste des champs obligatoires
-            required_fields = [challenge_id, action_date, action_quantity, challenge_name]
+            required_fields = [challenge_id, action_date, action_quantity ]
             
             # Vérification si tous les champs obligatoires sont présents
-            missing_fields = [field for field, value in zip(required_fields, [challenge_id, action_date, action_quantity, challenge_name]) if not value]
+            missing_fields = [field for field, value in zip(required_fields, [challenge_id, action_date, action_quantity]) if not value]
 
             if missing_fields:
                 return JsonResponse({'error': f'Missing required fields: {", ".join(missing_fields)}'}, status=400)
