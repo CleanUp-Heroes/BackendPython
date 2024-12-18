@@ -45,5 +45,7 @@ urlpatterns = [
     path('challenges/participation/', challenge_controller.add_participation, name='add_participation'),
     path('reports/report/', reporting_controller.add_report, name='add_report'),
     path('reports/get_reports/', reporting_controller.get_reports, name='get_report'),
+    path('register/', user_controller.register, name='register'),
+    path('login/', user_controller.login, name='login'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
