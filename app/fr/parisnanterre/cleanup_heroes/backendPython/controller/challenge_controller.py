@@ -99,6 +99,12 @@ def get_challenges_statistiques(request):
 
     # Progression on ongoing challenges
     progress_data = get_progress(user)
+    
+    # Total score
+    total_score = (
+        completed_challenges
+        .aggregate(total_points=Sum('challenge__points'))['total_points'] or 0
+    )
 
     # Return the statistics in a JSON response
     response_data =  {
@@ -106,6 +112,7 @@ def get_challenges_statistiques(request):
         "completed_challenges_list": completed_challenges_data,
         "quantities": quantities_data,
         "progress": progress_data,
+        "total_score": total_score,
     }
     
     return JsonResponse(response_data, status=200)

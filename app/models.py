@@ -12,8 +12,9 @@ class Challenge(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     start_date = models.DateField()
-    end_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField()
     expected_actions = models.IntegerField()
+    points = models.IntegerField(default=0)
     unit = models.ForeignKey('Unit', models.DO_NOTHING)
 
     class Meta:
@@ -73,8 +74,10 @@ class Unit(models.Model):
 
 
 class User(models.Model):
-    name = models.CharField(unique=True, max_length=255)
+    first_name = models.CharField(unique=True, max_length=255)
     email = models.CharField(unique=True, max_length=255)
+    last_name = models.CharField(max_length=255)
+    date_of_birth = models.DateField(blank=True, null=True)
 
     class Meta:
         managed = False
