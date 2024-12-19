@@ -5,6 +5,9 @@ from app.models import Report, Proof
 from app.fr.parisnanterre.cleanup_heroes.backendPython.utils.utils import save_uploaded_file, validate_required_fields
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.exceptions import AuthenticationFailed
+from django.contrib.auth.models import User
 
 # Swagger documentation for the POST method
 @swagger_auto_schema(
@@ -12,11 +15,10 @@ from drf_yasg import openapi
     operation_description="Create a report by submitting a description, address, photo (file), and user ID.",
     request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT,
-        required=['description', 'adresse', 'user_id', 'photo'],
+        required=['description', 'adresse', 'photo'],
         properties={
             'description': openapi.Schema(type=openapi.TYPE_STRING, description="The description of the report."),
             'adresse': openapi.Schema(type=openapi.TYPE_STRING, description="The address where the report was made."),
-            'user_id': openapi.Schema(type=openapi.TYPE_INTEGER, description="The ID of the user submitting the report."),
             'photo': openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_BINARY, description="A photo associated with the report (file)."),
         },
     ),
@@ -29,15 +31,32 @@ from drf_yasg import openapi
 @api_view(['POST'])
 def add_report(request):
     if request.method == 'POST':
+        
+        token_value = request.headers.get('Authorization')
+        
+        if not token_value:
+            raise AuthenticationFailed("Token is missing in the request.")
+        
+        user_id = None
+        try:
+            refresh_token = RefreshToken(token_value)
+            user_id = refresh_token['user_id']
+            
+            user = User.objects.get(id=user_id)
+            
+            if not user.is_active:
+                    raise AuthenticationFailed('User is inactive.')
+        except ValueError:
+            raise AuthenticationFailed("Invalid token or token does not exist.")
+        
         try:
             # Retrieve form data
             description = request.POST.get('description')
-            adresse = request.POST.get('adresse')
-            user_id = request.POST.get('user_id')
+            adresse = request.POST.get('location')
             photo = request.FILES.get('photo')
 
             # Check required fields
-            required_fields = {'description': description, 'adresse': adresse, 'user_id': user_id, 'photo': photo}
+            required_fields = {'description': description, 'adresse': adresse, 'photo': photo}
             validate_required_fields(required_fields)
 
             # Save the uploaded photo in the 'reports_photos/' directory with a unique name
@@ -75,9 +94,23 @@ def add_report(request):
 @api_view(['GET'])
 def get_reports(request):
     try:
-        # Get the 'user_id' parameter from the request (optional)
-        user_id = request.GET.get('user_id')
-
+        token_value = request.headers.get('Authorization')
+        
+        if not token_value:
+            raise AuthenticationFailed("Token is missing in the request.")
+        
+        user_id = None
+        try:
+            refresh_token = RefreshToken(token_value)
+            user_id = refresh_token['user_id']
+            
+            user = User.objects.get(id=user_id)
+            
+            if not user.is_active:
+                    raise AuthenticationFailed('User is inactive.')
+        except ValueError:
+            raise AuthenticationFailed("Invalid token or token does not exist.")
+        
         # Retrieve reports based on the filter
         if user_id:
             reports = Report.objects.filter(user_id=user_id)

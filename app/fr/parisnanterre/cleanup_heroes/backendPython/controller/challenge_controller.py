@@ -1,15 +1,17 @@
 from django.http import JsonResponse
-from app.models import Participation, CompletedChallenge, User, Challenge, Proof
+from app.models import Participation, CompletedChallenge, Challenge, Proof
 from django.db.models import Sum
 from datetime import date
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from rest_framework.decorators import api_view
-from django.utils.dateparse import parse_date
 from django.core.exceptions import ObjectDoesNotExist
-import uuid
 from app.fr.parisnanterre.cleanup_heroes.backendPython.utils.utils import save_uploaded_file
 from django.utils import timezone
+from rest_framework.decorators import api_view
+from rest_framework.exceptions import AuthenticationFailed
+from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.utils.timezone import now
 
 @swagger_auto_schema(
     method='get',
@@ -58,23 +60,28 @@ from django.utils import timezone
 )
 @api_view(['GET'])
 def get_challenges_statistiques(request):
-    # Vérifier si 'username' est dans les paramètres GET
-    if "username" not in request.GET:
-        return JsonResponse({"error": "Username is required"}, status=400)
+    # Récupérer le token depuis l'en-tête 'Authorization'
+    token_value = request.headers.get('Authorization')
     
-    # Extraire le username depuis les query params
-    username = request.GET.get('username')
+    if not token_value:
+        raise AuthenticationFailed("Token is missing in the request.")
     
-    # Trouver l'utilisateur par username
+    # Vérifier la validité du token
     try:
-        user = User.objects.get(first_name=username)
-    except User.DoesNotExist:
-        return JsonResponse({"error": "User not found"}, status=404)
-
-    # Count of completed challenges
+        refresh_token = RefreshToken(token_value)
+        user_id = refresh_token['user_id']
+        
+        user = User.objects.get(id=user_id)
+        
+        if not user.is_active:
+                raise AuthenticationFailed('User is inactive.')
+    except ValueError:
+        raise AuthenticationFailed("Invalid token or token does not exist.")
+    
+    # À ce point, nous avons un utilisateur authentifié, on peut continuer la logique
     completed_challenges = CompletedChallenge.objects.filter(user_id=user.id)
 
-    # List of completed challenges with their completion date
+    # Liste des défis complétés avec leur date de complétion
     completed_challenges_data = [
         {
             "challenge_name": completed_challenge.challenge.name,
@@ -83,30 +90,30 @@ def get_challenges_statistiques(request):
         for completed_challenge in completed_challenges
     ]
 
-    # Total quantity of actions performed by the user
+    # Quantité totale d'actions effectuées par l'utilisateur
     quantities_by_unit = (
         Participation.objects
-        .filter(user_id=user.id)  # Filter participations by user
-        .values('challenge__unit__name')  # Group by unit name
-        .annotate(total=Sum('action_quantity'))  # Sum of quantities (action_quantity)
+        .filter(user_id=user.id)  # Filtrer les participations par utilisateur
+        .values('challenge__unit__name')  # Grouper par le nom de l'unité
+        .annotate(total=Sum('action_quantity'))  # Somme des quantités (action_quantity)
     )
 
-    # Format the results for total quantity achieved
+    # Formater les résultats pour la quantité totale réalisée
     quantities_data = {
         unit['challenge__unit__name']: unit['total'] or 0
         for unit in quantities_by_unit
     }
 
-    # Progression on ongoing challenges
+    # Progression sur les défis en cours
     progress_data = get_progress(user)
     
-    # Total score
+    # Score total
     total_score = (
         completed_challenges
         .aggregate(total_points=Sum('challenge__points'))['total_points'] or 0
     )
 
-    # Return the statistics in a JSON response
+    # Retourner les statistiques dans une réponse JSON
     response_data =  {
         "completed_challenges_count": completed_challenges.count(),
         "completed_challenges_list": completed_challenges_data,
@@ -117,47 +124,41 @@ def get_challenges_statistiques(request):
     
     return JsonResponse(response_data, status=200)
 
-# Function to retrieve the progress of the user on ongoing challenges
 def get_progress(user):
-    # Get the participations of the user for ongoing challenges (those that have not yet ended)
+    # Obtenir les participations en cours de l'utilisateur
     ongoing_participations = Participation.objects.filter(user_id=user.id, challenge__end_date__gte=date.today())
 
     progress_data = []
     
-    # Iterate over each ongoing participation and calculate the progress
     for participation in ongoing_participations:
         challenge = participation.challenge
+        expected_quantity = challenge.expected_actions  # Quantité attendue pour ce défi
+        unit = challenge.unit.name  # Unité pour le défi, par ex. 'kg' ou 'pièces'
         
-        # Expected quantity for this challenge (in kg or pieces)
-        expected_quantity = challenge.expected_actions  # Expected quantity for the challenge
-        unit = challenge.unit.name  # Unit for the challenge, e.g., 'kg' or 'pieces'
-        
-        # Quantity performed by the user in this challenge
         total_realized_quantity = Participation.objects.filter(
             user_id=user.id, 
             challenge_id=challenge.id
-        ).aggregate(total=Sum('action_quantity'))['total'] or 0  # Sum of quantities performed
+        ).aggregate(total=Sum('action_quantity'))['total'] or 0  # Somme des quantités réalisées
         
-        # Calculate the progress percentage
         if expected_quantity > 0:
             progress_percentage = (total_realized_quantity / expected_quantity) * 100
         else:
-            progress_percentage = 0  # If the expected quantity is 0, set the progress percentage to 0
+            progress_percentage = 0
 
-        # Add the progress data to the result list
         progress_data.append({
             'challenge_name': challenge.name,
             'progress_percentage': progress_percentage,
-            'realized_quantity': f"{total_realized_quantity}/{expected_quantity} {unit}",  # Quantity realized / expected
+            'realized_quantity': f"{total_realized_quantity}/{expected_quantity} {unit}",
             'unit': unit
         })
     
     return progress_data
 
+
 @swagger_auto_schema(
     method='get',
     operation_description="Retrieve a list of challenges a user has not participated in.",
-    manual_parameters=[  # Utilisation de query params pour GET
+    manual_parameters=[  
         openapi.Parameter('username', openapi.IN_QUERY, type=openapi.TYPE_STRING, description="Username of the user.", required=True),
     ],
     responses={
@@ -185,26 +186,27 @@ def get_progress(user):
 )
 @api_view(['GET'])
 def get_unparticipated_challenges(request):
-    # Vérifier si 'username' est dans les paramètres GET
-    if "username" not in request.GET:
-        return JsonResponse({"error": "Username is required"}, status=400)
+    token_value = request.headers.get('Authorization')
     
-    # Extraire le username depuis les query params
-    username = request.GET.get('username')
+    if not token_value:
+        raise AuthenticationFailed("Token is missing in the request.")
     
-    # Vérifier si l'utilisateur existe
+    user = None
+    # Vérifier la validité du token
     try:
-        user = User.objects.get(first_name=username)
-    except User.DoesNotExist:
-        return JsonResponse({"error": "User not found"}, status=404)
+        refresh_token = RefreshToken(token_value)
+        user_id = refresh_token['user_id']
+        
+        user = User.objects.get(id=user_id)
+        
+        if not user.is_active:
+                raise AuthenticationFailed('User is inactive.')
+    except ValueError:
+        raise AuthenticationFailed("Invalid token or token does not exist.")
     
-    # Obtenir tous les IDs des défis auxquels l'utilisateur a participé
     participated_challenge_ids = Participation.objects.filter(user_id=user.id).values_list('challenge_id', flat=True)
-    
-    # Obtenir les défis auxquels l'utilisateur n'a pas participé
     unparticipated_challenges = Challenge.objects.exclude(id__in=participated_challenge_ids)
     
-    # Formater les données pour la réponse
     challenges_data = [{"id": challenge.id, "name": challenge.name, "description": challenge.description} for challenge in unparticipated_challenges]
     
     return JsonResponse({"unparticipated_challenges": challenges_data}, status=200)
@@ -250,17 +252,31 @@ def get_unparticipated_challenges(request):
 @api_view(['POST'])
 def add_participation(request):
     if request.method == 'POST':
+        token_value = request.headers.get('Authorization')
+        
+        if not token_value:
+            raise AuthenticationFailed("Token is missing in the request.")
+        
+        user = None
+        try:
+            refresh_token = RefreshToken(token_value)
+            user_id = refresh_token['user_id']
+            
+            user = User.objects.get(id=user_id)
+            
+            if not user.is_active:
+                    raise AuthenticationFailed('User is inactive.')
+        except ValueError:
+            raise AuthenticationFailed("Invalid token or token does not exist.")
+   
         try:
             # Récupérer les données des champs du formulaire
-            challenge_id = request.POST.get('challenge_id')
-            action_date = request.POST.get('date')
-            action_quantity = request.POST.get('quantity')
-            user_id = request.POST.get('user_id')
+            challenge_id = request.data.get('challenge_id')
+            action_date = request.data.get('date')
+            action_quantity = request.data.get('quantity')
 
-            # Liste des champs obligatoires
             required_fields = [challenge_id, action_date, action_quantity]
             
-            # Vérification si tous les champs obligatoires sont présents
             missing_fields = [field for field, value in zip(required_fields, [challenge_id, action_date, action_quantity]) if not value]
 
             if missing_fields:
@@ -276,21 +292,11 @@ def add_participation(request):
             except ObjectDoesNotExist:
                 return JsonResponse({'error': 'Challenge not found'}, status=404)
             
-            # Récupérer le fichier photo envoyé
             photo = request.FILES['photo']
-            if not photo:
-                return JsonResponse({'error': 'Photo file is required'}, status=400)
-
-            # Sauvegarder le fichier photo dans le répertoire approprié avec un nom unique
             photo_url = save_uploaded_file(photo)
 
-            # Créer la preuve et l'enregistrer (enregistrant seulement le nom du fichier)
-            proof = Proof.objects.create(
-                photo=photo_url,  # Enregistrer le nom du fichier unique
-                creation_date=timezone.now(),
-            )
+            proof = Proof.objects.create(photo=photo_url, creation_date=timezone.now())
 
-            # Créer la participation
             Participation.objects.create(
                 user_id=user_id,
                 challenge=challenge,
@@ -299,7 +305,6 @@ def add_participation(request):
                 photo_id=proof.id,
             )
             
-            # Vérifier si l'utilisateur a complété le défi
             check_and_update_completed_challenges(user_id, challenge)
 
             return JsonResponse({'message': 'Participation and proof added successfully'}, status=201)
@@ -308,9 +313,6 @@ def add_participation(request):
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
-
-from django.db.models import Sum
-from django.utils.timezone import now
 
 def check_and_update_completed_challenges(user_id, challenge):
     # Vérifie si l'utilisateur a atteint ou dépassé la quantité attendue pour un défi et marque le défi comme complété si ce n'est pas déjà fait.
