@@ -30,18 +30,6 @@
 
 ## 📋 Prérequis
 
-Avant de commencer, assurez-vous d'avoir :
-1. **Node.js** (version 16 ou supérieure recommandée) :
-   - Téléchargez et installez depuis [nodejs.org](https://nodejs.org).
-   - Vérifiez la version installée en utilisant la commande suivante dans le terminal :
-     ```bash
-     node -v
-     npm -v
-     ```
-
-2. **Visual Studio Code** :
-   - Téléchargez et installez depuis [code.visualstudio.com](https://code.visualstudio.com/).
-
 
 ## 🚀 Installation de Node.js et npm
 
