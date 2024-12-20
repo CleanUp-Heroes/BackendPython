@@ -40,6 +40,140 @@ Allez dans le dossier du projet cloné :
 
 cd nom-du-projet
 
+```markdown
+# Fungikey
+
+**Fungikey, l'application pour tout savoir sur les champignons.**
+
+
+
+### Contexte
+- De nombreuses applications similaires existent sur le marché, telles que :
+  - **Champignouf**
+  - **Aux champignons**
+  - **Picture Mushroom**  
+Ces applications, bien que populaires, sont axées sur la cueillette et l'identification par image, contrairement à **Fungikey 2024**, qui s'adresse à un public éducatif, notamment des étudiants en pharmacie.
+
+---
+
+## Construit avec
+Les principaux frameworks et bibliothèques utilisés sont :
+- **Node**
+- **React**
+- **Bootstrap**
+- **JQuery**
+
+---
+
+## Manuel d'installation et d'utilisation
+
+1. **Cloner le dépôt :**
+   ```bash
+   git clone https://github.com/Assem92/Fungikey
+   ```
+2. **Installer NodeJS :** Téléchargez et installez NodeJS.
+
+3. **Lancer le backend :**
+   - Accédez au répertoire `branches/fungikey-backend`.
+   - Exécutez les commandes suivantes :
+     ```bash
+     npm install
+     npm start
+     ```
+   - Le backend est disponible sur : [http://localhost:3001/](http://localhost:3001/).
+
+4. **Lancer le frontend :**
+   - Accédez au répertoire `branches/fungikey`.
+   - Exécutez les commandes suivantes :
+     ```bash
+     npm install
+     npm start
+     ```
+   - Le frontend est disponible sur : [http://localhost:3000/](http://localhost:3000/).
+
+---
+
+## Conteneurisation
+
+1. **Installer Docker** : Téléchargez Docker [ici](https://www.docker.com/).
+2. **Construire les images Docker :**
+   ```bash
+   docker build -t fungikey-backend -f fungikey-backend/Dockerfile fungikey-backend
+   docker build -t fungikey-frontend -f Fungikey/Dockerfile Fungikey
+   ```
+3. **Lancer les conteneurs :**
+   ```bash
+   docker run -p 3000:3000 fungikey-frontend
+   docker run -p 3001:3001 fungikey-backend
+   ```
+4. **Accéder à l'application :**
+   - Frontend : [http://localhost:3000/](http://localhost:3000/)
+   - Backend : [http://localhost:3001/](http://localhost:3001/)
+
+5. **Arrêter les conteneurs :**
+   ```bash
+   docker stop [nom ou ID du conteneur]
+   ```
+
+---
+
+## API
+
+La documentation de l'API est accessible via Swagger : [http://localhost:3001/api-docs/](http://localhost:3001/api-docs/).
+
+### Routes disponibles
+- **Champignons :**
+  - `GET /api/champi/` : Liste des champignons.
+  - `GET /api/champi/{id}` : Champignon par ID.
+  - `GET /api/familleChampi/` : Liste des familles de champignons.
+  - `GET /api/familleComplementaires/` : Liste des familles complémentaires.
+
+- **Recettes :**
+  - `GET /api/recette/` : Liste des recettes.
+  - `GET /api/recette/{id}` : Recette par ID.
+
+- **Localisation :**
+  - `GET /closest-points/:latitude/:longitude` : Retourne les 3 champignons les plus proches.
+  - `POST /location` : Ajoute une nouvelle localisation de champignons.
+
+- **Forum :**
+  - `GET /posts` : Liste des publications.
+  - `POST /posts` : Ajoute une nouvelle publication.
+
+- **Produits :**
+  - `POST /products` : Ajoute un nouveau produit.
+  - `PUT /products/:id` : Met à jour un produit.
+  - `DELETE /products/:id` : Supprime un produit.
+
+- **Périodes :**
+  - `GET /periodes` : Liste des périodes.
+  - `GET /periodes/:id` : Détails d'une période.
+
+---
+
+## Contributions
+
+Les contributions sont les bienvenues !  
+Pour contribuer :
+1. **Forker le projet.**
+2. **Créer une branche pour vos modifications :**
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+3. **Valider vos modifications :**
+   ```bash
+   git commit -m 'Add some AmazingFeature'
+   ```
+4. **Pousser votre branche :**
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+5. **Ouvrir une Pull Request.**
+
+---
+
+
+
 
 ### 3. Installer les dépendances
 
@@ -76,7 +210,9 @@ Cela lancera l'application en mode développement sur le port 8080. Vous pouvez 
 
 Cela permet de récupérer les signalements depuis le backend et de les afficher dans l'interface utilisateur.
 
+## License
 
+Distribuée sous la licence **Apache 2.0**. Voir le fichier `LICENSE` pour plus d'informations.
 
 ## Auteurs
 
