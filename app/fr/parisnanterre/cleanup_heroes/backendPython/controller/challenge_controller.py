@@ -12,6 +12,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils.timezone import now
+from django.db.models import Q
 
 @swagger_auto_schema(
     method='get',
@@ -62,7 +63,6 @@ from django.utils.timezone import now
 def get_challenges_statistiques(request):
     # Récupérer le token depuis l'en-tête 'Authorization'
     token_value = request.headers.get('Authorization')
-    
     if not token_value:
         raise AuthenticationFailed("Token is missing in the request.")
     
@@ -70,18 +70,14 @@ def get_challenges_statistiques(request):
     try:
         refresh_token = RefreshToken(token_value)
         user_id = refresh_token['user_id']
-        
         user = User.objects.get(id=user_id)
-        
         if not user.is_active:
-                raise AuthenticationFailed('User is inactive.')
+            raise AuthenticationFailed('User is inactive.')
     except ValueError:
         raise AuthenticationFailed("Invalid token or token does not exist.")
     
-    # À ce point, nous avons un utilisateur authentifié, on peut continuer la logique
+    # Nombre total de défis complétés
     completed_challenges = CompletedChallenge.objects.filter(user_id=user.id)
-
-    # Liste des défis complétés avec leur date de complétion
     completed_challenges_data = [
         {
             "challenge_name": completed_challenge.challenge.name,
@@ -90,70 +86,65 @@ def get_challenges_statistiques(request):
         for completed_challenge in completed_challenges
     ]
 
-    # Quantité totale d'actions effectuées par l'utilisateur
-    quantities_by_unit = (
-        Participation.objects
-        .filter(user_id=user.id)  # Filtrer les participations par utilisateur
-        .values('challenge__unit__name')  # Grouper par le nom de l'unité
-        .annotate(total=Sum('action_quantity'))  # Somme des quantités (action_quantity)
+    # Quantités totales réalisées par unité
+    total_quantity = (
+        Participation.objects.filter(user_id=user.id)
+        .values('challenge__unit__name')
+        .annotate(total=Sum('action_quantity'))
     )
+    total_quantity_data = [
+        f"{item['total'] or 0} {item['challenge__unit__name']}" for item in total_quantity
+    ]
 
-    # Formater les résultats pour la quantité totale réalisée
-    quantities_data = {
-        unit['challenge__unit__name']: unit['total'] or 0
-        for unit in quantities_by_unit
-    }
-
-    # Progression sur les défis en cours
+    # Progression sur les défis en cours non complétés
     progress_data = get_progress(user)
-    
-    # Score total
-    total_score = (
-        completed_challenges
-        .aggregate(total_points=Sum('challenge__points'))['total_points'] or 0
-    )
 
-    # Retourner les statistiques dans une réponse JSON
-    response_data =  {
-        "completed_challenges_count": completed_challenges.count(),
-        "completed_challenges_list": completed_challenges_data,
-        "quantities": quantities_data,
+    # Score total
+    total_score = completed_challenges.aggregate(
+        total_points=Sum('challenge__points')
+    )['total_points'] or 0
+
+    # Réponse avec toutes les données
+    response_data = {
+        "completedChallengesCount": completed_challenges.count(),
+        "completedChallenges": completed_challenges_data,
+        "totalQuantity": total_quantity_data,
         "progress": progress_data,
-        "total_score": total_score,
+        "totalScore": total_score,
     }
-    
     return JsonResponse(response_data, status=200)
 
 def get_progress(user):
-    # Obtenir les participations en cours de l'utilisateur
-    ongoing_participations = Participation.objects.filter(user_id=user.id, challenge__end_date__gte=date.today())
-
-    progress_data = []
+    # Obtenir les participations en cours, exclure les défis complétés
+    completed_challenge_ids = CompletedChallenge.objects.filter(user_id=user.id).values_list('challenge_id', flat=True)
+    participations = Participation.objects.filter(
+        user_id=user.id,
+        challenge__end_date__gte=date.today(),
+    ).exclude(challenge_id__in=completed_challenge_ids)
     
-    for participation in ongoing_participations:
+    progress_dict = {}  # Utilisé pour éviter les doublons
+
+    for participation in participations:
         challenge = participation.challenge
-        expected_quantity = challenge.expected_actions  # Quantité attendue pour ce défi
-        unit = challenge.unit.name  # Unité pour le défi, par ex. 'kg' ou 'pièces'
-        
-        total_realized_quantity = Participation.objects.filter(
-            user_id=user.id, 
-            challenge_id=challenge.id
-        ).aggregate(total=Sum('action_quantity'))['total'] or 0  # Somme des quantités réalisées
-        
-        if expected_quantity > 0:
-            progress_percentage = (total_realized_quantity / expected_quantity) * 100
-        else:
-            progress_percentage = 0
+        if challenge.id in progress_dict:
+            continue  # Éviter les doublons dans la progression
 
-        progress_data.append({
-            'challenge_name': challenge.name,
-            'progress_percentage': progress_percentage,
-            'realized_quantity': f"{total_realized_quantity}/{expected_quantity} {unit}",
-            'unit': unit
-        })
-    
-    return progress_data
+        expected_quantity = challenge.expected_actions
+        unit = challenge.unit.name
+        realized_quantity = (
+            Participation.objects.filter(user_id=user.id, challenge_id=challenge.id)
+            .aggregate(total=Sum('action_quantity'))['total'] or 0
+        )
 
+        progress_percentage = round((realized_quantity / expected_quantity) * 100, 2) if expected_quantity > 0 else 0
+        progress_dict[challenge.id] = {
+            "challengeName": challenge.name,
+            "progressPercentage": progress_percentage,
+            "realizedQuantity": f"{realized_quantity}/{expected_quantity} {unit}",
+            "unit": unit,
+        }
+
+    return list(progress_dict.values())
 
 @swagger_auto_schema(
     method='get',
@@ -204,7 +195,7 @@ def get_unparticipated_challenges(request):
     except ValueError:
         raise AuthenticationFailed("Invalid token or token does not exist.")
     
-    participated_challenge_ids = Participation.objects.filter(user_id=user.id).values_list('challenge_id', flat=True)
+    participated_challenge_ids = CompletedChallenge.objects.filter(user_id=user.id).values_list('challenge_id', flat=True)
     unparticipated_challenges = Challenge.objects.exclude(id__in=participated_challenge_ids)
     
     challenges_data = [
