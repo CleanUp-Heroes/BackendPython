@@ -16,9 +16,6 @@
 
 # CleanUp-Heroes - Frontend
 
-## Description du projet
-**CleanUp-Heroes** est une application dédiée à encourager les utilisateurs à participer à des actions de nettoyage et de préservation de l'environnement, à travers des signalements et des défis. Le projet vise à sensibiliser la communauté aux problèmes de pollution et à aider les utilisateurs à visualiser leurs actions dans un tableau de bord interactif. L'application est conçue pour être utilisée sur des appareils mobiles (Android, iOS) et permet un accès hors ligne pour certains aspects de l'application.
-
 ## Construit avec
 Ce projet utilise les technologies suivantes :
 - **Node.js** (pour le backend, si applicable)
@@ -31,12 +28,10 @@ Ce projet utilise les technologies suivantes :
 
 ---
 
-## Installation et utilisation
 
-### 1. Cloner le projet
+## Auteurs
 
-Ouvrez un terminal et clonez le dépôt sur votre machine locale :
+- **ADJEDOMOLE Ablavi Sika Claire** - (https://github.com/NomAuteur1)
+- **Ibtissem** -  (https://github.com/NomAuteur2)
+- **Barry** - [NomAuteur3](https://github.com/NomAuteur3)
 
-```bash
-git clone https://github.com/username/CleanUp-Heroes.git
-cd CleanUp-Heroes
