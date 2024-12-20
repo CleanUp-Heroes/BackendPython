@@ -81,8 +81,6 @@ Le formulaire demande à l'utilisateur de remplir plusieurs champs :
 * *Description du problème* : Un champ texte où l'utilisateur peut décrire le problème rencontré.
 * *Lieu* : Où se trouve le problème (par exemple, une adresse ou des coordonnées géographiques).
 * *Photo (facultatif)* : L'utilisateur peut ajouter une photo pour illustrer le problème.
-* *Type de problème* : Sélectionner un type de problème parmi une liste prédéfinie (par exemple, déchet, panne, etc.).
-* *Date/Heure* : La date et l'heure du signalement sont automatiquement ajoutées pour chaque nouvelle entrée.
 
 === Validation et envoi
 
@@ -101,10 +99,18 @@ Le formulaire demande à l'utilisateur de remplir plusieurs champs :
 2. Il peut également joindre une photo.
 3. Une fois le formulaire soumis, le signalement est ajouté à la base de données et l'utilisateur reçoit un message de confirmation.
 
+
+
+
+image::images/formulaire.png[Formulaire de signalement, width=500, align=center]
+
+
+
+
 = Liste des signalements
 
 == Objectif
-La liste des signalements affiche toutes les demandes ou problèmes signalés par les utilisateurs. Elle permet de suivre l'état de chaque signalement et d’effectuer des actions dessus, comme marquer un signalement comme "résolu" ou "en cours".
+La liste des signalements affiche toutes les demandes ou problèmes signalés par les utilisateurs. Elle permet de suivre l'état de chaque signalement et d’effectuer des actions dessus, comme marquer un signalement comme "ouvert" ou "fermé".
 
 == Comportement
 
@@ -114,8 +120,6 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 * Chaque signalement affichera des informations essentielles, telles que :
   ** La description du problème
   ** Le statut (ouvert ou fermé)
-  ** La date du signalement
-  ** Le type de problème
   ** Une photo (si disponible)
 
 === Statut du signalement
@@ -142,7 +146,7 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 * Lorsqu’un utilisateur modifie un signalement (en le marquant comme "fermé"), une requête PUT est envoyée pour mettre à jour l'état du signalement dans la base de données.
 * Une fois le statut modifié, l'interface se met à jour pour refléter cette modification.
 
-== Exemple d'interaction avec la liste des signalements
+== Exemple d'interaction avec la liste des signalements (Scénario d'usage)
 
 1. L'utilisateur voit la liste des signalements avec un bouton "Fermer" à côté de chaque signalement ouvert.
 2. Il clique sur le bouton "Fermer" pour marquer un signalement comme résolu.
@@ -152,6 +156,9 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 
 * Le formulaire de signalement permet à un utilisateur de signaler un problème en soumettant des informations essentielles (description, lieu, photo). Il crée un nouvel enregistrement dans le système.
 * La liste des signalements affiche tous les signalements soumis, avec des options pour modifier leur statut (ouvrir ou fermer). Elle permet de suivre l'avancement de chaque signalement et d’effectuer des actions pour les résoudre.
+
+image::images/listeformulaire.png[Liste des signalements, width=500, align=center]
+
 
 
 = Fonctionnalités et Scénarios d'Utilisation : Formulaire de Signalement et Liste des Signalements
@@ -260,7 +267,9 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 
 
 
-image::images/formulaire.png[Formulaire de signalement, width=500, align=center]
+= Wireframe
 
-
-image::images/listeformulaire.png[Liste des signalements, width=500, align=center]
+image::images/1.png[wire1, width=500, align=center]
+image::images/2.png[wire2, width=500, align=center]
+image::images/3.png[wire3, width=500, align=center]
+image::images/4.png[wire4, width=500, align=center]
