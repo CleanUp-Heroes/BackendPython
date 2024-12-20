@@ -12,4 +12,31 @@
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=CleanUp-Heroes_BackendPython&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=CleanUp-Heroes_BackendPython)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=CleanUp-Heroes_BackendPython&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=CleanUp-Heroes_BackendPython)
 
-#FrontEnd
+
+
+# CleanUp-Heroes - Frontend
+
+## Description du projet
+**CleanUp-Heroes** est une application dédiée à encourager les utilisateurs à participer à des actions de nettoyage et de préservation de l'environnement, à travers des signalements et des défis. Le projet vise à sensibiliser la communauté aux problèmes de pollution et à aider les utilisateurs à visualiser leurs actions dans un tableau de bord interactif. L'application est conçue pour être utilisée sur des appareils mobiles (Android, iOS) et permet un accès hors ligne pour certains aspects de l'application.
+
+## Construit avec
+Ce projet utilise les technologies suivantes :
+- **Node.js** (pour le backend, si applicable)
+- **Vue.js** (pour le frontend)
+- **Vue Router** (pour la gestion des routes)
+- **Vuex** (pour la gestion d'état)
+- **Bootstrap** (pour le design responsive)
+- **Leaflet** (pour la gestion de la carte de signalement, si utilisée)
+- **Axios** (pour les appels API)
+
+---
+
+## Installation et utilisation
+
+### 1. Cloner le projet
+
+Ouvrez un terminal et clonez le dépôt sur votre machine locale :
+
+```bash
+git clone https://github.com/username/CleanUp-Heroes.git
+cd CleanUp-Heroes
