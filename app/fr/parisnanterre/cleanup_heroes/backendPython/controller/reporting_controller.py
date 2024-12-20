@@ -8,6 +8,7 @@ from drf_yasg import openapi
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 
 # Swagger documentation for the POST method
 @swagger_auto_schema(
@@ -45,7 +46,7 @@ def add_report(request):
             user = User.objects.get(id=user_id)
             
             if not user.is_active:
-                    raise AuthenticationFailed('User is inactive.')
+                raise AuthenticationFailed('User is inactive.')
         except ValueError:
             raise AuthenticationFailed("Invalid token or token does not exist.")
         
@@ -53,24 +54,25 @@ def add_report(request):
             # Retrieve form data
             description = request.POST.get('description')
             adresse = request.POST.get('location')
-            photo = request.FILES.get('photo')
+            photo = request.FILES.get('photo')  # Optional field
 
             # Check required fields
-            required_fields = {'description': description, 'adresse': adresse, 'photo': photo}
+            required_fields = {'description': description, 'adresse': adresse}
             validate_required_fields(required_fields)
 
-            # Save the uploaded photo in the 'reports_photos/' directory with a unique name
-            photo_url = save_uploaded_file(photo)  # The photo is saved and a unique URL is returned
+            # Initialize the proof instance (only if a photo is provided)
+            proof_instance = None
+            if photo:
+                photo_url = save_uploaded_file(photo)  # Save the photo and get its URL
+                proof_instance = Proof.objects.create(photo=photo_url)
 
-            # Create a Proof instance and associate it with the photo
-            proof_instance = Proof.objects.create(photo=photo_url)
-
-            # Create the report and associate the Proof instance with the photo field
+            # Create the report
             report = Report.objects.create(
                 description=description,
                 location=adresse,
                 user_id=user_id,
-                photo=proof_instance,  # Associating the Proof instance
+                creation_date=now(),  # Set creation_date to the current date and time
+                photo=proof_instance  # Optional proof instance
             )
 
             return JsonResponse({'message': 'Report added successfully', 'report_id': report.id}, status=201)
