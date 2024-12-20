@@ -166,9 +166,10 @@ Nous remercions toutes les personnes qui ont contribué à rendre ce projet poss
 
 ## 📜 License
 
-Distribué sous la licence **MIT**. Voir le fichier `LICENSE` pour plus de détails.
 
----
+Distribuée sous la licence [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). Voir le fichier LICENSE pour plus d'informations.
+
+
 
 ## 💡 Prochaines étapes
 - **Créer une application mobile.**
