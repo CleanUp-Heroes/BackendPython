@@ -251,3 +251,10 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 - **Utilisateur standard** : Peut créer un signalement, consulter les signalements existants, et mettre à jour le statut d’un signalement (si le bouton est interactif pour lui).  
 - **Administrateur** : A un contrôle total sur tous les signalements : il peut les consulter, les fermer, les réouvrir et attribuer des actions supplémentaires.  
 - **Responsable du traitement des signalements** : Peut consulter les signalements ouverts et les marquer comme résolus.  
+
+
+
+image::images/formulaire.png[Formulaire de signalement, width=500, align=center]
+
+
+image::images/listeformulaire.png[Liste des signalements, width=500, align=center]
