@@ -178,15 +178,3 @@ Distribué sous la licence **MIT**. Voir le fichier `LICENSE` pour plus de déta
 **Rejoignez l'aventure et changez le monde, une action à la fois ! 🌍**
 ```
 
-
-## Licence
-
-Distribuée sous la licence [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). Voir le fichier LICENSE pour plus d'informations.
-
-
-## Auteurs
-
-- **ADJEDOMOLE Ablavi Sika Claire** -  - [NomAuteur1](https://github.com/NomAuteur1)
-- **Nom de l'auteur 2** - - [NomAuteur2](https://github.com/NomAuteur2)
-- **Nom de l'auteur 3** -  - [NomAuteur3](https://github.com/NomAuteur3)
-```
