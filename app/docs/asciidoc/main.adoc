@@ -99,6 +99,9 @@ Motiver les utilisateurs en leur offrant un retour visuel sur leurs réalisation
 
 image::images/stat.png[statistiques, width=500, align=center]
 
+image::images/stat2.png[statistiques2, width=500, align=center]
+
+
 
 
 == Feature 2
