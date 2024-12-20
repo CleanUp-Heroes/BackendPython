@@ -207,7 +207,19 @@ def get_unparticipated_challenges(request):
     participated_challenge_ids = Participation.objects.filter(user_id=user.id).values_list('challenge_id', flat=True)
     unparticipated_challenges = Challenge.objects.exclude(id__in=participated_challenge_ids)
     
-    challenges_data = [{"id": challenge.id, "name": challenge.name, "description": challenge.description} for challenge in unparticipated_challenges]
+    challenges_data = [
+            {
+            "id": challenge.id,
+            "name": challenge.name,
+            "description": challenge.description,
+            "start_date": challenge.start_date,
+            "end_date": challenge.end_date,
+            "expected_actions": challenge.expected_actions,
+            "unit": challenge.unit.name,
+            "points": challenge.points
+            }
+        for challenge in unparticipated_challenges
+    ]
     
     return JsonResponse({"unparticipated_challenges": challenges_data}, status=200)
 
