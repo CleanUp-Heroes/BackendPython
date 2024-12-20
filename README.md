@@ -84,5 +84,3 @@ Cela permet de récupérer les signalements depuis le backend et de les afficher
 - **Nom de l'auteur 2** - *Développeur* - [NomAuteur2](https://github.com/NomAuteur2)
 - **Nom de l'auteur 3** - *Développeur* - [NomAuteur3](https://github.com/NomAuteur3)
 ```
-
-Ce texte est **entièrement en Markdown** et prêt à être utilisé dans un fichier `README.md`. Si tu rencontres d'autres problèmes ou si tu as besoin de modifications, je suis là pour t'aider.
