@@ -65,6 +65,42 @@ image::images/architecture_projet.png[architecture de l'application, width=500, 
 === Challenges
 
 
+== FEATURE 1
+
+=== Participation à un défi
+.**Objectif** :
+Cette fonctionnalité permet à l’utilisateur de participer activement à un défi. Lors de la soumission, l'utilisateur peut :
+* Renseigner la quantité réalisée pour le défi (par exemple, kilos de déchets triés).
+* Indiquer la date de réalisation.
+* Joindre une photo comme preuve de sa contribution.
+
+.**But principal** :
+Faciliter la collecte de données sur les actions réalisées par les utilisateurs tout en garantissant la vérifiabilité des participations. Cela permet de valoriser les efforts de chacun et de maintenir une transparence dans le processus.
+
+=== Affichage des défis disponibles
+.**Objectif** :
+Cette fonctionnalité permet aux utilisateurs de visualiser tous les défis de tri et de réduction des déchets disponibles auxquels ils n'ont pas encore participé. Chaque défi est accompagné de détails importants tels que son nom, sa description, ses dates de validité, les actions attendues, et les points qu’il rapporte.
+
+.**But principal** :
+Encourager les utilisateurs à s’impliquer dans les initiatives écologiques proposées par la plateforme en leur fournissant une vue claire et détaillée des défis disponibles. La possibilité de participer en un clic renforce l'engagement.
+
+=== Statistiques des défis
+.**Objectif** :
+Cette fonctionnalité offre à l'utilisateur un tableau de bord interactif permettant de suivre ses performances et ses progrès dans les défis. Elle inclut des statistiques telles que :
+* Le nombre total de défis accomplis.
+* La quantité totale réalisée dans les actions demandées.
+* Le score total accumulé.
+* La progression des défis en cours (en pourcentage).
+
+.**But principal** :
+Motiver les utilisateurs en leur offrant un retour visuel sur leurs réalisations et leur impact positif. Cela favorise également une compétition saine et un sentiment de satisfaction personnelle.
+
+=== Diagramme de séquence
+
+image::images/stat.png[statistiques, width=500, align=center]
+
+
+
 == Feature 2
 
 
