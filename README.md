@@ -17,10 +17,6 @@
 # CleanUp-Heroes - Frontend
 
 
-
-Voici une version mise à jour, plus complète et inspirante pour ton projet **Cleanup Heroes - Frontend**, intégrant des commandes pour installer les extensions, des détails supplémentaires sur Node.js, et une section contribution plus engageante.
-
-```markdown
 # Cleanup Heroes - Frontend
 
 ✨ **Un projet qui connecte les héros de l'environnement à des actions concrètes pour un monde plus propre !** ✨
@@ -38,6 +34,49 @@ Cleanup Heroes est une plateforme innovante qui aide les citoyens à trouver, re
 - **Node.js & npm** : Pour gérer les dépendances et exécuter les scripts.
 
 ---
+
+## 📋 Prérequis
+
+Avant de commencer, assurez-vous d'avoir :
+1. **Node.js** (version 16 ou supérieure recommandée) :
+   - Téléchargez et installez depuis [nodejs.org](https://nodejs.org).
+   - Vérifiez la version installée en utilisant la commande suivante dans le terminal :
+     ```bash
+     node -v
+     npm -v
+     ```
+
+2. **Visual Studio Code** :
+   - Téléchargez et installez depuis [code.visualstudio.com](https://code.visualstudio.com/).
+
+---
+
+## 🚀 Installation de Node.js et npm
+
+1. **Télécharger Node.js** :
+   - Rendez-vous sur [nodejs.org](https://nodejs.org) et choisissez la version LTS (recommandée).
+   - Installez Node.js en suivant les instructions pour votre système d'exploitation.
+
+2. **Vérifier l'installation** :
+   - Une fois installé, ouvrez un terminal et exécutez les commandes suivantes pour vérifier que Node.js et npm sont correctement installés :
+     ```bash
+     node -v
+     npm -v
+     ```
+
+---
+
+## 🧩 Extensions Visual Studio Code
+
+Voici les extensions essentielles pour travailler sur ce projet. Vous pouvez les installer rapidement avec les commandes suivantes dans le terminal de Visual Studio Code :
+
+1. **Vue Language Features (Volar)**
+   ```bash
+   ext install Vue.volar
+
+
+
+
 
 ## 📋 Prérequis
 
