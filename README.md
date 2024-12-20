@@ -205,13 +205,6 @@ Distribué sous la licence **MIT**. Voir le fichier `LICENSE` pour plus de déta
 **Rejoignez l'aventure et changez le monde, une action à la fois ! 🌍**
 ```
 
-### 🚀 Points forts ajoutés :
-- **Commandes rapides** pour installer les extensions VS Code.
-- Une **démarche inspirante et engageante** pour la contribution.
-- **Détails complets sur l'installation de Node.js** pour les débutants.
-- Une **section Prochaines étapes** pour donner une vision future au projet.
-
-Prêt pour la publication ? 😊
 
 ## License
 
