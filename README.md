@@ -167,7 +167,7 @@ Voici les extensions essentielles pour travailler sur ce projet. Vous pouvez les
 
 Pour exécuter ces commandes, ouvrez **Visual Studio Code**, appuyez sur `Ctrl+P` (ou `Cmd+P` sur Mac), entrez `>` suivi de la commande ci-dessus.
 
----
+
 
 ## 🖥️ Installation et exécution du projet
 
@@ -210,7 +210,7 @@ npm run serve
      - Allez dans les **Paramètres** (`Ctrl+,` ou `Cmd+,`).
      - Recherchez `Format on Save` et cochez la case.
 
----
+
 
 ## 🌍 Contribuer
 
@@ -249,9 +249,8 @@ Votre code ne fera pas que fonctionner : il aura un impact écologique direct�
    ```
 
 7. **Ouvrir une Pull Request (PR)** :
-   - Rendez-vous sur votre fork et cliquez sur `New Pull Request`.
-
----
+   - Rendez-vous sur votre fork et cliquez sur `New Pull Request`
+     
 
 ## 🏆 Remerciements
 
