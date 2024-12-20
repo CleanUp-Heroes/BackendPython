@@ -14,26 +14,19 @@
 
 
 
-# CleanUp-Heroes - Frontend
-
 
 # Cleanup Heroes - Frontend
 
 ✨ **Un projet qui connecte les héros de l'environnement à des actions concrètes pour un monde plus propre !** ✨
 
----
 
-## 🌟 À propos du projet
-Cleanup Heroes est une plateforme innovante qui aide les citoyens à trouver, rejoindre et organiser des initiatives de nettoyage environnemental. Ce frontend, développé avec **Vue.js**, est une interface conviviale qui donne vie à cette mission écologique.
-
----
 
 ## 🛠️ Technologies utilisées
 - **Vue.js** : Framework JavaScript pour construire des interfaces utilisateur modernes.
 - **Axios** : Gestion des appels HTTP et interaction avec l'API backend.
 - **Node.js & npm** : Pour gérer les dépendances et exécuter les scripts.
 
----
+
 
 ## 📋 Prérequis
 
@@ -49,7 +42,6 @@ Avant de commencer, assurez-vous d'avoir :
 2. **Visual Studio Code** :
    - Téléchargez et installez depuis [code.visualstudio.com](https://code.visualstudio.com/).
 
----
 
 ## 🚀 Installation de Node.js et npm
 
@@ -64,7 +56,6 @@ Avant de commencer, assurez-vous d'avoir :
      npm -v
      ```
 
----
 
 ## 🧩 Extensions Visual Studio Code
 
@@ -91,23 +82,7 @@ Avant de commencer, assurez-vous d'avoir :
 2. **Visual Studio Code** :
    - Téléchargez et installez depuis [code.visualstudio.com](https://code.visualstudio.com/).
 
----
 
-## 🚀 Installation de Node.js et npm
-
-1. **Télécharger Node.js** :
-   - Rendez-vous sur [nodejs.org](https://nodejs.org) et choisissez la version LTS (recommandée).
-   - Installez Node.js en suivant les instructions pour votre système d'exploitation.
-
-2. **Vérifier l'installation** :
-   - Une fois installé, ouvrez un terminal et exécutez :
-     ```bash
-     node -v
-     npm -v
-     ```
-     Ces commandes doivent afficher les versions respectives de Node.js et npm.
-
----
 
 ## 🧩 Extensions Visual Studio Code
 
