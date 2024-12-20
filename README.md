@@ -30,35 +30,6 @@
 
 ## 📋 Prérequis
 
-
-## 🚀 Installation de Node.js et npm
-
-1. **Télécharger Node.js** :
-   - Rendez-vous sur [nodejs.org](https://nodejs.org) et choisissez la version LTS (recommandée).
-   - Installez Node.js en suivant les instructions pour votre système d'exploitation.
-
-2. **Vérifier l'installation** :
-   - Une fois installé, ouvrez un terminal et exécutez les commandes suivantes pour vérifier que Node.js et npm sont correctement installés :
-     ```bash
-     node -v
-     npm -v
-     ```
-
-
-## 🧩 Extensions Visual Studio Code
-
-Voici les extensions essentielles pour travailler sur ce projet. Vous pouvez les installer rapidement avec les commandes suivantes dans le terminal de Visual Studio Code :
-
-1. **Vue Language Features (Volar)**
-   ```bash
-   ext install Vue.volar
-
-
-
-
-
-## 📋 Prérequis
-
 Avant de commencer, assurez-vous d'avoir :
 1. **Node.js** (version 16 ou supérieure recommandée) :
    - Téléchargez et installez depuis [nodejs.org](https://nodejs.org).
@@ -72,7 +43,7 @@ Avant de commencer, assurez-vous d'avoir :
 
 
 
-## 🧩 Extensions Visual Studio Code
+## 🧩 Extensions Visual Studio Code ( si vous utilisez VSC)
 
 Voici les extensions essentielles pour travailler sur ce projet. Vous pouvez les installer rapidement avec les commandes suivantes :
 
