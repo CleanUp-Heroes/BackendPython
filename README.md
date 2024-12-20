@@ -16,60 +16,76 @@
 
 # CleanUp-Heroes - Frontend
 
+Je suis désolé pour la confusion précédente. Voici tout le texte en **Markdown** comme tu l'as demandé, structuré correctement avec tous les éléments et le formatage Markdown adapté :
+
+```markdown
+# CleanUp-Heroes - Frontend
+
 ## Construit avec
 Ce projet utilise les technologies suivantes :
 
 - **Vue.js** (pour le frontend)
-- **Bootstrap** (pour le design responsive)
 - **Axios** (pour les appels API)
 
 ---
 
 ## Étapes d'installation
 
-1. **Cloner le repository**
+### 1. Cloner le repository
 
-   Ouvrez un terminal et clonez le projet sur votre machine locale en utilisant la commande suivante :
+Ouvrez un terminal et clonez le projet sur votre machine locale en utilisant la commande suivante :
 
-   git clone https://github.com/CleanUp-Heroes/FrontEnd-Vue.git)
+```bash
+git clone https://github.com/CleanUp-Heroes/FrontEnd-Vue.git
+```
 
-   ## Naviguer dans le dossier du projet
+### 2. Naviguer dans le dossier du projet
 
 Allez dans le dossier du projet cloné :
 
+```bash
 cd nom-du-projet
+```
 
+### 3. Installer les dépendances
 
-Installer les dépendances
 Une fois dans le dossier du projet, vous devez installer les dépendances nécessaires pour exécuter le projet avec la commande suivante :
 
-bash
-Copier le code
+```bash
 npm install
-Cette commande installera Vue.js et Axios, ainsi que toutes les autres dépendances définies dans le fichier package.json.
+```
 
-Démarrer l'application
+Cette commande installera **Vue.js** et **Axios**, ainsi que toutes les autres dépendances définies dans le fichier `package.json`.
+
+### 4. Démarrer l'application
+
 Après avoir installé les dépendances, vous pouvez démarrer l'application avec la commande suivante dans le terminal :
 
-bash
-Copier le code
+```bash
 npm run serve
-Cela lancera l'application en mode développement sur le port 8080. Vous pouvez accéder à l'application via http://localhost:8080.
+```
 
-Fonctionnalités principales
-1. Vue.js (Frontend)
-Vue.js est utilisé pour gérer l'interface utilisateur du projet. C'est un framework JavaScript progressif qui permet de créer des interfaces utilisateur interactives.
+Cela lancera l'application en mode développement sur le port 8080. Vous pouvez accéder à l'application via [http://localhost:8080](http://localhost:8080).
 
-Structure du projet : Le projet est basé sur des composants Vue regroupés dans le dossier src/components.
-Vue Router est utilisé pour gérer la navigation entre les différentes pages de l'application.
-2. Axios (Appels API)
-Axios est utilisé pour interagir avec le backend en envoyant des requêtes HTTP. Toutes les requêtes API sont gérées dans des fichiers JavaScript dédiés, généralement sous src/services/.
+---
 
-Exemple d'appel API avec Axios :
-Dans un fichier comme src/services/api.js, vous trouverez des appels API comme celui-ci :
+## Fonctionnalités principales
 
-javascript
-Copier le code
+### 1. Vue.js (Frontend)
+
+**Vue.js** est utilisé pour gérer l'interface utilisateur du projet. C'est un framework JavaScript progressif qui permet de créer des interfaces utilisateur interactives.
+
+- **Structure du projet** : Le projet est basé sur des composants Vue regroupés dans le dossier `src/components`.
+- **Vue Router** est utilisé pour gérer la navigation entre les différentes pages de l'application.
+
+### 2. Axios (Appels API)
+
+**Axios** est utilisé pour interagir avec le backend en envoyant des requêtes HTTP. Toutes les requêtes API sont gérées dans des fichiers JavaScript dédiés, généralement sous `src/services/`.
+
+#### Exemple d'appel API avec Axios :
+Dans un fichier comme `src/services/api.js`, vous trouverez des appels API comme celui-ci :
+
+```javascript
 import axios from 'axios';
 
 const API_URL = 'http://localhost:3001/api/';
@@ -82,29 +98,33 @@ export const getSignalements = async () => {
     console.error("Il y a une erreur lors de l'appel API", error);
   }
 };
+```
+
 Cela permet de récupérer les signalements depuis le backend et de les afficher dans l'interface utilisateur.
 
-Résolution des problèmes
-Problème de port déjà utilisé : Si le port 8080 est déjà utilisé sur votre machine, vous pouvez changer le port d'écoute en exécutant la commande suivante :
-bash
-Copier le code
+---
+
+## Résolution des problèmes
+
+### Problème de port déjà utilisé
+
+Si le port 8080 est déjà utilisé sur votre machine, vous pouvez changer le port d'écoute en exécutant la commande suivante :
+
+```bash
 npm run serve -- --port 8081
-Problème avec Axios : Si les appels API échouent, assurez-vous que le serveur backend est bien démarré et que l'URL de l'API dans le fichier api.js correspond à celle du serveur backend.
-perl
-Copier le code
+```
 
-Avec ce format, vous pouvez simplement copier-coller ce texte dans votre fichier `README.md`.
+### Problème avec Axios
 
+Si les appels API échouent, assurez-vous que le serveur backend est bien démarré et que l'URL de l'API dans le fichier `api.js` correspond à celle du serveur backend.
 
-
-
-
-
+---
 
 ## Auteurs
 
 - **Nom de l'auteur 1** - *Développeur principal* - [NomAuteur1](https://github.com/NomAuteur1)
 - **Nom de l'auteur 2** - *Développeur* - [NomAuteur2](https://github.com/NomAuteur2)
 - **Nom de l'auteur 3** - *Développeur* - [NomAuteur3](https://github.com/NomAuteur3)
+```
 
-
+Ce texte est **entièrement en Markdown** et prêt à être utilisé dans un fichier `README.md`. Si tu rencontres d'autres problèmes ou si tu as besoin de modifications, je suis là pour t'aider.
