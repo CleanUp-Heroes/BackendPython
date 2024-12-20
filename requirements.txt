@@ -4,4 +4,3 @@ djangorestframework
 drf-yasg
 django-cors-headers
 djangorestframework-simplejwt
-asciidoc

@@ -6,10 +6,19 @@
 
 ---
 
-## Introduction
 
-BackendPython est le backend du projet CleanUp Heroes, développé en Python avec Django.  
-Il gère les fonctionnalités principales de l'application, y compris les défis, les participations des utilisateurs et les statistiques associées.
+## CleanUp Heroes
+Adjedomole, Barry, Rahim
+
+## Description de l'application
+Ce site a pour ambition de sensibiliser les citoyens au tri sélectif et au respect de l’environnement tout en les encourageant à agir activement pour améliorer leur cadre de vie. Les utilisateurs peuvent participer à des **challenges environnementaux** qui leur permettent de gagner des points en réalisant des actions concrètes, telles que le tri des déchets ou la participation à des initiatives locales. Ces points accumulés pourront, à l’avenir, être échangés contre des récompenses concrètes, renforçant ainsi leur motivation à s’impliquer durablement.
+
+En parallèle, le site offre une fonctionnalité clé : le **signalement de déchets abandonnés** dans les espaces publics. Ces signalements sont actuellement affichés sous forme de liste, mais une évolution future prévoit l’intégration d’une carte interactive. Chaque signalement sera représenté par un marqueur géolocalisé, offrant une vue claire des zones concernées. Une fois un déchet ramassé, son marqueur pourra être retiré de la carte pour refléter la propreté retrouvée de l’espace. Cette fonctionnalité vise à améliorer la coordination entre citoyens et services responsables, tout en fournissant un outil visuel pour mesurer les progrès réalisés.
+
+Le site mettra également en avant des **classements mondiaux et locaux**, permettant aux utilisateurs de comparer leurs contributions avec celles des autres. Ces classements encourageront une saine compétition et renforceront le sentiment de communauté autour de la cause environnementale.
+
+## Objectif de l'application
+L’objectif global de ce projet est de promouvoir des comportements responsables, tels que le tri sélectif et la collecte des déchets, tout en récompensant l’engagement des utilisateurs. En combinant des éléments ludiques comme les challenges et les classements, des outils pratiques comme la carte interactive, et des perspectives d’avenir avec des récompenses concrètes, ce site ambitionne de devenir une plateforme incontournable pour tous ceux qui souhaitent agir pour l’environnement.
 
 ---
 
@@ -22,7 +31,7 @@ Assurez-vous d'avoir les outils suivants installés sur votre système :
 - **pip** (gestionnaire de paquets Python)
 - **virtualenv** (optionnel, recommandé pour isoler l'environnement Python)
 - **MySQL Workbench** (ou toute autre base de données compatible avec Django)
-- **Asciidoctor** (pour générer la documentation, facultatif)
+- **Asciidoctor** et **Asciidoctor-pdf** (pour générer la documentation)
 
 ---
 
@@ -66,16 +75,25 @@ Swagger fournit un aperçu interactif des points d'API disponibles dans ce backe
 ### 2. Asciidoctor
 
 La documentation technique peut être générée en **HTML** et **PDF** grâce à Asciidoctor.  
-Pour cela, exécutez les commandes suivantes :
+Pour cela, vous devez d'abord installer Ruby et les gems nécessaires :
+
+1. **Installer Ruby** : Téléchargez Ruby depuis [le site officiel](https://rubyinstaller.org/).
+   
+2. **Installer les gems nécessaires** : Une fois Ruby installé, ouvrez un terminal et exécutez la commande suivante :
+   ```bash
+   gem install asciidoctor asciidoctor-pdf
+   ```
+
+Ensuite, vous pouvez générer les fichiers de documentation :
 
 1. **Génération du fichier HTML :**
    ```bash
-   asciidoctor app/docs/asciidoc/main.adoc
+   asciidoc -b html5 app/docs/asciidoc/main.adoc
    ```
 
 2. **Génération du fichier PDF :**
    ```bash
-   asciidoctor-pdf app/docs/asciidoc/main.adoc
+   asciidoc -b pdf app/docs/asciidoc/main.adoc
    ```
 
 Les fichiers générés se trouveront dans le répertoire `docs`.
@@ -85,4 +103,3 @@ Les fichiers générés se trouveront dans le répertoire `docs`.
 ## License
 
 Ce projet est sous licence [Apache 2.0](LICENSE.txt).
-```
