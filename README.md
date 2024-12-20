@@ -38,9 +38,13 @@ Avant de commencer, assurez-vous d'avoir :
      node -v
      npm -v
      ```
-2. **Visual Studio Code** :
-   - Téléchargez et installez depuis [code.visualstudio.com](https://code.visualstudio.com/).
 
+2. Exécutez la commande suivante pour installer **Axios** via npm :
+   ```bash
+   npm install axios
+
+3. **Visual Studio Code** :
+   - Téléchargez et installez depuis [code.visualstudio.com](https://code.visualstudio.com/).
 
 
 ## 🧩 Extensions Visual Studio Code ( si vous utilisez VSC)
