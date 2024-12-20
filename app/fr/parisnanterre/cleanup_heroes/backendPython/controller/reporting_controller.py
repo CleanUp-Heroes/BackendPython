@@ -57,7 +57,7 @@ def add_report(request):
             photo = request.FILES.get('photo')  # Optional field
 
             # Check required fields
-            required_fields = {'description': description, 'adresse': adresse}
+            required_fields = {'description': description, 'location': adresse}
             validate_required_fields(required_fields)
 
             # Initialize the proof instance (only if a photo is provided)
