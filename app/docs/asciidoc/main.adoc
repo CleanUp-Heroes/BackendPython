@@ -60,22 +60,16 @@ image::images/architecture_projet.png[architecture de l'application, width=500, 
 
 == Features
 
-=== Reporting
-
-=== Challenges
-
-
 == Feature 2
 
+== Formulaire de signalement
 
-= Formulaire de signalement
-
-== Objectif
+=== Objectif
 Le formulaire de signalement permet à un utilisateur de signaler un problème ou une situation nécessitant une intervention. Ce formulaire collectera les informations essentielles liées au signalement et permettra de créer une nouvelle entrée dans le système.
 
-== Comportement
+=== Comportement
 
-=== Collecte des données
+==== Collecte des données
 Le formulaire demande à l'utilisateur de remplir plusieurs champs :
 
 * *Description du problème* : Un champ texte où l'utilisateur peut décrire le problème rencontré.
@@ -84,31 +78,31 @@ Le formulaire demande à l'utilisateur de remplir plusieurs champs :
 * *Type de problème* : Sélectionner un type de problème parmi une liste prédéfinie (par exemple, déchet, panne, etc.).
 * *Date/Heure* : La date et l'heure du signalement sont automatiquement ajoutées pour chaque nouvelle entrée.
 
-=== Validation et envoi
+==== Validation et envoi
 
 * Une fois les informations remplies, l'utilisateur peut soumettre le formulaire.
 * Les données sont envoyées à un backend via une requête API pour être enregistrées dans une base de données.
 
-== Fonctionnement détaillé du formulaire
+=== Fonctionnement détaillé du formulaire
 
 * Lors de la soumission du formulaire, une requête POST est envoyée au backend pour créer un nouveau signalement avec les données saisies.
 * Si l'utilisateur a omis un champ requis ou fait une erreur, des messages d'erreur ou des validations peuvent être affichés.
 * Après une soumission réussie, l'utilisateur peut être redirigé vers la liste des signalements ou voir un message de confirmation.
 
-== Exemple d'interaction avec le formulaire
+=== Exemple d'interaction avec le formulaire
 
 1. L'utilisateur remplit le formulaire avec la description du problème et le lieu.
 2. Il peut également joindre une photo.
 3. Une fois le formulaire soumis, le signalement est ajouté à la base de données et l'utilisateur reçoit un message de confirmation.
 
-= Liste des signalements
+== Liste des signalements
 
-== Objectif
+=== Objectif
 La liste des signalements affiche toutes les demandes ou problèmes signalés par les utilisateurs. Elle permet de suivre l'état de chaque signalement et d’effectuer des actions dessus, comme marquer un signalement comme "résolu" ou "en cours".
 
-== Comportement
+=== Comportement
 
-=== Affichage des signalements
+==== Affichage des signalements
 
 * Une liste de signalements est récupérée depuis le backend (via une requête GET).
 * Chaque signalement affichera des informations essentielles, telles que :
@@ -118,45 +112,45 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
   ** Le type de problème
   ** Une photo (si disponible)
 
-=== Statut du signalement
+==== Statut du signalement
 
 * Chaque signalement peut avoir un statut qui indique s'il a été traité ou non :
   ** *Ouvert* : Le signalement n’a pas encore été résolu.
   ** *Fermé* : Le signalement a été résolu ou pris en charge.
 * Un bouton est affiché à côté de chaque signalement pour permettre à l'utilisateur de changer son statut (de "ouvert" à "fermé").
 
-=== Actions disponibles
+==== Actions disponibles
 
 * Un utilisateur peut interagir avec chaque signalement en cliquant sur un bouton pour mettre à jour son statut (fermer le signalement si celui-ci est traité).
 * Cette action envoie une requête API PUT pour modifier le statut du signalement dans la base de données.
 
-=== Filtrage et tri des signalements
+==== Filtrage et tri des signalements
 
 * Les signalements peuvent être filtrés par statut, type de problème, ou date.
 * L’utilisateur peut aussi trier les signalements en fonction de différents critères (par exemple, par date, par type, etc.).
 
-== Fonctionnement détaillé de la liste des signalements
+=== Fonctionnement détaillé de la liste des signalements
 
 * Lors de la connexion de l'utilisateur ou de la page de gestion des signalements, une requête GET est envoyée au backend pour récupérer tous les signalements.
 * Chaque signalement est affiché sous forme de carte ou de ligne dans un tableau, avec un bouton pour changer son statut.
 * Lorsqu’un utilisateur modifie un signalement (en le marquant comme "fermé"), une requête PUT est envoyée pour mettre à jour l'état du signalement dans la base de données.
 * Une fois le statut modifié, l'interface se met à jour pour refléter cette modification.
 
-== Exemple d'interaction avec la liste des signalements
+=== Exemple d'interaction avec la liste des signalements
 
 1. L'utilisateur voit la liste des signalements avec un bouton "Fermer" à côté de chaque signalement ouvert.
 2. Il clique sur le bouton "Fermer" pour marquer un signalement comme résolu.
 3. Le statut du signalement change et est mis à jour dans la base de données.
 
-== En résumé
+=== En résumé
 
 * Le formulaire de signalement permet à un utilisateur de signaler un problème en soumettant des informations essentielles (description, lieu, photo). Il crée un nouvel enregistrement dans le système.
 * La liste des signalements affiche tous les signalements soumis, avec des options pour modifier leur statut (ouvrir ou fermer). Elle permet de suivre l'avancement de chaque signalement et d’effectuer des actions pour les résoudre.
 
 
-= Fonctionnalités et Scénarios d'Utilisation : Formulaire de Signalement et Liste des Signalements
+== Fonctionnalités et Scénarios d'Utilisation : Formulaire de Signalement et Liste des Signalements
 
-== Utilisateurs
+=== Utilisateurs
 1. **Utilisateur standard (Utilisateur connecté)**  
     - *Rôle* : Utilisateur régulier, souvent un citoyen ou un membre d’une communauté.  
     - *Autorisation* : Peut créer un signalement, voir les signalements existants, et changer le statut des signalements à "Fermé" (si autorisé).  
@@ -169,9 +163,9 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
     - *Rôle* : Personne chargée de résoudre les signalements.  
     - *Autorisation* : Peut uniquement voir les signalements ouverts et marquer les signalements comme résolus.  
 
-== Scénarios pour la fonctionnalité "Formulaire de signalement"
+=== Scénarios pour la fonctionnalité "Formulaire de signalement"
 
-=== Scénario 1 : Utilisateur standard crée un nouveau signalement
+==== Scénario 1 : Utilisateur standard crée un nouveau signalement
 - *Action* : L'utilisateur visite le formulaire de signalement.  
 - *Étapes* :  
   1. L'utilisateur remplit la description du problème (par exemple, "Déchet trouvé près du parc").  
@@ -180,7 +174,7 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 - *Résultat attendu* :  
   Un nouveau signalement est ajouté à la base de données avec les informations fournies, et un message de confirmation est affiché. Le signalement apparaît dans la liste des signalements.  
 
-=== Scénario 2 : Administrateur crée un signalement au nom d'un autre utilisateur
+==== Scénario 2 : Administrateur crée un signalement au nom d'un autre utilisateur
 - *Action* : L'administrateur souhaite créer un signalement pour un utilisateur qui rencontre des problèmes pour soumettre un signalement.  
 - *Étapes* :  
   1. L'administrateur accède au formulaire de signalement.  
@@ -189,7 +183,7 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 - *Résultat attendu* :  
   Le signalement est ajouté à la base de données et visible dans la liste des signalements. Le signalement est lié à l'utilisateur responsable du problème.  
 
-=== Scénario 3 : Utilisateur omet de remplir un champ requis
+==== Scénario 3 : Utilisateur omet de remplir un champ requis
 - *Action* : L'utilisateur essaie de soumettre le formulaire sans remplir un champ obligatoire.  
 - *Étapes* :  
   1. L'utilisateur tente de soumettre le formulaire avec un champ vide (par exemple, sans description).  
@@ -197,9 +191,9 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 - *Résultat attendu* :  
   L'utilisateur est invité à remplir les champs manquants avant de pouvoir soumettre le formulaire.  
 
-== Scénarios pour la fonctionnalité "Liste des signalements"
+=== Scénarios pour la fonctionnalité "Liste des signalements"
 
-=== Scénario 1 : Utilisateur standard consulte la liste des signalements
+==== Scénario 1 : Utilisateur standard consulte la liste des signalements
 - *Action* : L'utilisateur consulte la liste des signalements pour voir les problèmes en cours.  
 - *Étapes* :  
   1. L'utilisateur se connecte à son compte et accède à la page des signalements.  
@@ -207,7 +201,7 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 - *Résultat attendu* :  
   L'utilisateur peut voir tous les signalements ouverts et fermés. Il peut aussi filtrer les signalements par statut (ouvert/fermé), type de problème, etc.  
 
-=== Scénario 2 : Utilisateur change le statut d’un signalement
+==== Scénario 2 : Utilisateur change le statut d’un signalement
 - *Action* : L'utilisateur clique sur le bouton pour changer le statut d’un signalement ouvert.  
 - *Étapes* :  
   1. L'utilisateur voit un signalement avec le statut "🔓 Ouvert".  
@@ -217,7 +211,7 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 - *Résultat attendu* :  
   Le signalement est maintenant marqué comme "résolu", et son statut est mis à jour dans la base de données.  
 
-=== Scénario 3 : Administrateur ou responsable ferme un signalement
+==== Scénario 3 : Administrateur ou responsable ferme un signalement
 - *Action* : L'administrateur ou responsable marque un signalement comme "résolu".  
 - *Étapes* :  
   1. L'administrateur accède à la liste des signalements.  
@@ -228,7 +222,7 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 - *Résultat attendu* :  
   Le signalement est mis à jour dans le système avec le statut "résolu", et le responsable du traitement est notifié.  
 
-=== Scénario 4 : Administrateur consulte les signalements fermés et réouvre un signalement
+==== Scénario 4 : Administrateur consulte les signalements fermés et réouvre un signalement
 - *Action* : L'administrateur souhaite réouvrir un signalement fermé.  
 - *Étapes* :  
   1. L'administrateur filtre les signalements pour afficher uniquement ceux qui sont fermés.  
@@ -237,7 +231,7 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 - *Résultat attendu* :  
   Le signalement est réouvert et apparaît dans la liste des signalements comme "Ouvert".  
 
-=== Scénario 5 : Utilisateur consulte un signalement sans photo
+==== Scénario 5 : Utilisateur consulte un signalement sans photo
 - *Action* : L'utilisateur consulte un signalement, mais il n’y a pas de photo associée.  
 - *Étapes* :  
   1. L'utilisateur clique sur un signalement de la liste qui n'a pas de photo.  
@@ -245,7 +239,7 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 - *Résultat attendu* :  
   Le signalement est affiché sans photo, et les autres informations comme la description, l'emplacement et la date sont toujours visibles.  
 
-=== Scénario 6 : Utilisateur consulte un signalement avec une photo
+==== Scénario 6 : Utilisateur consulte un signalement avec une photo
 - *Action* : L'utilisateur consulte un signalement qui contient une photo.  
 - *Étapes* :  
   1. L'utilisateur clique sur un signalement dans la liste avec une photo.  
@@ -253,7 +247,7 @@ La liste des signalements affiche toutes les demandes ou problèmes signalés pa
 - *Résultat attendu* :  
   Le signalement avec la photo est correctement affiché, et l'utilisateur peut visualiser l’image en plus des autres informations.  
 
-== Résumé des scénarios possibles
+=== Résumé des scénarios possibles
 - **Utilisateur standard** : Peut créer un signalement, consulter les signalements existants, et mettre à jour le statut d’un signalement (si le bouton est interactif pour lui).  
 - **Administrateur** : A un contrôle total sur tous les signalements : il peut les consulter, les fermer, les réouvrir et attribuer des actions supplémentaires.  
 - **Responsable du traitement des signalements** : Peut consulter les signalements ouverts et les marquer comme résolus.  
