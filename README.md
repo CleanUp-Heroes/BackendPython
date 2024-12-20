@@ -18,197 +18,200 @@
 
 
 
-## Construit avec
-Ce projet utilise les technologies suivantes :
-
-- **Vue.js** (pour le frontend)
-- **Axios** (pour les appels API)
-
----
-
-## Étapes d'installation
-
-### 1. Cloner le repository
-
-Ouvrez un terminal et clonez le projet sur votre machine locale en utilisant la commande suivante :
-
-git clone https://github.com/CleanUp-Heroes/FrontEnd-Vue.git
-
-### 2. Naviguer dans le dossier du projet
-
-Allez dans le dossier du projet cloné :
-
-cd nom-du-projet
+Voici une version mise à jour, plus complète et inspirante pour ton projet **Cleanup Heroes - Frontend**, intégrant des commandes pour installer les extensions, des détails supplémentaires sur Node.js, et une section contribution plus engageante.
 
 ```markdown
-# Fungikey
+# Cleanup Heroes - Frontend
 
-**Fungikey, l'application pour tout savoir sur les champignons.**
-
-
-
-### Contexte
-- De nombreuses applications similaires existent sur le marché, telles que :
-  - **Champignouf**
-  - **Aux champignons**
-  - **Picture Mushroom**  
-Ces applications, bien que populaires, sont axées sur la cueillette et l'identification par image, contrairement à **Fungikey 2024**, qui s'adresse à un public éducatif, notamment des étudiants en pharmacie.
+✨ **Un projet qui connecte les héros de l'environnement à des actions concrètes pour un monde plus propre !** ✨
 
 ---
 
-## Construit avec
-Les principaux frameworks et bibliothèques utilisés sont :
-- **Node**
-- **React**
-- **Bootstrap**
-- **JQuery**
+## 🌟 À propos du projet
+Cleanup Heroes est une plateforme innovante qui aide les citoyens à trouver, rejoindre et organiser des initiatives de nettoyage environnemental. Ce frontend, développé avec **Vue.js**, est une interface conviviale qui donne vie à cette mission écologique.
 
 ---
 
-## Manuel d'installation et d'utilisation
+## 🛠️ Technologies utilisées
+- **Vue.js** : Framework JavaScript pour construire des interfaces utilisateur modernes.
+- **Axios** : Gestion des appels HTTP et interaction avec l'API backend.
+- **Node.js & npm** : Pour gérer les dépendances et exécuter les scripts.
 
-1. **Cloner le dépôt :**
-   ```bash
-   git clone https://github.com/Assem92/Fungikey
-   ```
-2. **Installer NodeJS :** Téléchargez et installez NodeJS.
+---
 
-3. **Lancer le backend :**
-   - Accédez au répertoire `branches/fungikey-backend`.
-   - Exécutez les commandes suivantes :
+## 📋 Prérequis
+
+Avant de commencer, assurez-vous d'avoir :
+1. **Node.js** (version 16 ou supérieure recommandée) :
+   - Téléchargez et installez depuis [nodejs.org](https://nodejs.org).
+   - Vérifiez la version installée :
      ```bash
-     npm install
-     npm start
+     node -v
+     npm -v
      ```
-   - Le backend est disponible sur : [http://localhost:3001/](http://localhost:3001/).
+2. **Visual Studio Code** :
+   - Téléchargez et installez depuis [code.visualstudio.com](https://code.visualstudio.com/).
 
-4. **Lancer le frontend :**
-   - Accédez au répertoire `branches/fungikey`.
-   - Exécutez les commandes suivantes :
+---
+
+## 🚀 Installation de Node.js et npm
+
+1. **Télécharger Node.js** :
+   - Rendez-vous sur [nodejs.org](https://nodejs.org) et choisissez la version LTS (recommandée).
+   - Installez Node.js en suivant les instructions pour votre système d'exploitation.
+
+2. **Vérifier l'installation** :
+   - Une fois installé, ouvrez un terminal et exécutez :
      ```bash
-     npm install
-     npm start
+     node -v
+     npm -v
      ```
-   - Le frontend est disponible sur : [http://localhost:3000/](http://localhost:3000/).
+     Ces commandes doivent afficher les versions respectives de Node.js et npm.
 
 ---
 
-## Conteneurisation
+## 🧩 Extensions Visual Studio Code
 
-1. **Installer Docker** : Téléchargez Docker [ici](https://www.docker.com/).
-2. **Construire les images Docker :**
-   ```bash
-   docker build -t fungikey-backend -f fungikey-backend/Dockerfile fungikey-backend
-   docker build -t fungikey-frontend -f Fungikey/Dockerfile Fungikey
-   ```
-3. **Lancer les conteneurs :**
-   ```bash
-   docker run -p 3000:3000 fungikey-frontend
-   docker run -p 3001:3001 fungikey-backend
-   ```
-4. **Accéder à l'application :**
-   - Frontend : [http://localhost:3000/](http://localhost:3000/)
-   - Backend : [http://localhost:3001/](http://localhost:3001/)
+Voici les extensions essentielles pour travailler sur ce projet. Vous pouvez les installer rapidement avec les commandes suivantes :
 
-5. **Arrêter les conteneurs :**
+### 1. **Vue Language Features (Volar)**
    ```bash
-   docker stop [nom ou ID du conteneur]
+   ext install Vue.volar
    ```
+
+### 2. **ESLint**
+   ```bash
+   ext install dbaeumer.vscode-eslint
+   ```
+
+### 3. **Prettier - Code Formatter**
+   ```bash
+   ext install esbenp.prettier-vscode
+   ```
+
+### 4. **Vetur (Optionnel)**
+   ```bash
+   ext install octref.vetur
+   ```
+
+Pour exécuter ces commandes, ouvrez **Visual Studio Code**, appuyez sur `Ctrl+P` (ou `Cmd+P` sur Mac), entrez `>` suivi de la commande ci-dessus.
 
 ---
 
-## API
+## 🖥️ Installation et exécution du projet
 
-La documentation de l'API est accessible via Swagger : [http://localhost:3001/api-docs/](http://localhost:3001/api-docs/).
+### Étape 1 : Cloner le dépôt
+```bash
+git clone https://github.com/CleanUp-Heroes/FrontEnd-Vue.git
+cd FrontEnd-Vue
+```
 
-### Routes disponibles
-- **Champignons :**
-  - `GET /api/champi/` : Liste des champignons.
-  - `GET /api/champi/{id}` : Champignon par ID.
-  - `GET /api/familleChampi/` : Liste des familles de champignons.
-  - `GET /api/familleComplementaires/` : Liste des familles complémentaires.
-
-- **Recettes :**
-  - `GET /api/recette/` : Liste des recettes.
-  - `GET /api/recette/{id}` : Recette par ID.
-
-- **Localisation :**
-  - `GET /closest-points/:latitude/:longitude` : Retourne les 3 champignons les plus proches.
-  - `POST /location` : Ajoute une nouvelle localisation de champignons.
-
-- **Forum :**
-  - `GET /posts` : Liste des publications.
-  - `POST /posts` : Ajoute une nouvelle publication.
-
-- **Produits :**
-  - `POST /products` : Ajoute un nouveau produit.
-  - `PUT /products/:id` : Met à jour un produit.
-  - `DELETE /products/:id` : Supprime un produit.
-
-- **Périodes :**
-  - `GET /periodes` : Liste des périodes.
-  - `GET /periodes/:id` : Détails d'une période.
-
----
-
-## Contributions
-
-Les contributions sont les bienvenues !  
-Pour contribuer :
-1. **Forker le projet.**
-2. **Créer une branche pour vos modifications :**
-   ```bash
-   git checkout -b feature/AmazingFeature
-   ```
-3. **Valider vos modifications :**
-   ```bash
-   git commit -m 'Add some AmazingFeature'
-   ```
-4. **Pousser votre branche :**
-   ```bash
-   git push origin feature/AmazingFeature
-   ```
-5. **Ouvrir une Pull Request.**
-
----
-
-
-
-
-### 3. Installer les dépendances
-
-Une fois dans le dossier du projet, vous devez installer les dépendances nécessaires pour exécuter le projet avec la commande suivante :
-
+### Étape 2 : Installer les dépendances
+```bash
 npm install
+```
 
-Cette commande installera **Vue.js** et **Axios**, ainsi que toutes les autres dépendances définies dans le fichier `package.json`.
-
-### 4. Démarrer l'application
-
-Après avoir installé les dépendances, vous pouvez démarrer l'application avec la commande suivante dans le terminal :
-
-
+### Étape 3 : Lancer le serveur de développement
+```bash
 npm run serve
+```
 
+### Étape 4 : Accéder à l'application
+- **Local** : [http://localhost:8080](http://localhost:8080)
+- **Réseau** : Suivez l'URL indiquée dans le terminal, par exemple [http://172.16.73.48:8080](http://172.16.73.48:8080).
 
-Cela lancera l'application en mode développement sur le port 8080. Vous pouvez accéder à l'application via [http://localhost:8080](http://localhost:8080).
+---
 
+## 🛠️ Résolution des problèmes fréquents
 
+### 1. **Erreur : Module introuvable**
+   - Supprimez et réinstallez les dépendances :
+     ```bash
+     rm -rf node_modules
+     npm install
+     ```
 
-## Fonctionnalités principales
+### 2. **Le serveur ne démarre pas**
+   - Assurez-vous que le port 8080 est disponible ou modifiez-le dans le fichier `vue.config.js`.
 
-### 1. Vue.js (Frontend)
+### 3. **Problème de formatage**
+   - Configurez Prettier comme formatteur par défaut dans VS Code :
+     - Allez dans les **Paramètres** (`Ctrl+,` ou `Cmd+,`).
+     - Recherchez `Format on Save` et cochez la case.
 
-**Vue.js** est utilisé pour gérer l'interface utilisateur du projet. C'est un framework JavaScript progressif qui permet de créer des interfaces utilisateur interactives.
+---
 
-- **Structure du projet** : Le projet est basé sur des composants Vue regroupés dans le dossier `src/components`.
-- **Vue Router** est utilisé pour gérer la navigation entre les différentes pages de l'application.
+## 🌍 Contribuer
 
-### 2. Axios (Appels API)
+✨ **Devenez un héros du code et aidez Cleanup Heroes à grandir !** ✨
 
-**Axios** est utilisé pour interagir avec le backend en envoyant des requêtes HTTP. Toutes les requêtes API sont gérées dans des fichiers JavaScript dédiés, généralement sous `src/services/`.
+### Pourquoi contribuer ?
+Votre code ne fera pas que fonctionner : il aura un impact écologique direct ! Que vous corrigiez un bug, ajoutiez une nouvelle fonctionnalité, ou amélioriez la documentation, chaque contribution compte.
 
-Cela permet de récupérer les signalements depuis le backend et de les afficher dans l'interface utilisateur.
+### Comment contribuer ?
+1. **Forker le dépôt** :
+   - Cliquez sur le bouton `Fork` en haut à droite du dépôt GitHub.
+
+2. **Cloner votre fork** :
+   ```bash
+   git clone https://github.com/votre-utilisateur/FrontEnd-Vue.git
+   cd FrontEnd-Vue
+   ```
+
+3. **Créer une branche pour votre contribution** :
+   ```bash
+   git checkout -b feature/nom-de-la-fonctionnalité
+   ```
+
+4. **Apporter vos modifications** :
+   - Suivez les bonnes pratiques de développement et exécutez `npm run lint` avant de valider.
+
+5. **Valider vos modifications** :
+   ```bash
+   git add .
+   git commit -m "Ajout : [Description de votre modification]"
+   ```
+
+6. **Envoyer vos modifications** :
+   ```bash
+   git push origin feature/nom-de-la-fonctionnalité
+   ```
+
+7. **Ouvrir une Pull Request (PR)** :
+   - Rendez-vous sur votre fork et cliquez sur `New Pull Request`.
+
+---
+
+## 🏆 Remerciements
+
+Nous remercions toutes les personnes qui ont contribué à rendre ce projet possible :
+- Les développeurs passionnés.
+- Les utilisateurs qui nous aident à nous améliorer.
+- La communauté des héros environnementaux.
+
+---
+
+## 📜 License
+
+Distribué sous la licence **MIT**. Voir le fichier `LICENSE` pour plus de détails.
+
+---
+
+## 💡 Prochaines étapes
+- **Créer une application mobile.**
+- **Intégrer une API cartographique pour suivre les initiatives.**
+- **Ajouter des badges pour récompenser les utilisateurs actifs.**
+
+**Rejoignez l'aventure et changez le monde, une action à la fois ! 🌍**
+```
+
+### 🚀 Points forts ajoutés :
+- **Commandes rapides** pour installer les extensions VS Code.
+- Une **démarche inspirante et engageante** pour la contribution.
+- **Détails complets sur l'installation de Node.js** pour les débutants.
+- Une **section Prochaines étapes** pour donner une vision future au projet.
+
+Prêt pour la publication ? 😊
 
 ## License
 
