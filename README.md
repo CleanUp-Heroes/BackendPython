@@ -179,13 +179,14 @@ Distribué sous la licence **MIT**. Voir le fichier `LICENSE` pour plus de déta
 ```
 
 
-## License
+## Licence
 
-Distribuée sous la licence **Apache 2.0**. Voir le fichier `LICENSE` pour plus d'informations.
+Distribuée sous la licence [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). Voir le fichier LICENSE pour plus d'informations.
+
 
 ## Auteurs
 
-- **Nom de l'auteur 1** - *Développeur principal* - [NomAuteur1](https://github.com/NomAuteur1)
-- **Nom de l'auteur 2** - *Développeur* - [NomAuteur2](https://github.com/NomAuteur2)
-- **Nom de l'auteur 3** - *Développeur* - [NomAuteur3](https://github.com/NomAuteur3)
+- **ADJEDOMOLE Ablavi Sika Claire** -  - [NomAuteur1](https://github.com/NomAuteur1)
+- **Nom de l'auteur 2** - - [NomAuteur2](https://github.com/NomAuteur2)
+- **Nom de l'auteur 3** -  - [NomAuteur3](https://github.com/NomAuteur3)
 ```
