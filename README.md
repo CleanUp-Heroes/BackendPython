@@ -162,7 +162,6 @@ Nous remercions toutes les personnes qui ont contribué à rendre ce projet poss
 - Les utilisateurs qui nous aident à nous améliorer.
 - La communauté des héros environnementaux.
 
----
 
 ## 📜 License
 
@@ -177,5 +176,4 @@ Distribuée sous la licence [Apache 2.0](https://www.apache.org/licenses/LICENSE
 - **Ajouter des badges pour récompenser les utilisateurs actifs.**
 
 **Rejoignez l'aventure et changez le monde, une action à la fois ! 🌍**
-```
 
