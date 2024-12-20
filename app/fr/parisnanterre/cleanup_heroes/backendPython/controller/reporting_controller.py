@@ -127,7 +127,7 @@ def get_reports(request):
                 'description': report.description,
                 'location': report.location,
                 'user_id': report.user_id,
-                'photo_url': report.photo.photo,  # The URL of the photo is stored in the Proof model
+                'photo_url': report.photo.photo if report.photo else None,  # Vérifie si une photo existe
             })
 
         # Return the reports in a JSON response
