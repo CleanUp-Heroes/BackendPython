@@ -111,8 +111,6 @@ Ce projet est sous licence [Apache 2.0](LICENSE.txt).
 
 # Cleanup Heroes - Frontend
 
-✨ **Un projet qui connecte les héros de l'environnement à des actions concrètes pour un monde plus propre !** ✨
-
 
 
 ## 🛠️ Technologies utilisées
@@ -186,6 +184,10 @@ npm install
 ```bash
 npm run serve
 ```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
+
 
 ### Étape 4 : Accéder à l'application
 - **Local** : [http://localhost:8080](http://localhost:8080)
