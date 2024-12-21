@@ -5,7 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Backend APP</title>
+<meta name="author" content="By Adjedomole, Barry, Rahim">
+<title>CleanUp Heroes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,17 +437,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Backend APP</h1>
+<h1>CleanUp Heroes</h1>
+<div class="details">
+<span id="author" class="author">By Adjedomole, Barry, Rahim</span><br>
+</div>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_cleanup_heroes">CleanUp Heroes</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Adjedomole, Barry, Rahim</p>
-</div>
-</div>
-</div>
 <div class="sect1">
 <h2 id="_description_de_lapplication">Description de l&#8217;application</h2>
 <div class="sectionbody">
@@ -570,7 +566,7 @@ Grâce à l&#8217;intégration d&#8217;éléments ludiques comme les défis et l
 <div class="sectionbody">
 <div class="imageblock text-center">
 <div class="content">
-<img src="images/architecture_projet.png" alt="architecture de l&#8217;application" width="500">
+<img src="images/architecture_projet.png" alt="architecture de l&#8217;application" width="200">
 </div>
 </div>
 </div>
@@ -578,578 +574,198 @@ Grâce à l&#8217;intégration d&#8217;éléments ludiques comme les défis et l
 <div class="sect1">
 <h2 id="_features">Features</h2>
 <div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_feature_2">Feature 2</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_formulaire_de_signalement">Formulaire de signalement</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_objectif">Objectif</h3>
+<h3 id="_feature_1">FEATURE 1</h3>
+<div class="sect3">
+<h4 id="_participation_à_un_défi">Participation à un défi</h4>
 <div class="paragraph">
-<p>Le formulaire de signalement permet à un utilisateur de signaler un problème ou une situation nécessitant une intervention. Ce formulaire collectera les informations essentielles liées au signalement et permettra de créer une nouvelle entrée dans le système.</p>
+<div class="title"><strong>Objectif</strong> :</div>
+<p>Cette fonctionnalité permet à l’utilisateur de participer activement à un défi. Lors de la soumission, l&#8217;utilisateur peut :</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Renseigner la quantité réalisée pour le défi (par exemple, kilos de déchets triés).</p>
+</li>
+<li>
+<p>Indiquer la date de réalisation.</p>
+</li>
+<li>
+<p>Joindre une photo comme preuve de sa contribution.</p>
+</li>
+</ul>
 </div>
-<div class="sect2">
-<h3 id="_comportement">Comportement</h3>
-<div class="sect3">
-<h4 id="_collecte_des_données">Collecte des données</h4>
 <div class="paragraph">
-<p>Le formulaire demande à l&#8217;utilisateur de remplir plusieurs champs :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Description du problème</strong> : Un champ texte où l&#8217;utilisateur peut décrire le problème rencontré.</p>
-</li>
-<li>
-<p><strong>Lieu</strong> : Où se trouve le problème (par exemple, une adresse ou des coordonnées géographiques).</p>
-</li>
-<li>
-<p><strong>Photo (facultatif)</strong> : L&#8217;utilisateur peut ajouter une photo pour illustrer le problème.</p>
-</li>
-<li>
-<p><strong>Type de problème</strong> : Sélectionner un type de problème parmi une liste prédéfinie (par exemple, déchet, panne, etc.).</p>
-</li>
-<li>
-<p><strong>Date/Heure</strong> : La date et l&#8217;heure du signalement sont automatiquement ajoutées pour chaque nouvelle entrée.</p>
-</li>
-</ul>
+<div class="title"><strong>But principal</strong> :</div>
+<p>Faciliter la collecte de données sur les actions réalisées par les utilisateurs tout en garantissant la vérifiabilité des participations. Cela permet de valoriser les efforts de chacun et de maintenir une transparence dans le processus.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_validation_et_envoi">Validation et envoi</h4>
+<h4 id="_affichage_des_défis_disponibles">Affichage des défis disponibles</h4>
+<div class="paragraph">
+<div class="title"><strong>Objectif</strong> :</div>
+<p>Cette fonctionnalité permet aux utilisateurs de visualiser tous les défis de tri et de réduction des déchets disponibles auxquels ils n&#8217;ont pas encore participé. Chaque défi est accompagné de détails importants tels que son nom, sa description, ses dates de validité, les actions attendues, et les points qu’il rapporte.</p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>But principal</strong> :</div>
+<p>Encourager les utilisateurs à s’impliquer dans les initiatives écologiques proposées par la plateforme en leur fournissant une vue claire et détaillée des défis disponibles. La possibilité de participer en un clic renforce l&#8217;engagement.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_statistiques_des_défis">Statistiques des défis</h4>
+<div class="paragraph">
+<div class="title"><strong>Objectif</strong> :</div>
+<p>Cette fonctionnalité offre à l&#8217;utilisateur un tableau de bord interactif permettant de suivre ses performances et ses progrès dans les défis. Elle inclut des statistiques telles que :</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p>Une fois les informations remplies, l&#8217;utilisateur peut soumettre le formulaire.</p>
+<p>Le nombre total de défis accomplis.</p>
 </li>
 <li>
-<p>Les données sont envoyées à un backend via une requête API pour être enregistrées dans une base de données.</p>
+<p>La quantité totale réalisée dans les actions demandées.</p>
+</li>
+<li>
+<p>Le score total accumulé.</p>
+</li>
+<li>
+<p>La progression des défis en cours (en pourcentage).</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<div class="title"><strong>But principal</strong> :</div>
+<p>Motiver les utilisateurs en leur offrant un retour visuel sur leurs réalisations et leur impact positif. Cela favorise également une compétition saine et un sentiment de satisfaction personnelle.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_diagramme_de_séquence">Diagramme de séquence</h4>
+<div class="sect4">
+<h5 id="_les_défis">Les défis</h5>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/defi.jpg" alt="defi" width="500">
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_statistiques">Statistiques</h5>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/stat.png" alt="statistiques" width="500">
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_fonctionnement_détaillé_du_formulaire">Fonctionnement détaillé du formulaire</h3>
+<h3 id="_feature_2">Feature 2</h3>
+<div class="sect3">
+<h4 id="_système_de_gestion_des_signalements">Système de gestion des signalements</h4>
+<div class="sect4">
+<h5 id="_formulaire_de_signalement">Formulaire de signalement</h5>
 <div class="ulist">
 <ul>
 <li>
-<p>Lors de la soumission du formulaire, une requête POST est envoyée au backend pour créer un nouveau signalement avec les données saisies.</p>
+<p>Objectif : Permet à un utilisateur de signaler un problème ou une situation nécessitant une intervention, avec des champs pour décrire le problème, le lieu, et joindre une photo.</p>
 </li>
 <li>
-<p>Si l&#8217;utilisateur a omis un champ requis ou fait une erreur, des messages d&#8217;erreur ou des validations peuvent être affichés.</p>
+<p>Fonctionnement : Après soumission, les données sont envoyées au backend via une requête API pour être enregistrées dans une base de données.</p>
 </li>
 <li>
-<p>Après une soumission réussie, l&#8217;utilisateur peut être redirigé vers la liste des signalements ou voir un message de confirmation.</p>
+<p>Exemple d&#8217;interaction : L&#8217;utilisateur remplit le formulaire, soumet les données, et reçoit un message de confirmation.</p>
 </li>
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_exemple_dinteraction_avec_le_formulaire">Exemple d&#8217;interaction avec le formulaire</h3>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="sect4">
+<h5 id="_liste_des_signalements">Liste des signalements</h5>
+<div class="ulist">
+<ul>
 <li>
-<p>L&#8217;utilisateur remplit le formulaire avec la description du problème et le lieu.</p>
+<p>Objectif : Afficher tous les signalements et permettre la gestion de leur statut (ouvert/fermé).</p>
 </li>
 <li>
-<p>Il peut également joindre une photo.</p>
+<p>Fonctionnement : Les signalements sont récupérés depuis le backend et peuvent être filtrés, triés et mis à jour par l&#8217;utilisateur.</p>
 </li>
 <li>
-<p>Une fois le formulaire soumis, le signalement est ajouté à la base de données et l&#8217;utilisateur reçoit un message de confirmation.</p>
+<p>Exemple d&#8217;interaction : L&#8217;utilisateur change le statut d&#8217;un signalement de "ouvert" à "fermé", ce qui est mis à jour dans la base de données.</p>
 </li>
-</ol>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_scénarios_dutilisation">Scénarios d&#8217;utilisation</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Utilisateur standard : Crée un signalement, consulte les signalements existants, et met à jour leur statut si autorisé.</p>
+</li>
+<li>
+<p>Administrateur : Gère tous les signalements, peut les fermer, réouvrir et attribuer des actions.</p>
+</li>
+<li>
+<p>Responsable du traitement des signalements : Peut uniquement consulter et marquer les signalements comme résolus.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Ce système permet une gestion facile des problèmes signalés, avec des fonctionnalités de création, consultation et mise à jour des signalements.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_formulaire_de_signalement_2">Formulaire de signalement</h5>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/formulaire.png" alt="formulaire" width="500">
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_liste_des_signalements_2">Liste des signalements</h5>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/listeformulaire.png" alt="listeformulaire" width="500">
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_liste_des_signalements">Liste des signalements</h2>
+<h2 id="_wireframe">Wireframe</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_objectif_2">Objectif</h3>
-<div class="paragraph">
-<p>La liste des signalements affiche toutes les demandes ou problèmes signalés par les utilisateurs. Elle permet de suivre l&#8217;état de chaque signalement et d’effectuer des actions dessus, comme marquer un signalement comme "résolu" ou "en cours".</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_comportement_2">Comportement</h3>
-<div class="sect3">
-<h4 id="_affichage_des_signalements">Affichage des signalements</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Une liste de signalements est récupérée depuis le backend (via une requête GET).</p>
-</li>
-<li>
-<p>Chaque signalement affichera des informations essentielles, telles que :</p>
-<div class="ulist">
-<ul>
-<li>
-<p>La description du problème</p>
-</li>
-<li>
-<p>Le statut (ouvert ou fermé)</p>
-</li>
-<li>
-<p>La date du signalement</p>
-</li>
-<li>
-<p>Le type de problème</p>
-</li>
-<li>
-<p>Une photo (si disponible)</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_statut_du_signalement">Statut du signalement</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Chaque signalement peut avoir un statut qui indique s&#8217;il a été traité ou non :</p>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Ouvert</strong> : Le signalement n’a pas encore été résolu.</p>
-</li>
-<li>
-<p><strong>Fermé</strong> : Le signalement a été résolu ou pris en charge.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Un bouton est affiché à côté de chaque signalement pour permettre à l&#8217;utilisateur de changer son statut (de "ouvert" à "fermé").</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_actions_disponibles">Actions disponibles</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Un utilisateur peut interagir avec chaque signalement en cliquant sur un bouton pour mettre à jour son statut (fermer le signalement si celui-ci est traité).</p>
-</li>
-<li>
-<p>Cette action envoie une requête API PUT pour modifier le statut du signalement dans la base de données.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_filtrage_et_tri_des_signalements">Filtrage et tri des signalements</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Les signalements peuvent être filtrés par statut, type de problème, ou date.</p>
-</li>
-<li>
-<p>L’utilisateur peut aussi trier les signalements en fonction de différents critères (par exemple, par date, par type, etc.).</p>
-</li>
-</ul>
+<h3 id="_acceuil">Acceuil</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/1.png" alt="wire1" width="500">
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_fonctionnement_détaillé_de_la_liste_des_signalements">Fonctionnement détaillé de la liste des signalements</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Lors de la connexion de l&#8217;utilisateur ou de la page de gestion des signalements, une requête GET est envoyée au backend pour récupérer tous les signalements.</p>
-</li>
-<li>
-<p>Chaque signalement est affiché sous forme de carte ou de ligne dans un tableau, avec un bouton pour changer son statut.</p>
-</li>
-<li>
-<p>Lorsqu’un utilisateur modifie un signalement (en le marquant comme "fermé"), une requête PUT est envoyée pour mettre à jour l&#8217;état du signalement dans la base de données.</p>
-</li>
-<li>
-<p>Une fois le statut modifié, l&#8217;interface se met à jour pour refléter cette modification.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_exemple_dinteraction_avec_la_liste_des_signalements">Exemple d&#8217;interaction avec la liste des signalements</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>L&#8217;utilisateur voit la liste des signalements avec un bouton "Fermer" à côté de chaque signalement ouvert.</p>
-</li>
-<li>
-<p>Il clique sur le bouton "Fermer" pour marquer un signalement comme résolu.</p>
-</li>
-<li>
-<p>Le statut du signalement change et est mis à jour dans la base de données.</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_en_résumé">En résumé</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Le formulaire de signalement permet à un utilisateur de signaler un problème en soumettant des informations essentielles (description, lieu, photo). Il crée un nouvel enregistrement dans le système.</p>
-</li>
-<li>
-<p>La liste des signalements affiche tous les signalements soumis, avec des options pour modifier leur statut (ouvrir ou fermer). Elle permet de suivre l&#8217;avancement de chaque signalement et d’effectuer des actions pour les résoudre.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_fonctionnalités_et_scénarios_dutilisation_formulaire_de_signalement_et_liste_des_signalements">Fonctionnalités et Scénarios d&#8217;Utilisation : Formulaire de Signalement et Liste des Signalements</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_utilisateurs">Utilisateurs</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><strong>Utilisateur standard (Utilisateur connecté)</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Rôle</strong> : Utilisateur régulier, souvent un citoyen ou un membre d’une communauté.</p>
-</li>
-<li>
-<p><strong>Autorisation</strong> : Peut créer un signalement, voir les signalements existants, et changer le statut des signalements à "Fermé" (si autorisé).</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Administrateur</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Rôle</strong> : Responsable de la gestion des signalements, de leur traitement et de la supervision.</p>
-</li>
-<li>
-<p><strong>Autorisation</strong> : Peut consulter, gérer, et modifier tous les signalements (changer leur statut, assigner des actions, etc.), y compris fermer ou rouvrir des signalements si nécessaire.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Responsable du traitement des signalements</strong></p>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Rôle</strong> : Personne chargée de résoudre les signalements.</p>
-</li>
-<li>
-<p><strong>Autorisation</strong> : Peut uniquement voir les signalements ouverts et marquer les signalements comme résolus.</p>
-</li>
-</ul>
-</div>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_scénarios_pour_la_fonctionnalité_formulaire_de_signalement">Scénarios pour la fonctionnalité "Formulaire de signalement"</h3>
-<div class="sect3">
-<h4 id="_scénario_1_utilisateur_standard_crée_un_nouveau_signalement">Scénario 1 : Utilisateur standard crée un nouveau signalement</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Action</strong> : L&#8217;utilisateur visite le formulaire de signalement.</p>
-</li>
-<li>
-<p><strong>Étapes</strong> :</p>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>L&#8217;utilisateur remplit la description du problème (par exemple, "Déchet trouvé près du parc").</p>
-</li>
-<li>
-<p>Il ajoute des informations supplémentaires comme l&#8217;emplacement (adresse ou GPS) et télécharge une photo du problème.</p>
-</li>
-<li>
-<p>L&#8217;utilisateur soumet le formulaire.</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p><strong>Résultat attendu</strong> :
-Un nouveau signalement est ajouté à la base de données avec les informations fournies, et un message de confirmation est affiché. Le signalement apparaît dans la liste des signalements.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_scénario_2_administrateur_crée_un_signalement_au_nom_dun_autre_utilisateur">Scénario 2 : Administrateur crée un signalement au nom d&#8217;un autre utilisateur</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Action</strong> : L&#8217;administrateur souhaite créer un signalement pour un utilisateur qui rencontre des problèmes pour soumettre un signalement.</p>
-</li>
-<li>
-<p><strong>Étapes</strong> :</p>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>L&#8217;administrateur accède au formulaire de signalement.</p>
-</li>
-<li>
-<p>Il remplit la description, l&#8217;emplacement et joint une photo.</p>
-</li>
-<li>
-<p>L&#8217;administrateur soumet le signalement.</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p><strong>Résultat attendu</strong> :
-Le signalement est ajouté à la base de données et visible dans la liste des signalements. Le signalement est lié à l&#8217;utilisateur responsable du problème.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_scénario_3_utilisateur_omet_de_remplir_un_champ_requis">Scénario 3 : Utilisateur omet de remplir un champ requis</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Action</strong> : L&#8217;utilisateur essaie de soumettre le formulaire sans remplir un champ obligatoire.</p>
-</li>
-<li>
-<p><strong>Étapes</strong> :</p>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>L&#8217;utilisateur tente de soumettre le formulaire avec un champ vide (par exemple, sans description).</p>
-</li>
-<li>
-<p>Le système affiche un message d&#8217;erreur, comme "La description est obligatoire".</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p><strong>Résultat attendu</strong> :
-L&#8217;utilisateur est invité à remplir les champs manquants avant de pouvoir soumettre le formulaire.</p>
-</li>
-</ul>
+<h3 id="_feature_1_2">Feature 1</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/2.png" alt="wire2" width="500">
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_scénarios_pour_la_fonctionnalité_liste_des_signalements">Scénarios pour la fonctionnalité "Liste des signalements"</h3>
-<div class="sect3">
-<h4 id="_scénario_1_utilisateur_standard_consulte_la_liste_des_signalements">Scénario 1 : Utilisateur standard consulte la liste des signalements</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Action</strong> : L&#8217;utilisateur consulte la liste des signalements pour voir les problèmes en cours.</p>
-</li>
-<li>
-<p><strong>Étapes</strong> :</p>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>L&#8217;utilisateur se connecte à son compte et accède à la page des signalements.</p>
-</li>
-<li>
-<p>Il voit une liste de signalements avec leurs descriptions, statuts, dates et photos associées.</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p><strong>Résultat attendu</strong> :
-L&#8217;utilisateur peut voir tous les signalements ouverts et fermés. Il peut aussi filtrer les signalements par statut (ouvert/fermé), type de problème, etc.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_scénario_2_utilisateur_change_le_statut_dun_signalement">Scénario 2 : Utilisateur change le statut d’un signalement</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Action</strong> : L&#8217;utilisateur clique sur le bouton pour changer le statut d’un signalement ouvert.</p>
-</li>
-<li>
-<p><strong>Étapes</strong> :</p>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>L&#8217;utilisateur voit un signalement avec le statut "🔓 Ouvert".</p>
-</li>
-<li>
-<p>Il clique sur le bouton pour marquer le signalement comme "✔️ Fermé".</p>
-</li>
-<li>
-<p>Un appel API est effectué pour mettre à jour le statut du signalement dans la base de données.</p>
-</li>
-<li>
-<p>Le signalement est mis à jour dans l&#8217;interface, et le bouton devient "✔️ Fermé".</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p><strong>Résultat attendu</strong> :
-Le signalement est maintenant marqué comme "résolu", et son statut est mis à jour dans la base de données.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_scénario_3_administrateur_ou_responsable_ferme_un_signalement">Scénario 3 : Administrateur ou responsable ferme un signalement</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Action</strong> : L&#8217;administrateur ou responsable marque un signalement comme "résolu".</p>
-</li>
-<li>
-<p><strong>Étapes</strong> :</p>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>L&#8217;administrateur accède à la liste des signalements.</p>
-</li>
-<li>
-<p>Il voit un signalement marqué comme "Ouvert" et décide de le fermer.</p>
-</li>
-<li>
-<p>Il clique sur le bouton pour le fermer.</p>
-</li>
-<li>
-<p>Le statut du signalement passe à "✔️ Fermé".</p>
-</li>
-<li>
-<p>Si nécessaire, l&#8217;administrateur peut ajouter des commentaires ou assigner des actions supplémentaires.</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p><strong>Résultat attendu</strong> :
-Le signalement est mis à jour dans le système avec le statut "résolu", et le responsable du traitement est notifié.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_scénario_4_administrateur_consulte_les_signalements_fermés_et_réouvre_un_signalement">Scénario 4 : Administrateur consulte les signalements fermés et réouvre un signalement</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Action</strong> : L&#8217;administrateur souhaite réouvrir un signalement fermé.</p>
-</li>
-<li>
-<p><strong>Étapes</strong> :</p>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>L&#8217;administrateur filtre les signalements pour afficher uniquement ceux qui sont fermés.</p>
-</li>
-<li>
-<p>Il sélectionne un signalement fermé et le réouvre en cliquant sur "✔️ Fermé" pour revenir à l&#8217;état "🔓 Ouvert".</p>
-</li>
-<li>
-<p>Le statut du signalement est mis à jour dans la base de données.</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p><strong>Résultat attendu</strong> :
-Le signalement est réouvert et apparaît dans la liste des signalements comme "Ouvert".</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_scénario_5_utilisateur_consulte_un_signalement_sans_photo">Scénario 5 : Utilisateur consulte un signalement sans photo</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Action</strong> : L&#8217;utilisateur consulte un signalement, mais il n’y a pas de photo associée.</p>
-</li>
-<li>
-<p><strong>Étapes</strong> :</p>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>L&#8217;utilisateur clique sur un signalement de la liste qui n&#8217;a pas de photo.</p>
-</li>
-<li>
-<p>Le signalement s&#8217;affiche sans la section "Photo".</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p><strong>Résultat attendu</strong> :
-Le signalement est affiché sans photo, et les autres informations comme la description, l&#8217;emplacement et la date sont toujours visibles.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_scénario_6_utilisateur_consulte_un_signalement_avec_une_photo">Scénario 6 : Utilisateur consulte un signalement avec une photo</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Action</strong> : L&#8217;utilisateur consulte un signalement qui contient une photo.</p>
-</li>
-<li>
-<p><strong>Étapes</strong> :</p>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>L&#8217;utilisateur clique sur un signalement dans la liste avec une photo.</p>
-</li>
-<li>
-<p>La photo s&#8217;affiche correctement sous le texte.</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p><strong>Résultat attendu</strong> :
-Le signalement avec la photo est correctement affiché, et l&#8217;utilisateur peut visualiser l’image en plus des autres informations.</p>
-</li>
-</ul>
+<h3 id="_feature_2_2">Feature 2</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/3.png" alt="wire3" width="500">
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_résumé_des_scénarios_possibles">Résumé des scénarios possibles</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Utilisateur standard</strong> : Peut créer un signalement, consulter les signalements existants, et mettre à jour le statut d’un signalement (si le bouton est interactif pour lui).</p>
-</li>
-<li>
-<p><strong>Administrateur</strong> : A un contrôle total sur tous les signalements : il peut les consulter, les fermer, les réouvrir et attribuer des actions supplémentaires.</p>
-</li>
-<li>
-<p><strong>Responsable du traitement des signalements</strong> : Peut consulter les signalements ouverts et les marquer comme résolus.</p>
-</li>
-</ul>
+<h3 id="_à_propos">à propos</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/4.png" alt="wire4" width="500">
+</div>
 </div>
 </div>
 </div>
@@ -1157,7 +773,7 @@ Le signalement avec la photo est correctement affiché, et l&#8217;utilisateur p
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-12-20 22:53:09 +0100
+Last updated 2024-12-21 01:47:18 +0100
 </div>
 </div>
 </body>
