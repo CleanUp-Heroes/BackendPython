@@ -1,7 +1,5 @@
-= Backend APP
-
-== CleanUp Heroes
-Adjedomole, Barry, Rahim
+= CleanUp Heroes
+By Adjedomole, Barry, Rahim
 
 == Description de l'application
 Ce site a pour ambition de sensibiliser les citoyens au tri sélectif et au respect de l’environnement tout en les encourageant à agir activement pour améliorer leur cadre de vie. Les utilisateurs peuvent participer à des **challenges environnementaux** qui leur permettent de gagner des points en réalisant des actions concrètes, telles que le tri des déchets ou la participation à des initiatives locales. Ces points accumulés pourront, à l’avenir, être échangés contre des récompenses concrètes, renforçant ainsi leur motivation à s’impliquer durablement.
@@ -56,20 +54,17 @@ L’objectif global de ce projet est de promouvoir des comportements responsable
 
 == Architecture de l'application
 
-image::images/architecture_projet.png[architecture de l'application, width=500, align=center]
+image::images/architecture_projet.png[architecture de l'application, width=200, align=center]
 
 == Features
 
-=== Reporting
 
-=== Challenges
+=== FEATURE 1
 
-
-== FEATURE 1
-
-=== Participation à un défi
+==== Participation à un défi
 .**Objectif** :
 Cette fonctionnalité permet à l’utilisateur de participer activement à un défi. Lors de la soumission, l'utilisateur peut :
+
 * Renseigner la quantité réalisée pour le défi (par exemple, kilos de déchets triés).
 * Indiquer la date de réalisation.
 * Joindre une photo comme preuve de sa contribution.
@@ -77,16 +72,17 @@ Cette fonctionnalité permet à l’utilisateur de participer activement à un d
 .**But principal** :
 Faciliter la collecte de données sur les actions réalisées par les utilisateurs tout en garantissant la vérifiabilité des participations. Cela permet de valoriser les efforts de chacun et de maintenir une transparence dans le processus.
 
-=== Affichage des défis disponibles
+==== Affichage des défis disponibles
 .**Objectif** :
 Cette fonctionnalité permet aux utilisateurs de visualiser tous les défis de tri et de réduction des déchets disponibles auxquels ils n'ont pas encore participé. Chaque défi est accompagné de détails importants tels que son nom, sa description, ses dates de validité, les actions attendues, et les points qu’il rapporte.
 
 .**But principal** :
 Encourager les utilisateurs à s’impliquer dans les initiatives écologiques proposées par la plateforme en leur fournissant une vue claire et détaillée des défis disponibles. La possibilité de participer en un clic renforce l'engagement.
 
-=== Statistiques des défis
+==== Statistiques des défis
 .**Objectif** :
 Cette fonctionnalité offre à l'utilisateur un tableau de bord interactif permettant de suivre ses performances et ses progrès dans les défis. Elle inclut des statistiques telles que :
+
 * Le nombre total de défis accomplis.
 * La quantité totale réalisée dans les actions demandées.
 * Le score total accumulé.
@@ -95,60 +91,59 @@ Cette fonctionnalité offre à l'utilisateur un tableau de bord interactif perme
 .**But principal** :
 Motiver les utilisateurs en leur offrant un retour visuel sur leurs réalisations et leur impact positif. Cela favorise également une compétition saine et un sentiment de satisfaction personnelle.
 
-=== Diagramme de séquence
+==== Diagramme de séquence
 
-== Les défis
-image::images/defi.png[defi, width=500, align=center]
+===== Les défis
+image::images/defi.jpg[defi, width=500, align=center]
 
-== Statistiques
+===== Statistiques
 image::images/stat.png[statistiques, width=500, align=center]
 
 
 
 
-== Feature 2
+=== Feature 2
 
-= Résumé du système de gestion des signalements
+==== Système de gestion des signalements
 
-== Formulaire de signalement
+===== Formulaire de signalement
 * Objectif : Permet à un utilisateur de signaler un problème ou une situation nécessitant une intervention, avec des champs pour décrire le problème, le lieu, et joindre une photo.
 * Fonctionnement : Après soumission, les données sont envoyées au backend via une requête API pour être enregistrées dans une base de données.
 * Exemple d'interaction : L'utilisateur remplit le formulaire, soumet les données, et reçoit un message de confirmation.
 
-== Liste des signalements
+===== Liste des signalements
 * Objectif : Afficher tous les signalements et permettre la gestion de leur statut (ouvert/fermé).
 * Fonctionnement : Les signalements sont récupérés depuis le backend et peuvent être filtrés, triés et mis à jour par l'utilisateur.
 * Exemple d'interaction : L'utilisateur change le statut d'un signalement de "ouvert" à "fermé", ce qui est mis à jour dans la base de données.
 
-== Scénarios d'utilisation
+===== Scénarios d'utilisation
 * Utilisateur standard : Crée un signalement, consulte les signalements existants, et met à jour leur statut si autorisé.
 * Administrateur : Gère tous les signalements, peut les fermer, réouvrir et attribuer des actions.
 * Responsable du traitement des signalements : Peut uniquement consulter et marquer les signalements comme résolus.
 
 Ce système permet une gestion facile des problèmes signalés, avec des fonctionnalités de création, consultation et mise à jour des signalements.
  
-== Formulaire de signalement
+===== Formulaire de signalement
 
 image::images/formulaire.png[formulaire, width=500, align=center]
 
-== Liste des signalements
+===== Liste des signalements
 
 image::images/listeformulaire.png[listeformulaire, width=500, align=center]
 
-= Wireframe
-
-==Acceui
+== Wireframe
+=== Acceuil
 
 image::images/1.png[wire1, width=500, align=center]
 
-== Feature 1
+=== Feature 1
 
 image::images/2.png[wire2, width=500, align=center]
 
-== Feature 2
+=== Feature 2
 
 image::images/3.png[wire3, width=500, align=center]
 
-== à propos
+=== à propos
 
 image::images/4.png[wire4, width=500, align=center]
