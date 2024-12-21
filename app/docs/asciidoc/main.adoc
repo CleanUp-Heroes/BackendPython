@@ -126,9 +126,13 @@ image::images/stat.png[statistiques, width=500, align=center]
 * Responsable du traitement des signalements : Peut uniquement consulter et marquer les signalements comme résolus.
 
 Ce système permet une gestion facile des problèmes signalés, avec des fonctionnalités de création, consultation et mise à jour des signalements.
-
+ 
+== Formulaire de signalement
 
 image::images/formulaire.png[formulaire, width=500, align=center]
+
+== Liste des signalements
+
 image::images/listeformulaire.png[listeformulaire, width=500, align=center]
 
 = Wireframe
