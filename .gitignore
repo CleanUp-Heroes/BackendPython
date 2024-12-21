@@ -2,4 +2,8 @@ env
 app/__pycache__
 backendPython/__pycache__
 app/fr/parisnanterre/cleanup_heroes/backendPython/controller/__pycache__
+app/fr/parisnanterre/cleanup_heroes/backendPython/utils/__pycache__
 app/migrations
+media/
+app/docs/main.pdf
+app/docs/main.html

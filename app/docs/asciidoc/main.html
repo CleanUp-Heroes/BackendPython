@@ -5,7 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<title>Backend APP</title>
+<meta name="author" content="By Adjedomole, Barry, Rahim">
+<title>CleanUp Heroes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,14 +437,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Backend APP</h1>
+<h1>CleanUp Heroes</h1>
+<div class="details">
+<span id="author" class="author">By Adjedomole, Barry, Rahim</span><br>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_cleanup_heroes">CleanUp Heroes</h2>
+<h2 id="_description_de_lapplication">Description de l&#8217;application</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Adjedomole, Barry, Rahim</p>
+<p>Ce site a pour ambition de sensibiliser les citoyens au tri sélectif et au respect de l’environnement tout en les encourageant à agir activement pour améliorer leur cadre de vie. Les utilisateurs peuvent participer à des <strong>challenges environnementaux</strong> qui leur permettent de gagner des points en réalisant des actions concrètes, telles que le tri des déchets ou la participation à des initiatives locales. Ces points accumulés pourront, à l’avenir, être échangés contre des récompenses concrètes, renforçant ainsi leur motivation à s’impliquer durablement.</p>
+</div>
+<div class="paragraph">
+<p>En parallèle, le site offre une fonctionnalité clé : le <strong>signalement de déchets abandonnés</strong> dans les espaces publics. Ces signalements sont actuellement affichés sous forme de liste, mais une évolution future prévoit l’intégration d’une carte interactive. Chaque signalement sera représenté par un marqueur géolocalisé, offrant une vue claire des zones concernées. Une fois un déchet ramassé, son marqueur pourra être retiré de la carte pour refléter la propreté retrouvée de l’espace. Cette fonctionnalité vise à améliorer la coordination entre citoyens et services responsables, tout en fournissant un outil visuel pour mesurer les progrès réalisés.</p>
+</div>
+<div class="paragraph">
+<p>Le site mettra également en avant des <strong>classements mondiaux et locaux</strong>, permettant aux utilisateurs de comparer leurs contributions avec celles des autres. Ces classements encourageront une saine compétition et renforceront le sentiment de communauté autour de la cause environnementale.</p>
 </div>
 </div>
 </div>
@@ -451,57 +461,311 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_objectif_de_lapplication">Objectif de l&#8217;application</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Application pour encourager le tri des déchets.</p>
+<p>L’objectif global de ce projet est de promouvoir des comportements responsables, tels que le tri sélectif et la collecte des déchets, tout en récompensant l’engagement des utilisateurs. En combinant des éléments ludiques comme les challenges et les classements, des outils pratiques comme la carte interactive, et des perspectives d’avenir avec des récompenses concrètes, ce site ambitionne de devenir une plateforme incontournable pour tous ceux qui souhaitent agir pour l’environnement.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_how_to_install">How to install?</h2>
+<h2 id="_tableau_comparatif_des_solutions_existantes">Tableau comparatif des solutions existantes</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_note">Note</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Solution</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Avantages</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Limites</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Litterati</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Encourage un nettoyage collaboratif.+
+- Implique activement les utilisateurs dans la géolocalisation des déchets.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Dépend de l’implication des utilisateurs.+
+- Difficulté à s’étendre dans les zones rurales.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Recyclebank</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Récompenses attractives (réductions locales).<br>
+- Incite au recyclage continu.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Limité aux zones partenaires.<br>
+- Offre de récompenses restreinte.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>TrashOut</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Permet de signaler et cartographier les déchets.<br>
+- Facilite une gestion collective.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Dépend des signalements des utilisateurs (informations parfois inexactes).<br>
+- Système décentralisé.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Tidy Towns</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Encourage la participation communautaire par des récompenses.<br>
+- Focalisé sur l’embellissement des villes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Nécessite une bonne organisation d’événements.<br>
+- Implique fortement les communautés locales.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>EcoHero</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Dimension ludique avec des défis et récompenses.<br>
+- Encourage des comportements durables.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- Manque d’adaptation aux spécificités locales.<br>
+- Nécessite un engagement constant des utilisateurs.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_avantages_supplémentaires_de_cleanup_heroes">Avantages supplémentaires de <strong>CleanUp Heroes</strong></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Tested with Django 5.1.4 and Python 3.10</p>
+<p><strong>CleanUp Heroes</strong> apporte des innovations et fonctionnalités supplémentaires par rapport aux solutions existantes :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Fonctionnalités intégrées et complémentaires</strong> :</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Signalements cartographiés</strong> : Les utilisateurs peuvent signaler des déchets géolocalisés via une carte interactive, qui évolue en temps réel. Les signalements peuvent être retirés une fois les déchets ramassés.</p>
+</li>
+<li>
+<p><strong>Classements dynamiques</strong> : Un classement mondial et local permet de motiver les utilisateurs en favorisant une saine compétition.</p>
+</li>
+<li>
+<p><strong>Récompenses concrètes</strong> : Les utilisateurs peuvent gagner des avantages auprès de commerçants locaux en atteignant des objectifs spécifiques, renforçant leur motivation.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Impact visible et mesurable</strong> :
+L&#8217;application propose une estimation chiffrée de l’impact positif des actions des utilisateurs (par exemple, quantité de déchets collectés, CO2 économisé), renforçant leur sentiment d&#8217;accomplissement et d’utilité.</p>
+</li>
+<li>
+<p><strong>Engagement communautaire renforcé</strong> :
+En liant les défis individuels et communautaires, l&#8217;application crée une synergie entre citoyens, entreprises locales et collectivités, encourageant une participation active à grande échelle.</p>
+</li>
+<li>
+<p><strong>Conception ludique et motivante</strong> :
+Grâce à l&#8217;intégration d&#8217;éléments ludiques comme les défis et les récompenses, CleanUp Heroes s’assure de maintenir un haut niveau d’engagement des utilisateurs.</p>
+</li>
+</ol>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_if_you_have_git_on_your_computer">If you have <code>git</code> on your computer</h3>
-<div class="paragraph">
-<p>Simply run:</p>
 </div>
-<div class="listingblock">
+<div class="sect1">
+<h2 id="_architecture_de_lapplication">Architecture de l&#8217;application</h2>
+<div class="sectionbody">
+<div class="imageblock text-center">
 <div class="content">
-<pre class="highlight"><code class="language-shell" data-lang="shell">git clone https://github.com/CleanUp-Heroes/BackendPython.git</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_if_you_do_not_have_git_on_your_computer">If you do not have <code>git</code> on your computer</h3>
-<div class="paragraph">
-<p>Go to <a href="https://github.com/CleanUp-Heroes/BackendPython.git" class="bare">https://github.com/CleanUp-Heroes/BackendPython.git</a> download the zip file, and uncompress it.</p>
+<img src="images/architecture_projet.png" alt="architecture de l&#8217;application" width="200">
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_how_to_run">How to run?</h2>
+<h2 id="_features">Features</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_feature_1">FEATURE 1</h3>
+<div class="sect3">
+<h4 id="_participation_à_un_défi">Participation à un défi</h4>
 <div class="paragraph">
-<p>Simply run:</p>
+<div class="title"><strong>Objectif</strong> :</div>
+<p>Cette fonctionnalité permet à l’utilisateur de participer activement à un défi. Lors de la soumission, l&#8217;utilisateur peut :</p>
 </div>
-<div class="listingblock">
+<div class="ulist">
+<ul>
+<li>
+<p>Renseigner la quantité réalisée pour le défi (par exemple, kilos de déchets triés).</p>
+</li>
+<li>
+<p>Indiquer la date de réalisation.</p>
+</li>
+<li>
+<p>Joindre une photo comme preuve de sa contribution.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title"><strong>But principal</strong> :</div>
+<p>Faciliter la collecte de données sur les actions réalisées par les utilisateurs tout en garantissant la vérifiabilité des participations. Cela permet de valoriser les efforts de chacun et de maintenir une transparence dans le processus.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_affichage_des_défis_disponibles">Affichage des défis disponibles</h4>
+<div class="paragraph">
+<div class="title"><strong>Objectif</strong> :</div>
+<p>Cette fonctionnalité permet aux utilisateurs de visualiser tous les défis de tri et de réduction des déchets disponibles auxquels ils n&#8217;ont pas encore participé. Chaque défi est accompagné de détails importants tels que son nom, sa description, ses dates de validité, les actions attendues, et les points qu’il rapporte.</p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>But principal</strong> :</div>
+<p>Encourager les utilisateurs à s’impliquer dans les initiatives écologiques proposées par la plateforme en leur fournissant une vue claire et détaillée des défis disponibles. La possibilité de participer en un clic renforce l&#8217;engagement.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_statistiques_des_défis">Statistiques des défis</h4>
+<div class="paragraph">
+<div class="title"><strong>Objectif</strong> :</div>
+<p>Cette fonctionnalité offre à l&#8217;utilisateur un tableau de bord interactif permettant de suivre ses performances et ses progrès dans les défis. Elle inclut des statistiques telles que :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Le nombre total de défis accomplis.</p>
+</li>
+<li>
+<p>La quantité totale réalisée dans les actions demandées.</p>
+</li>
+<li>
+<p>Le score total accumulé.</p>
+</li>
+<li>
+<p>La progression des défis en cours (en pourcentage).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title"><strong>But principal</strong> :</div>
+<p>Motiver les utilisateurs en leur offrant un retour visuel sur leurs réalisations et leur impact positif. Cela favorise également une compétition saine et un sentiment de satisfaction personnelle.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_diagramme_de_séquence">Diagramme de séquence</h4>
+<div class="sect4">
+<h5 id="_les_défis">Les défis</h5>
+<div class="imageblock text-center">
 <div class="content">
-<pre class="highlight"><code class="language-shell" data-lang="shell">python manage.py runserver</code></pre>
+<img src="images/defi.jpg" alt="defi" width="500">
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_statistiques">Statistiques</h5>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/stat.png" alt="statistiques" width="500">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_feature_2">Feature 2</h3>
+<div class="sect3">
+<h4 id="_système_de_gestion_des_signalements">Système de gestion des signalements</h4>
+<div class="sect4">
+<h5 id="_formulaire_de_signalement">Formulaire de signalement</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Objectif : Permet à un utilisateur de signaler un problème ou une situation nécessitant une intervention, avec des champs pour décrire le problème, le lieu, et joindre une photo.</p>
+</li>
+<li>
+<p>Fonctionnement : Après soumission, les données sont envoyées au backend via une requête API pour être enregistrées dans une base de données.</p>
+</li>
+<li>
+<p>Exemple d&#8217;interaction : L&#8217;utilisateur remplit le formulaire, soumet les données, et reçoit un message de confirmation.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_liste_des_signalements">Liste des signalements</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Objectif : Afficher tous les signalements et permettre la gestion de leur statut (ouvert/fermé).</p>
+</li>
+<li>
+<p>Fonctionnement : Les signalements sont récupérés depuis le backend et peuvent être filtrés, triés et mis à jour par l&#8217;utilisateur.</p>
+</li>
+<li>
+<p>Exemple d&#8217;interaction : L&#8217;utilisateur change le statut d&#8217;un signalement de "ouvert" à "fermé", ce qui est mis à jour dans la base de données.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_scénarios_dutilisation">Scénarios d&#8217;utilisation</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Utilisateur standard : Crée un signalement, consulte les signalements existants, et met à jour leur statut si autorisé.</p>
+</li>
+<li>
+<p>Administrateur : Gère tous les signalements, peut les fermer, réouvrir et attribuer des actions.</p>
+</li>
+<li>
+<p>Responsable du traitement des signalements : Peut uniquement consulter et marquer les signalements comme résolus.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Ce système permet une gestion facile des problèmes signalés, avec des fonctionnalités de création, consultation et mise à jour des signalements.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_formulaire_de_signalement_2">Formulaire de signalement</h5>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/formulaire.png" alt="formulaire" width="500">
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_liste_des_signalements_2">Liste des signalements</h5>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/listeformulaire.png" alt="listeformulaire" width="500">
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_here_is_the_class_diagram">Here is the class diagram</h2>
+<h2 id="_wireframe">Wireframe</h2>
 <div class="sectionbody">
-<div class="literalblock">
+<div class="sect2">
+<h3 id="_acceuil">Acceuil</h3>
+<div class="imageblock text-center">
 <div class="content">
-<pre>[plantuml, docs/asciidoc/models/diagram.puml, svg]</pre>
+<img src="images/1.png" alt="wire1" width="500">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_feature_1_2">Feature 1</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/2.png" alt="wire2" width="500">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_feature_2_2">Feature 2</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/3.png" alt="wire3" width="500">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_à_propos">à propos</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/4.png" alt="wire4" width="500">
+</div>
 </div>
 </div>
 </div>
@@ -509,7 +773,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-12-07 12:49:06 +0100
+Last updated 2024-12-21 01:47:18 +0100
 </div>
 </div>
 </body>

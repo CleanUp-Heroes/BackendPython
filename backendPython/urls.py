@@ -18,12 +18,10 @@ Including another URLconf
 from django.urls import path
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from django.views.generic import RedirectView
-from app.views import hello_controller
-from django.urls import re_path
+from app.views import *
 from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
+from django.conf import settings
+from django.conf.urls.static import static
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -39,8 +37,15 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-   path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-   path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-   path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('hello/', hello_controller.hello_api, name='hello-api'),  # Affichage texte brut
-]
+    path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('challenges/statistics/', challenge_controller.get_challenges_statistiques, name='get_challenges_statistics'),
+    path('challenges/unparticipated/', challenge_controller.get_unparticipated_challenges, name='get_unparticipated_challenges'),
+    path('challenges/participation/', challenge_controller.add_participation, name='add_participation'),
+    path('reports/report/', reporting_controller.add_report, name='add_report'),
+    path('reports/get_reports/', reporting_controller.get_reports, name='get_report'),
+    path('register/', user_controller.register, name='register'),
+    path('login/', user_controller.login, name='login'),
+    
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
