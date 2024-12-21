@@ -203,7 +203,8 @@ Voici les extensions essentielles pour travailler sur ce projet. Vous pouvez les
 - **src/views** : Pages principales de l'application.
 
 ---
+## Auteurs
 
-## License
-
-Ce projet est sous licence [Apache 2.0](LICENSE.txt).
+- [Claire ADJEDOMOLE](https://github.com/orgs/CleanUp-Heroes/people/ClaireAdjedomole)
+- [Ibtissem RAHIM](https://github.com/orgs/CleanUp-Heroes/people/Ibtissem-01)
+- [Mariam BARRY](https://github.com/orgs/CleanUp-Heroes/people/mariam896)
