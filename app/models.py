@@ -6,7 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-
+from datetime import datetime
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -160,7 +160,7 @@ class Participation(models.Model):
 
 class Proof(models.Model):
     photo = models.CharField(max_length=255)
-    creation_date = models.DateTimeField()
+    creation_date = models.DateTimeField(datetime.now())
 
     class Meta:
         managed = False
@@ -171,12 +171,35 @@ class Report(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=255)
     photo = models.ForeignKey(Proof, models.DO_NOTHING, blank=True, null=True)
-    creation_date = models.DateField()
+    creation_date = models.DateField(default=datetime.now())
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
         managed = False
         db_table = 'report'
+
+
+class TokenBlacklistBlacklistedtoken(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    blacklisted_at = models.DateTimeField()
+    token = models.OneToOneField('TokenBlacklistOutstandingtoken', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'token_blacklist_blacklistedtoken'
+
+
+class TokenBlacklistOutstandingtoken(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    token = models.TextField()
+    created_at = models.DateTimeField(blank=True, null=True)
+    expires_at = models.DateTimeField()
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
+    jti = models.CharField(unique=True, max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = 'token_blacklist_outstandingtoken'
 
 
 class Unit(models.Model):

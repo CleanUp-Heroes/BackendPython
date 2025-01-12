@@ -5,7 +5,8 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken, RefreshToken
+import json
 
 @swagger_auto_schema(
     method='post',
@@ -72,21 +73,64 @@ def register(request):
 )
 @api_view(['POST'])
 def login(request):
-    username = request.data.get('username')
-    password = request.data.get('password')
+    try:
+        data = json.loads(request.body)  # Récupérer les données JSON envoyées
+        username = data.get('username')
+        password = data.get('password')
 
-    if not (username and password):
-        return JsonResponse({"error": "Both username and password are required"}, status=status.HTTP_400_BAD_REQUEST)
+        if not username or not password:
+            return JsonResponse(
+                {"error": "Both username and password are required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-    user = authenticate(username=username, password=password)  # Authenticate using Django's built-in method
+        user = authenticate(username=username, password=password)  # Méthode d'authentification
 
-    if user is not None:
-        refresh = RefreshToken.for_user(user)
-        return JsonResponse({
-                # 'access': str(refresh.access_token),
-                'token': str(refresh)
+        if user is not None:
+            token = RefreshToken.for_user(user)
+            return JsonResponse({
+                # 'token': str(refresh.access_token),
+                'token' : str(token),
             }, status=status.HTTP_200_OK)
 
-    
-    return JsonResponse({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
+    except json.JSONDecodeError:
+        return JsonResponse(
+            {"error": "Invalid JSON format"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+@swagger_auto_schema(
+    method='post',
+    operation_description="Log out a user and blacklist the refresh token",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=["Authorization"],
+        properties={
+            "Authorization": openapi.Schema(type=openapi.TYPE_STRING, description="Refresh token of the user"),
+        },
+    ),
+    responses={
+        200: "Logout successful",
+        400: "Invalid or missing refresh token",
+    },
+)
+@api_view(['POST'])
+def logout(request):
+    # Récupérer le refresh token depuis la requête
+    token_value = request.headers.get('Authorization')
+
+    if not token_value:
+        return JsonResponse({"error": "Refresh token is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        # Créer un objet RefreshToken à partir du refresh token envoyé
+        token = RefreshToken(token_value)
+
+        # Révoquer ou blacklister ce refresh token
+        token.blacklist()
+
+        return JsonResponse({"message": "Logout successful, refresh token blacklisted."}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

@@ -64,7 +64,7 @@ def add_report(request):
             proof_instance = None
             if photo:
                 photo_url = save_uploaded_file(photo)  # Save the photo and get its URL
-                proof_instance = Proof.objects.create(photo=photo_url)
+                proof_instance = Proof.objects.create(photo=photo_url, creation_date=now())
 
             # Create the report
             report = Report.objects.create(

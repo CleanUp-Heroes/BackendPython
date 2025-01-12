@@ -47,5 +47,6 @@ urlpatterns = [
     path('reports/get_reports/', reporting_controller.get_reports, name='get_report'),
     path('register/', user_controller.register, name='register'),
     path('login/', user_controller.login, name='login'),
+    path('logout/', user_controller.logout, name='logout'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
