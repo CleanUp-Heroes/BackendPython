@@ -30,7 +30,7 @@ def save_uploaded_file(file):
     default_storage.save(file_path, ContentFile(file.read()))
 
     # Retourner l'URL d'accès au fichier, avec un séparateur cohérent
-    return os.path.join(settings.MEDIA_URL, 'proof_photos', unique_name).replace(os.sep, '/')
+    return os.path.join(settings.MEDIA_ROOT, 'proof_photos', unique_name).replace(os.sep, '/')
 
 def validate_required_fields(required_fields):
     """Vérifier que tous les champs requis sont fournis et non vides."""
