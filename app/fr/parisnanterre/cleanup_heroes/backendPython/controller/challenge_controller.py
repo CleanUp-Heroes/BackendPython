@@ -329,9 +329,6 @@ def check_and_update_completed_challenges(user_id, challenge):
         ).aggregate(total=Sum('action_quantity'))['total'] or 0
     )
 
-    print(f"Total quantity: {total_quantity}")
-    print(challenge.expected_actions)
-
     # Si la quantité totale est égale ou supérieure à la quantité attendue
     if total_quantity >= challenge.expected_actions:
         print("Quantité suffisante pour compléter le défi.")
@@ -348,7 +345,7 @@ def check_and_update_completed_challenges(user_id, challenge):
             )
             
             # Ajoute au score total le score du défi complété
-            user_score = Userscore.objects.get(pk=user_id)
+            user_score = Userscore.objects.get(user__id=user_id)
             user_score.total_score += challenge.points
             user_score.save()    
 
