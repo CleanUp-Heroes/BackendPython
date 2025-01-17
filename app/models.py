@@ -7,6 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from datetime import datetime
+from django.utils.timezone import now
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -171,7 +172,7 @@ class Report(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=255)
     photo = models.ForeignKey(Proof, models.DO_NOTHING, blank=True, null=True)
-    creation_date = models.DateField(default=datetime.now())
+    creation_date = models.DateTimeField(default=now)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
@@ -208,3 +209,35 @@ class Unit(models.Model):
     class Meta:
         managed = False
         db_table = 'unit'
+
+
+
+class Event(models.Model):
+    title = models.CharField(max_length=255)  # Titre de l'événement
+    location = models.CharField(max_length=255)  # Lieu sous forme de texte
+    date_time = models.DateTimeField()  # Date et heure de l'événement
+    max_participants = models.IntegerField()  # Nombre maximum de participants
+    description = models.TextField(blank=True, null=True)  # Description optionnelle
+    creator = models.ForeignKey('AuthUser', models.DO_NOTHING)  # Créateur de l'événement
+    created_at = models.DateTimeField(auto_now_add=True)  # Date de création de l'événement
+
+    class Meta:
+        managed = False
+        db_table = 'event'
+
+    def __str__(self):
+        return self.title
+
+
+class EventParticipant(models.Model):
+    user = models.ForeignKey('AuthUser', models.DO_NOTHING)  # Utilisateur participant
+    event = models.ForeignKey(Event, models.DO_NOTHING)  # Référence à l'événement
+    registered_at = models.DateTimeField(auto_now_add=True)  # Date d'inscription
+
+    class Meta:
+        managed = False
+        db_table = 'event_participant'
+        unique_together = (('user', 'event'),)  # Un utilisateur ne peut participer qu'une fois à un événement
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.event.title}"
