@@ -22,7 +22,11 @@ from app.views import *
 from rest_framework import permissions
 from django.conf import settings
 from django.conf.urls.static import static
-from . import views
+from app import views
+
+
+
+
 
 schema_view = get_schema_view(
    openapi.Info(

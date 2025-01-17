@@ -1,1 +1,1 @@
-from app.fr.parisnanterre.cleanup_heroes.backendPython.controller import challenge_controller, reporting_controller, user_controller
+from app.fr.parisnanterre.cleanup_heroes.backendPython.controller import challenge_controller, reporting_controller, user_controller,create_participate_event

@@ -1,12 +1,13 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from app.models import CleaningEvent, Participation
+from app.models import Event,EventParticipant
 from django.utils.timezone import now
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import AuthenticationFailed
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from django.contrib.auth.models import User
+from datetime import datetime
 
 # Swagger documentation for the POST method
 @swagger_auto_schema(
@@ -35,14 +36,14 @@ def create_event(request):
     if request.method == 'POST':
         token_value = request.headers.get('Authorization')
 
-        if not token_value:
-            raise AuthenticationFailed("Token is missing in the request.")
+        if not token_value or not token_value.startswith('Bearer '):
+            raise AuthenticationFailed("Token is missing or improperly formatted in the request.")
 
-        user_id = None
         try:
+            # Récupération de l'utilisateur depuis le token
+            token_value = token_value.split(' ')[1]  # Enlever 'Bearer'
             refresh_token = RefreshToken(token_value)
             user_id = refresh_token['user_id']
-
             user = User.objects.get(id=user_id)
 
             if not user.is_active:
@@ -51,7 +52,7 @@ def create_event(request):
             raise AuthenticationFailed("Invalid token or token does not exist.")
 
         try:
-            # Retrieve form data
+            # Récupérer les données du formulaire
             title = request.data.get('title')
             location = request.data.get('location')
             date = request.data.get('date')
@@ -59,16 +60,23 @@ def create_event(request):
             max_participants = request.data.get('max_participants')
             description = request.data.get('description', '')
 
-            # Validate required fields
+            # Validation des champs requis
             if not all([title, location, date, time, max_participants]):
                 return JsonResponse({'error': 'Missing required fields'}, status=400)
 
-            # Create the event
-            event = CleaningEvent.objects.create(
+            # Validation supplémentaire
+            event_datetime = datetime.strptime(f"{date} {time}", "%Y-%m-%d %H:%M:%S")
+            if event_datetime < now():
+                return JsonResponse({'error': 'The event date and time cannot be in the past'}, status=400)
+
+            if int(max_participants) <= 0:
+                return JsonResponse({'error': 'Maximum participants must be a positive number'}, status=400)
+
+            # Créer l'événement
+            event = Event.objects.create(
                 title=title,
                 location=location,
-                date=date,
-                time=time,
+                date_time=event_datetime,
                 max_participants=max_participants,
                 description=description,
                 creator=user
@@ -80,7 +88,6 @@ def create_event(request):
             return JsonResponse({'error': str(e)}, status=400)
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
-
 
 @swagger_auto_schema(
     method='post',
@@ -127,10 +134,10 @@ def participate_event(request):
                 return JsonResponse({'error': 'Event ID is required'}, status=400)
 
             # Check if event exists
-            event = CleaningEvent.objects.get(id=event_id)
+            event = Event.objects.get(id=event_id)
 
             # Check if the user is already a participant
-            if Participation.objects.filter(event=event, user=user).exists():
+            if EventParticipant.objects.filter(event=event, user=user).exists():
                 return JsonResponse({'error': 'User already participating in this event'}, status=400)
 
             # Check if the event is full
@@ -138,11 +145,11 @@ def participate_event(request):
                 return JsonResponse({'error': 'Event is full'}, status=400)
 
             # Register participation
-            Participation.objects.create(event=event, user=user)
+            EventParticipant.objects.create(event=event, user=user)
 
             return JsonResponse({'message': 'Participation registered successfully'}, status=201)
 
-        except CleaningEvent.DoesNotExist:
+        except Event.DoesNotExist:
             return JsonResponse({'error': 'Event not found'}, status=404)
 
         except Exception as e:
@@ -181,7 +188,7 @@ def event_history(request):
             raise AuthenticationFailed("Invalid token or token does not exist.")
 
         # Retrieve the user's participation history
-        participations = Participation.objects.filter(user=user).select_related('event')
+        participations = EventParticipant.objects.filter(user=user).select_related('event')
         history = [
             {
                 'event_id': p.event.id,
