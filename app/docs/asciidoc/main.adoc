@@ -59,7 +59,7 @@ image::images/architecture_projet.png[architecture de l'application, width=200, 
 == Features
 
 
-=== FEATURE 1
+=== Feature 1
 
 ==== Participation à un défi
 .**Objectif** :
@@ -130,6 +130,77 @@ image::images/formulaire.png[formulaire, width=500, align=center]
 ===== Liste des signalements
 
 image::images/listeformulaire.png[listeformulaire, width=500, align=center]
+
+
+=== Feature 4
+
+### **Gestion d'un Programme de Volontariat (Grande Fonctionnalité)**
+
+#### **Description**  
+Un système complet conçu pour recruter, former et organiser des volontaires pour des actions de nettoyage. Ce programme assure un processus structuré de gestion des volontaires, depuis leur recrutement jusqu'au suivi de leurs missions.
+
+---
+
+### **Implémentation**
+
+#### **1. Recrutement de Volontaires**  
+* **Objectif** : Permettre aux utilisateurs intéressés de soumettre leur candidature pour devenir volontaires.  
+* **Fonctionnement** :  
+    * Les utilisateurs remplissent un formulaire comprenant leur nom, leurs coordonnées et leurs motivations.  
+    * Les données soumises sont envoyées au backend via une requête **POST** et enregistrées dans une base spécifique pour être examinées.  
+* **Exemple d’interaction** :  
+    * Un utilisateur soumet une candidature via un formulaire. Une fois la candidature enregistrée, un message de confirmation s’affiche.  
+
+#### **2. Validation et Affectation**  
+* **Objectif** : Permettre aux administrateurs de gérer et d'affecter les volontaires validés.  
+* **Fonctionnement** :  
+    * **GET** : Les administrateurs accèdent à la liste des candidatures en attente.  
+    * **PUT** : Ils peuvent valider ou refuser une candidature en ajoutant un commentaire justifiant leur décision.  
+    * Les volontaires validés sont assignés à des zones ou des événements spécifiques en fonction des besoins.  
+* **Exemple d’interaction** :  
+    * Un administrateur valide une candidature et affecte le volontaire à une zone de nettoyage.  
+
+#### **3. Formation des Volontaires**  
+* **Objectif** : Préparer les volontaires grâce à une bibliothèque de ressources pédagogiques.  
+* **Fonctionnement** :  
+    * Une fois validés, les volontaires accèdent via **GET** à une bibliothèque contenant des documents, vidéos et autres supports de formation.  
+    * Les volontaires confirment qu’ils ont suivi les formations via une requête **POST**, ce qui met à jour leur statut dans la base de données.  
+* **Exemple d’interaction** :  
+    * Un volontaire termine une formation vidéo et valide son statut de formation via l'interface utilisateur.  
+
+#### **4. Suivi des Missions**  
+* **Objectif** : Assurer un suivi des missions réalisées par les volontaires et fournir un retour aux administrateurs.  
+* **Fonctionnement** :  
+    * **POST** : Les volontaires remplissent un rapport après chaque mission, détaillant :  
+        * Le travail effectué.  
+        * Les difficultés rencontrées.  
+    * **GET/PUT** : Les administrateurs consultent ces rapports et peuvent les valider ou ajouter des commentaires pour amélioration.  
+* **Exemple d’interaction** :  
+    * Un volontaire soumet un rapport mentionnant les difficultés rencontrées. L’administrateur valide le rapport et informe l’équipe d’améliorations possibles.  
+
+---
+
+### **Scénarios d’Utilisation**
+
+* **Volontaire** :  
+    * Soumet sa candidature, suit les formations, et remplit des rapports de mission.  
+* **Administrateur** :  
+    * Valide ou refuse les candidatures, affecte les volontaires, gère les formations et valide les rapports de mission.  
+* **Superviseur de mission** :  
+    * Suit la progression des volontaires, analyse les rapports pour ajuster les futures missions et optimise les affectations.
+
+Ce système centralisé permet une gestion efficace et structurée des volontaires, favorisant une organisation fluide et un suivi rigoureux des activités de nettoyage.
+
+===== Diagramme de Séquence
+
+image::images/livraison2.png[Diagramme de Séquence, width=500, align=center]
+
+
+===== Diagramme de  Classe
+
+image::images/livraisonObjet.png[Diagramme de Classe, width=500, align=center]
+
+
 
 == Wireframe
 === Acceuil

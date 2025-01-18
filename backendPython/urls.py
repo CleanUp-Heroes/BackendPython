@@ -48,5 +48,6 @@ urlpatterns = [
     path('register/', user_controller.register, name='register'),
     path('login/', user_controller.login, name='login'),
     path('logout/', user_controller.logout, name='logout'),
-    
+    # urls volontariat
+    #path('recrutement/', include('recrutement.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

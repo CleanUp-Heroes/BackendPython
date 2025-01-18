@@ -7,6 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from datetime import datetime
+from django.utils.timezone import now # ajouter par claire sur la fonction creation date pour run le back
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -160,7 +161,9 @@ class Participation(models.Model):
 
 class Proof(models.Model):
     photo = models.CharField(max_length=255)
-    creation_date = models.DateTimeField(datetime.now())
+    creation_date = models.DateTimeField(datetime.now()) 
+    
+
 
     class Meta:
         managed = False
@@ -171,7 +174,8 @@ class Report(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=255)
     photo = models.ForeignKey(Proof, models.DO_NOTHING, blank=True, null=True)
-    creation_date = models.DateField(default=datetime.now())
+    #creation_date = models.DateField(default=datetime.now())problème lors du run du back, donc
+    creation_date = models.DateTimeField(default=now)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
@@ -208,3 +212,21 @@ class Unit(models.Model):
     class Meta:
         managed = False
         db_table = 'unit'
+
+# La base de données pour le feature vontariat
+
+class JobOffer(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+class JobApplication(models.Model):
+    job_offer = models.ForeignKey(JobOffer, related_name='applications', on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=200)
+    email = models.EmailField()
+    message = models.TextField()
+
+    def __str__(self):
+        return f"Candidature de {self.full_name} pour {self.job_offer.title}"
