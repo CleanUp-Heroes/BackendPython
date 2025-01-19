@@ -158,6 +158,7 @@ Avant de commencer, assurez-vous d'avoir :
    npm install axios
    ```
 
+
 3. **Visual Studio Code** :
    - Téléchargez et installez depuis [code.visualstudio.com](https://code.visualstudio.com/).
 
@@ -174,6 +175,22 @@ Voici les extensions essentielles pour travailler sur ce projet. Vous pouvez les
    ```bash
    ext install dbaeumer.vscode-eslint
    ```
+#### 3. **mapbox-gl**
+   ```bash
+ npm install mapbox-gl
+   ```
+Une fois l'installation terminée, vérifie que mapbox-gl est bien ajouté dans ton fichier package.json, sous "dependencies" :
+
+```bash
+"dependencies": {
+  "mapbox-gl": "^x.x.x"
+}
+```
+Après l'installation de mapbox-gl, redémarre le serveur de développement pour vérifier que l'erreur est résolue :
+
+```bash
+npm run serve
+```
 
 ### 🚀 Démarrer le projet
 
@@ -203,6 +220,11 @@ Voici les extensions essentielles pour travailler sur ce projet. Vous pouvez les
 - **src/views** : Pages principales de l'application.
 
 ---
+
+### tests unitaires
+   cd Frontend
+npm install --save-dev @vue/test-utils jest vue-jest @babel/preset-env babel-jest
+
 ## Auteurs
 
 - [Claire ADJEDOMOLE](https://github.com/orgs/CleanUp-Heroes/people/ClaireAdjedomole)
