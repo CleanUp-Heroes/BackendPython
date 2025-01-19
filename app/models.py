@@ -223,7 +223,6 @@ class Unit(models.Model):
     class Meta:
         managed = False
         db_table = 'unit'
-<<<<<<< HEAD
         
 class Userscore(models.Model):
     total_score = models.IntegerField(blank=True, null=True)
@@ -233,7 +232,6 @@ class Userscore(models.Model):
     class Meta:
         managed = False
         db_table = 'userscore'
-=======
 
 # La base de données pour le feature vontariat
 
@@ -265,4 +263,3 @@ class Candidature(models.Model): # pour stocker les informations des candidature
 
     def __str__(self):
         return f"Candidature de {self.name} pour {self.mission.title}"
->>>>>>> volontariatBack
