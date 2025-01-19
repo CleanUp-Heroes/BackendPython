@@ -100,36 +100,77 @@ image::images/defi.jpg[defi, width=500, align=center]
 image::images/stat.png[statistiques, width=500, align=center]
 
 
+Voici une version améliorée et plus structurée pour cette section :  
 
 
-=== Feature 2
+=== Feature 2  
 
-==== Système de gestion des signalements
+==== Système de gestion des signalements  
 
-===== Formulaire de signalement
-* Objectif : Permet à un utilisateur de signaler un problème ou une situation nécessitant une intervention, avec des champs pour décrire le problème, le lieu, et joindre une photo.
-* Fonctionnement : Après soumission, les données sont envoyées au backend via une requête API pour être enregistrées dans une base de données.
-* Exemple d'interaction : L'utilisateur remplit le formulaire, soumet les données, et reçoit un message de confirmation.
+===== Affichage des signalements existants  
+**Objectif** : Offrir une visibilité claire sur les déchets signalés grâce à une carte interactive intuitive.  
+- Les signalements déjà enregistrés sont représentés par des **marqueurs géolocalisés** sur la carte.  
+- **Interaction avec les marqueurs** :  
+  - Cliquer sur un marqueur ouvre une **popup** affichant des informations détaillées, telles que :  
+    - Description du signalement.  
+    - Photo du déchet (si disponible).  
+    - Date et heure du signalement.  
+- **Mise à jour dynamique** : Une fois le déchet ramassé, le marqueur correspondant disparaît de la carte, garantissant une interface toujours à jour.  
 
-===== Liste des signalements
-* Objectif : Afficher tous les signalements et permettre la gestion de leur statut (ouvert/fermé).
-* Fonctionnement : Les signalements sont récupérés depuis le backend et peuvent être filtrés, triés et mis à jour par l'utilisateur.
-* Exemple d'interaction : L'utilisateur change le statut d'un signalement de "ouvert" à "fermé", ce qui est mis à jour dans la base de données.
 
-===== Scénarios d'utilisation
-* Utilisateur standard : Crée un signalement, consulte les signalements existants, et met à jour leur statut si autorisé.
-* Administrateur : Gère tous les signalements, peut les fermer, réouvrir et attribuer des actions.
-* Responsable du traitement des signalements : Peut uniquement consulter et marquer les signalements comme résolus.
 
-Ce système permet une gestion facile des problèmes signalés, avec des fonctionnalités de création, consultation et mise à jour des signalements.
- 
-===== Formulaire de signalement
+===== Création d’un signalement via la carte  
+**Objectif** : Faciliter et moderniser le signalement des déchets grâce à une expérience interactive simple et rapide.  
 
-image::images/formulaire.png[formulaire, width=500, align=center]
+1. **Sélection de l’emplacement** :  
+   - L’utilisateur clique sur l’emplacement exact du déchet sur la carte interactive.  
+   - Une **popup contextuelle** s’affiche, indiquant les coordonnées GPS et proposant un bouton "Signaler".  
 
-===== Liste des signalements
+2. **Accès au formulaire de signalement** :  
+   - En cliquant sur "Signaler", l’utilisateur est redirigé vers un formulaire prérempli avec :  
+     - Les **coordonnées géographiques** du point sélectionné.  
+     - Un champ pour ajouter une **description** détaillée du déchet.  
+     - Un champ pour joindre une **photo** du déchet (optionnel mais recommandé).  
+     - Un champ indiquant l’**adresse approximative**, dérivée automatiquement des coordonnées.  
 
-image::images/listeformulaire.png[listeformulaire, width=500, align=center]
+3. **Finalisation** :  
+   - Après avoir rempli les informations, l’utilisateur soumet le formulaire pour enregistrer le signalement.  
+
+**Atout principal** : Ce processus assure une **précision géographique** accrue tout en rendant la création de signalements rapide et intuitive.  
+
+===== Scénarios d’utilisation  
+1. **Utilisateur standard** :  
+   - Peut créer un signalement.  
+   - Consulte les signalements existants.  
+
+===== Processus des signalements
+image::images/diag_carte.png[diagcarte, width=500, align=center]
+
+
+### Feature 3  
+
+#### Classement des utilisateurs  
+
+##### Objectif général  
+Foster une compétition saine et encourager la participation active en mettant en place un système de classement basé sur les actions des utilisateurs.  
+
+##### Fonctionnement du système de classement  
+
+1. **Critères de classement** :  
+   - Le classement des utilisateurs est basé sur des **points** attribués en fonction de leurs contributions.  
+   
+2. **Type de classement disponible** :  
+   - **Global** : Affiche les meilleurs utilisateurs de la plateforme.  
+   
+
+3. **Affichage du classement** :  
+   - Classement présenté sous forme de tableau avec :  
+     - Nom ou pseudonyme de l’utilisateur.  
+     - Nombre total de points accumulés.  
+
+===== Classement des utilisateurs
+image::images/diam_classement.png[diagclassement, width=500, align=center]
+
 
 == Wireframe
 === Acceuil
@@ -140,9 +181,17 @@ image::images/1.png[wire1, width=500, align=center]
 
 image::images/2.png[wire2, width=500, align=center]
 
+// === Feature 2
+
+// image::images/3.png[wire3, width=500, align=center]
+
 === Feature 2
 
-image::images/3.png[wire3, width=500, align=center]
+image::images/5.png[wire5, width=500, align=center]
+
+=== Feature 3
+
+image::images/6.png[wire6, width=500, align=center]
 
 === à propos
 
