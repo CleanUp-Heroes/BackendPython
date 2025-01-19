@@ -215,18 +215,31 @@ class Unit(models.Model):
 
 # La base de données pour le feature vontariat
 
-class JobOffer(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField()
+
+class Mission(models.Model): # pour stocker les informations des missions
+    title = models.CharField(max_length=255, verbose_name="Titre de la mission")
+    description = models.TextField(verbose_name="Description de la mission", blank=True, null=True)
+    location = models.CharField(max_length=255, verbose_name="Localisation")
+    date = models.DateField(verbose_name="Date de la mission")
 
     def __str__(self):
         return self.title
 
-class JobApplication(models.Model):
-    job_offer = models.ForeignKey(JobOffer, related_name='applications', on_delete=models.CASCADE)
-    full_name = models.CharField(max_length=200)
-    email = models.EmailField()
-    message = models.TextField()
+class Candidature(models.Model): # pour stocker les informations des candidatures
+    STATUS_CHOICES = [
+        ('en attente', 'En attente'),
+        ('acceptée', 'Acceptée'),
+        ('refusée', 'Refusée'),
+    ]
+
+    name = models.CharField(max_length=255, verbose_name="Nom du volontaire")
+    email = models.EmailField(verbose_name="Email du volontaire")
+    phone = models.CharField(max_length=20, verbose_name="Téléphone du volontaire")
+    mission = models.ForeignKey(Mission, on_delete=models.CASCADE, verbose_name="Mission")
+    message = models.TextField(verbose_name="Message du volontaire", blank=True, null=True)
+    experience = models.TextField(verbose_name="Expérience du volontaire", blank=True, null=True)
+    availability = models.CharField(max_length=255, verbose_name="Disponibilités du volontaire")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='en attente', verbose_name="Statut")
 
     def __str__(self):
-        return f"Candidature de {self.full_name} pour {self.job_offer.title}"
+        return f"Candidature de {self.name} pour {self.mission.title}"
