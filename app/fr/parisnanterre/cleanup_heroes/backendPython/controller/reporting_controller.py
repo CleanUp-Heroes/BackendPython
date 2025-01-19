@@ -1,7 +1,7 @@
 from django.utils import timezone
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from app.models import Report, Proof
+from app.models import Report, Proof, ReportResolved
 from app.fr.parisnanterre.cleanup_heroes.backendPython.utils.utils import save_uploaded_file, validate_required_fields
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -9,6 +9,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth.models import User
 from django.utils.timezone import now
+from django.conf import settings
+import os, base64
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from datetime import datetime
+
 
 # Swagger documentation for the POST method
 @swagger_auto_schema(
@@ -53,11 +60,12 @@ def add_report(request):
         try:
             # Retrieve form data
             description = request.POST.get('description')
-            adresse = request.POST.get('location')
+            longitude = request.POST.get('longitude')
+            latitude = request.POST.get('latitude')
             photo = request.FILES.get('photo')  # Optional field
 
             # Check required fields
-            required_fields = {'description': description, 'location': adresse}
+            required_fields = {'description': description, 'longitude': longitude, 'latitude': latitude}
             validate_required_fields(required_fields)
 
             # Initialize the proof instance (only if a photo is provided)
@@ -69,8 +77,10 @@ def add_report(request):
             # Create the report
             report = Report.objects.create(
                 description=description,
-                location=adresse,
+                longitude=longitude,
+                latitude=latitude,
                 user_id=user_id,
+                isresolved=0,
                 creation_date=now(),  # Set creation_date to the current date and time
                 photo=proof_instance  # Optional proof instance
             )
@@ -113,21 +123,36 @@ def get_reports(request):
         except ValueError:
             raise AuthenticationFailed("Invalid token or token does not exist.")
         
-        # Retrieve reports based on the filter
-        if user_id:
-            reports = Report.objects.filter(user_id=user_id)
-        else:
-            reports = Report.objects.all()
+        # Retrieve reports
+        reports = Report.objects.filter(isresolved=0)
 
         # Prepare the response data
         report_data = []
         for report in reports:
+            image_path = (
+                os.path.join(settings.MEDIA_ROOT, report.photo.photo)
+                if report.photo
+                else None
+            )
+            encoded_image = None
+            if image_path and os.path.isfile(image_path):
+                try:
+                    with open(image_path, "rb") as image_file:
+                        encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+                except FileNotFoundError:
+                    encoded_image = None
+            
+            print(report.creation_date)
+                
             report_data.append({
                 'id': report.id,
                 'description': report.description,
-                'location': report.location,
+                'longitude': report.longitude,
+                'latitude': report.latitude,
                 'user_id': report.user_id,
-                'photo_url': report.photo.photo if report.photo else None,  # Vérifie si une photo existe
+                'created_at': report.creation_date,
+                'isResolved' : report.isresolved,
+                "photo_data": f"data:image/png;base64,{encoded_image}" if encoded_image else None,
             })
 
         # Return the reports in a JSON response
@@ -135,3 +160,37 @@ def get_reports(request):
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
+
+
+@csrf_exempt
+def resolve_report(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            report_id = data.get('report_id')
+
+            token_value = request.headers.get('Authorization')
+        
+            if not token_value:
+                raise AuthenticationFailed("Token is missing in the request.")
+            
+            user_id = None
+    
+            refresh_token = RefreshToken(token_value)
+            user_id = refresh_token['user_id']
+            
+            report = Report.objects.get(pk=report_id)
+            report.isresolved=1
+            report.save()
+
+            # Sauvegarder le signalement comme résolu
+            ReportResolved.objects.create(
+                user_id=user_id,
+                resolved_at=datetime.now(),
+                report=report
+            )
+            
+            return JsonResponse({"message": "Signalement marqué comme résolu."}, status=200)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"error": "Méthode non autorisée"}, status=405)

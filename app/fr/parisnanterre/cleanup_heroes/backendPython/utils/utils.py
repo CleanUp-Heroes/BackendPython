@@ -12,25 +12,25 @@ def generate_unique_filename(filename):
     return f"{filename.split('.')[0]}_{unique_suffix}.{filename.split('.')[-1]}"
 
 def save_uploaded_file(file):
-    """Enregistrer un fichier uploadé dans le dossier MEDIA_ROOT avec un nom unique, en vérifiant l'unicité en base de données."""
+    """Enregistre un fichier uploadé dans le dossier MEDIA_ROOT avec un nom unique."""
     original_name = file.name
     unique_name = generate_unique_filename(original_name)
 
-    # Vérifier que le nom est unique en base de données
-    while Proof.objects.filter(photo=unique_name).exists():  # Vérifier si le fichier existe déjà dans la BDD
-        unique_name = generate_unique_filename(original_name)  # Si oui, générer un autre nom unique
+    # Construire le chemin relatif au dossier "proof_photos"
+    relative_path = os.path.join('proof_photos', unique_name)
 
-    # Construire le chemin complet du fichier dans MEDIA_ROOT
-    file_path = os.path.join(settings.MEDIA_ROOT, 'proof_photos', unique_name)
+    # Construire le chemin absolu pour l'enregistrement
+    absolute_path = os.path.join(settings.MEDIA_ROOT, relative_path)
 
-    # Normaliser le chemin pour éviter des problèmes avec les séparateurs
-    file_path = os.path.normpath(file_path)
+    # Normaliser le chemin absolu
+    absolute_path = os.path.normpath(absolute_path)
 
-    # Sauvegarder le fichier avec un nom unique dans le répertoire MEDIA_ROOT
-    default_storage.save(file_path, ContentFile(file.read()))
+    # Sauvegarder le fichier
+    default_storage.save(absolute_path, ContentFile(file.read()))
 
-    # Retourner l'URL d'accès au fichier, avec un séparateur cohérent
-    return os.path.join(settings.MEDIA_URL, 'proof_photos', unique_name).replace(os.sep, '/')
+    # Retourner uniquement le chemin relatif pour la base de données
+    return relative_path
+
 
 def validate_required_fields(required_fields):
     """Vérifier que tous les champs requis sont fournis et non vides."""

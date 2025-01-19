@@ -169,15 +169,26 @@ class Proof(models.Model):
 
 class Report(models.Model):
     description = models.TextField()
-    location = models.CharField(max_length=255)
+    longitude = models.CharField(max_length=255)
+    latitude = models.CharField(max_length=255)
     photo = models.ForeignKey(Proof, models.DO_NOTHING, blank=True, null=True)
     creation_date = models.DateField(default=datetime.now())
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    isresolved = models.IntegerField(db_column='isResolved') 
+    resolvedby = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='resolvedBy', related_name='report_resolvedby_set', blank=True, null=True)  
 
     class Meta:
         managed = False
         db_table = 'report'
+        
+class ReportResolved(models.Model):
+    user_id = models.IntegerField()
+    resolved_at = models.DateTimeField()
+    report = models.OneToOneField(Report, models.DO_NOTHING)
 
+    class Meta:
+        managed = False
+        db_table = 'report_resolved'
 
 class TokenBlacklistBlacklistedtoken(models.Model):
     id = models.BigAutoField(primary_key=True)
