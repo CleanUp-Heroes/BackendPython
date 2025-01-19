@@ -8,3 +8,5 @@ media/
 app/docs/main.pdf
 app/docs/main.html
 __pycache__/
+
+*.pyc

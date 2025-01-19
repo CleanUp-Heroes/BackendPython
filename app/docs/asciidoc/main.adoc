@@ -172,6 +172,51 @@ Foster une compétition saine et encourager la participation active en mettant e
 image::images/diam_classement.png[diagclassement, width=500, align=center]
 
 
+=== FEATURE 3 : Création et Participation à des Événements de Nettoyage (Grande fonctionnalité)
+
+==== Description
+Cette fonctionnalité permet aux utilisateurs de contribuer activement à la propreté de leur environnement en créant et en participant à des événements de nettoyage communautaires. Elle offre également un outil pratique pour consulter leur historique de participation.
+
+==== Sous-fonctionnalités
+
+1. **Création d'événements**
+    - **Objectif** : Les utilisateurs peuvent créer un événement de nettoyage en renseignant des informations essentielles, telles que :
+        * Le titre de l’événement.
+        * La localisation.
+        * La date et l’heure.
+        * Une description.
+        * Le nombre maximum de participants.
+    - **But principal** : Encourager l’organisation d’initiatives locales en facilitant leur planification et leur partage via la plateforme.
+
+2. **Participation à des événements**
+    - **Objectif** : Les utilisateurs peuvent s’inscrire à des événements créés par d'autres utilisateurs en remplissant un formulaire avec des informations comme :
+        * Leur nom ou pseudo.
+        * Un commentaire éventuel (facultatif).
+    - **But principal** : Favoriser l'engagement communautaire en rendant les événements accessibles et inclusifs.
+
+3. **Historique des événements**
+    - **Objectif** : Les utilisateurs peuvent consulter leur historique d’événements, comprenant :
+        * Les événements auxquels ils ont participé.
+        * Les événements qu'ils ont créés.
+        * Les événements passés et à venir.
+    - **But principal** : Fournir une vue d'ensemble de l'engagement de l'utilisateur tout en renforçant leur motivation à participer à des initiatives futures.
+
+    ==== Exemple d'Interaction
+- L'utilisateur clique sur "Créer un événement".
+- Il remplit les informations nécessaires dans le formulaire et soumet sa demande.
+- Un message de confirmation s'affiche une fois que l'événement est enregistré.
+- Un autre utilisateur consulte la liste des événements disponibles, choisit un événement et remplit le formulaire d'inscription.
+- Enfin, l'utilisateur peut consulter son historique pour voir les événements auxquels il a participé ou qu’il a créés.
+
+===== Diagramme de Séquence
+
+image::images/feat3.png[Diagramme de Séquence, width=500, align=center]
+image::images/feat3-2.png[Diagramme de Séquence, width=500, align=center]
+
+
+
+
+
 
 === Feature 4
 
@@ -272,6 +317,13 @@ image::images/liv3.png[wire3, width=500, align=center]
 image::images/liv4.png[wire3, width=500, align=center]
 image::images/liv5.png[wire3, width=500, align=center]
 image::images/liv6.png[wire3, width=500, align=center]
+
+
+=== Feature 3
+
+image::images/w1.png[wire3, width=500, align=center]
+image::images/W2.png[wire3, width=500, align=center]
+image::images/W3.png[wire3, width=500, align=center]
 
 
 
