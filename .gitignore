@@ -7,3 +7,4 @@ app/migrations
 media/
 app/docs/main.pdf
 app/docs/main.html
+__pycache__/
