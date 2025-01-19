@@ -7,6 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from datetime import datetime
+from django.utils.timezone import now # ajouter par claire sur la fonction creation date pour run le back
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -160,7 +161,9 @@ class Participation(models.Model):
 
 class Proof(models.Model):
     photo = models.CharField(max_length=255)
-    creation_date = models.DateTimeField(datetime.now())
+    creation_date = models.DateTimeField(datetime.now()) 
+    
+
 
     class Meta:
         managed = False
@@ -172,7 +175,8 @@ class Report(models.Model):
     longitude = models.CharField(max_length=255)
     latitude = models.CharField(max_length=255)
     photo = models.ForeignKey(Proof, models.DO_NOTHING, blank=True, null=True)
-    creation_date = models.DateField(default=datetime.now())
+    #creation_date = models.DateField(default=datetime.now())problème lors du run du back, donc
+    creation_date = models.DateTimeField(default=now)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     isresolved = models.IntegerField(db_column='isResolved') 
     resolvedby = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='resolvedBy', related_name='report_resolvedby_set', blank=True, null=True)  
@@ -219,6 +223,7 @@ class Unit(models.Model):
     class Meta:
         managed = False
         db_table = 'unit'
+<<<<<<< HEAD
         
 class Userscore(models.Model):
     total_score = models.IntegerField(blank=True, null=True)
@@ -228,3 +233,36 @@ class Userscore(models.Model):
     class Meta:
         managed = False
         db_table = 'userscore'
+=======
+
+# La base de données pour le feature vontariat
+
+
+class Mission(models.Model): # pour stocker les informations des missions
+    title = models.CharField(max_length=255, verbose_name="Titre de la mission")
+    description = models.TextField(verbose_name="Description de la mission", blank=True, null=True)
+    location = models.CharField(max_length=255, verbose_name="Localisation")
+    date = models.DateField(verbose_name="Date de la mission")
+
+    def __str__(self):
+        return self.title
+
+class Candidature(models.Model): # pour stocker les informations des candidatures
+    STATUS_CHOICES = [
+        ('en attente', 'En attente'),
+        ('acceptée', 'Acceptée'),
+        ('refusée', 'Refusée'),
+    ]
+
+    name = models.CharField(max_length=255, verbose_name="Nom du volontaire")
+    email = models.EmailField(verbose_name="Email du volontaire")
+    phone = models.CharField(max_length=20, verbose_name="Téléphone du volontaire")
+    mission = models.ForeignKey(Mission, on_delete=models.CASCADE, verbose_name="Mission")
+    message = models.TextField(verbose_name="Message du volontaire", blank=True, null=True)
+    experience = models.TextField(verbose_name="Expérience du volontaire", blank=True, null=True)
+    availability = models.CharField(max_length=255, verbose_name="Disponibilités du volontaire")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='en attente', verbose_name="Statut")
+
+    def __str__(self):
+        return f"Candidature de {self.name} pour {self.mission.title}"
+>>>>>>> volontariatBack
