@@ -147,14 +147,14 @@ Voici une version améliorée et plus structurée pour cette section :
 image::images/diag_carte.png[diagcarte, width=500, align=center]
 
 
-### Feature 3  
+=== Feature 3  
 
-#### Classement des utilisateurs  
+==== Classement des utilisateurs  
 
-##### Objectif général  
+===== Objectif général  
 Foster une compétition saine et encourager la participation active en mettant en place un système de classement basé sur les actions des utilisateurs.  
 
-##### Fonctionnement du système de classement  
+===== Fonctionnement du système de classement  
 
 1. **Critères de classement** :  
    - Le classement des utilisateurs est basé sur des **points** attribués en fonction de leurs contributions.  
@@ -172,7 +172,75 @@ Foster une compétition saine et encourager la participation active en mettant e
 image::images/diam_classement.png[diagclassement, width=500, align=center]
 
 
-=== FEATURE 3 : Création et Participation à des Événements de Nettoyage (Grande fonctionnalité)
+=== Feature 4
+
+=== **Gestion d'un Programme de Volontariat (Grande Fonctionnalité)**
+
+==== **Description**  
+Un système complet conçu pour recruter, former et organiser des volontaires pour des actions de nettoyage. Ce programme assure un processus structuré de gestion des volontaires, depuis leur recrutement jusqu'au suivi de leurs missions.
+
+---
+
+=== **Implémentation**
+
+==== **1. Recrutement de Volontaires**  
+* **Objectif** : Permettre aux utilisateurs intéressés de soumettre leur candidature pour devenir volontaires.  
+* **Fonctionnement** :  
+    * Les utilisateurs remplissent un formulaire comprenant leur nom, leurs coordonnées et leurs motivations.  
+    * Les données soumises sont envoyées au backend via une requête **POST** et enregistrées dans une base spécifique pour être examinées.  
+* **Exemple d’interaction** :  
+    * Un utilisateur soumet une candidature via un formulaire. Une fois la candidature enregistrée, un message de confirmation s’affiche.  
+
+==== **2. Validation et Affectation**  
+* **Objectif** : Permettre aux administrateurs de gérer et d'affecter les volontaires validés.  
+* **Fonctionnement** :  
+    * **GET** : Les administrateurs accèdent à la liste des candidatures en attente.  
+    * **PUT** : Ils peuvent valider ou refuser une candidature en ajoutant un commentaire justifiant leur décision.  
+    * Les volontaires validés sont assignés à des zones ou des événements spécifiques en fonction des besoins.  
+* **Exemple d’interaction** :  
+    * Un administrateur valide une candidature et affecte le volontaire à une zone de nettoyage.  
+
+==== **3. Formation des Volontaires**  
+* **Objectif** : Préparer les volontaires grâce à une bibliothèque de ressources pédagogiques.  
+* **Fonctionnement** :  
+    * Une fois validés, les volontaires accèdent via **GET** à une bibliothèque contenant des documents, vidéos et autres supports de formation.  
+    * Les volontaires confirment qu’ils ont suivi les formations via une requête **POST**, ce qui met à jour leur statut dans la base de données.  
+* **Exemple d’interaction** :  
+    * Un volontaire termine une formation vidéo et valide son statut de formation via l'interface utilisateur.  
+
+==== **4. Suivi des Missions**  
+* **Objectif** : Assurer un suivi des missions réalisées par les volontaires et fournir un retour aux administrateurs.  
+* **Fonctionnement** :  
+    * **POST** : Les volontaires remplissent un rapport après chaque mission, détaillant :  
+        * Le travail effectué.  
+        * Les difficultés rencontrées.  
+    * **GET/PUT** : Les administrateurs consultent ces rapports et peuvent les valider ou ajouter des commentaires pour amélioration.  
+* **Exemple d’interaction** :  
+    * Un volontaire soumet un rapport mentionnant les difficultés rencontrées. L’administrateur valide le rapport et informe l’équipe d’améliorations possibles.  
+
+---
+
+=== **Scénarios d’Utilisation**
+
+* **Volontaire** :  
+    * Soumet sa candidature, suit les formations, et remplit des rapports de mission.  
+* **Administrateur** :  
+    * Valide ou refuse les candidatures, affecte les volontaires, gère les formations et valide les rapports de mission.  
+* **Superviseur de mission** :  
+    * Suit la progression des volontaires, analyse les rapports pour ajuster les futures missions et optimise les affectations.
+
+Ce système centralisé permet une gestion efficace et structurée des volontaires, favorisant une organisation fluide et un suivi rigoureux des activités de nettoyage.
+
+==== Diagramme de Séquence
+
+image::images/livraison2.png[Diagramme de Séquence, width=500, align=center]
+
+
+==== Diagramme de  Classe
+
+image::images/livraison2Objet.png[Diagramme de Classe, width=500, align=center]
+
+=== FEATURE 5 : Création et Participation à des Événements de Nettoyage (Grande fonctionnalité)
 
 ==== Description
 Cette fonctionnalité permet aux utilisateurs de contribuer activement à la propreté de leur environnement en créant et en participant à des événements de nettoyage communautaires. Elle offre également un outil pratique pour consulter leur historique de participation.
@@ -213,81 +281,6 @@ Cette fonctionnalité permet aux utilisateurs de contribuer activement à la pro
 image::images/feat3.png[Diagramme de Séquence, width=500, align=center]
 image::images/feat3-2.png[Diagramme de Séquence, width=500, align=center]
 
-
-
-
-
-
-=== Feature 4
-
-### **Gestion d'un Programme de Volontariat (Grande Fonctionnalité)**
-
-#### **Description**  
-Un système complet conçu pour recruter, former et organiser des volontaires pour des actions de nettoyage. Ce programme assure un processus structuré de gestion des volontaires, depuis leur recrutement jusqu'au suivi de leurs missions.
-
----
-
-### **Implémentation**
-
-#### **1. Recrutement de Volontaires**  
-* **Objectif** : Permettre aux utilisateurs intéressés de soumettre leur candidature pour devenir volontaires.  
-* **Fonctionnement** :  
-    * Les utilisateurs remplissent un formulaire comprenant leur nom, leurs coordonnées et leurs motivations.  
-    * Les données soumises sont envoyées au backend via une requête **POST** et enregistrées dans une base spécifique pour être examinées.  
-* **Exemple d’interaction** :  
-    * Un utilisateur soumet une candidature via un formulaire. Une fois la candidature enregistrée, un message de confirmation s’affiche.  
-
-#### **2. Validation et Affectation**  
-* **Objectif** : Permettre aux administrateurs de gérer et d'affecter les volontaires validés.  
-* **Fonctionnement** :  
-    * **GET** : Les administrateurs accèdent à la liste des candidatures en attente.  
-    * **PUT** : Ils peuvent valider ou refuser une candidature en ajoutant un commentaire justifiant leur décision.  
-    * Les volontaires validés sont assignés à des zones ou des événements spécifiques en fonction des besoins.  
-* **Exemple d’interaction** :  
-    * Un administrateur valide une candidature et affecte le volontaire à une zone de nettoyage.  
-
-#### **3. Formation des Volontaires**  
-* **Objectif** : Préparer les volontaires grâce à une bibliothèque de ressources pédagogiques.  
-* **Fonctionnement** :  
-    * Une fois validés, les volontaires accèdent via **GET** à une bibliothèque contenant des documents, vidéos et autres supports de formation.  
-    * Les volontaires confirment qu’ils ont suivi les formations via une requête **POST**, ce qui met à jour leur statut dans la base de données.  
-* **Exemple d’interaction** :  
-    * Un volontaire termine une formation vidéo et valide son statut de formation via l'interface utilisateur.  
-
-#### **4. Suivi des Missions**  
-* **Objectif** : Assurer un suivi des missions réalisées par les volontaires et fournir un retour aux administrateurs.  
-* **Fonctionnement** :  
-    * **POST** : Les volontaires remplissent un rapport après chaque mission, détaillant :  
-        * Le travail effectué.  
-        * Les difficultés rencontrées.  
-    * **GET/PUT** : Les administrateurs consultent ces rapports et peuvent les valider ou ajouter des commentaires pour amélioration.  
-* **Exemple d’interaction** :  
-    * Un volontaire soumet un rapport mentionnant les difficultés rencontrées. L’administrateur valide le rapport et informe l’équipe d’améliorations possibles.  
-
----
-
-### **Scénarios d’Utilisation**
-
-* **Volontaire** :  
-    * Soumet sa candidature, suit les formations, et remplit des rapports de mission.  
-* **Administrateur** :  
-    * Valide ou refuse les candidatures, affecte les volontaires, gère les formations et valide les rapports de mission.  
-* **Superviseur de mission** :  
-    * Suit la progression des volontaires, analyse les rapports pour ajuster les futures missions et optimise les affectations.
-
-Ce système centralisé permet une gestion efficace et structurée des volontaires, favorisant une organisation fluide et un suivi rigoureux des activités de nettoyage.
-
-===== Diagramme de Séquence
-
-image::images/livraison2.png[Diagramme de Séquence, width=500, align=center]
-
-
-===== Diagramme de  Classe
-
-image::images/livraisonObjet.png[Diagramme de Classe, width=500, align=center]
-
-
-
 == Wireframe
 === Acceuil
 
@@ -303,14 +296,13 @@ image::images/2.png[wire2, width=500, align=center]
 
 === Feature 2
 
-image::images/5.png[wire5, width=500, align=center]
+image::images/5.jpeg[wire5, width=500, align=center]
 
 === Feature 3
 
-image::images/6.png[wire6, width=500, align=center]
+image::images/6.jpeg[wire6, width=500, align=center]
 
-=== Feature 3
-
+=== Feature 4
 image::images/liv1.png[wire3, width=500, align=center]
 image::images/liv2.png[wire3, width=500, align=center]
 image::images/liv3.png[wire3, width=500, align=center]
@@ -318,14 +310,11 @@ image::images/liv4.png[wire3, width=500, align=center]
 image::images/liv5.png[wire3, width=500, align=center]
 image::images/liv6.png[wire3, width=500, align=center]
 
-
-=== Feature 3
+=== Feature 5
 
 image::images/w1.png[wire3, width=500, align=center]
 image::images/W2.png[wire3, width=500, align=center]
 image::images/W3.png[wire3, width=500, align=center]
-
-
 
 
 === à propos

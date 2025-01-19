@@ -134,7 +134,7 @@ b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
 b.button::before{content:"[";padding:0 3px 0 2px}
 b.button::after{content:"]";padding:0 2px 0 3px}
 p a>code:hover{color:rgba(0,0,0,.9)}
-#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
 #header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
 #header::after,#content::after,#footnotes::after,#footer::after{clear:both}
 #content{margin-top:1.25em}
@@ -575,7 +575,7 @@ Grâce à l&#8217;intégration d&#8217;éléments ludiques comme les défis et l
 <h2 id="_features">Features</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_feature_1">FEATURE 1</h3>
+<h3 id="_feature_1">Feature 1</h3>
 <div class="sect3">
 <h4 id="_participation_à_un_défi">Participation à un défi</h4>
 <div class="paragraph">
@@ -655,6 +655,9 @@ Grâce à l&#8217;intégration d&#8217;éléments ludiques comme les défis et l
 <img src="images/stat.png" alt="statistiques" width="500">
 </div>
 </div>
+<div class="paragraph">
+<p>Voici une version améliorée et plus structurée pour cette section :</p>
+</div>
 </div>
 </div>
 </div>
@@ -663,69 +666,455 @@ Grâce à l&#8217;intégration d&#8217;éléments ludiques comme les défis et l
 <div class="sect3">
 <h4 id="_système_de_gestion_des_signalements">Système de gestion des signalements</h4>
 <div class="sect4">
-<h5 id="_formulaire_de_signalement">Formulaire de signalement</h5>
+<h5 id="_affichage_des_signalements_existants">Affichage des signalements existants</h5>
+<div class="paragraph">
+<p><strong>Objectif</strong> : Offrir une visibilité claire sur les déchets signalés grâce à une carte interactive intuitive.
+- Les signalements déjà enregistrés sont représentés par des <strong>marqueurs géolocalisés</strong> sur la carte.
+- <strong>Interaction avec les marqueurs</strong> :
+  - Cliquer sur un marqueur ouvre une <strong>popup</strong> affichant des informations détaillées, telles que :
+    - Description du signalement.
+    - Photo du déchet (si disponible).
+    - Date et heure du signalement.
+- <strong>Mise à jour dynamique</strong> : Une fois le déchet ramassé, le marqueur correspondant disparaît de la carte, garantissant une interface toujours à jour.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_création_dun_signalement_via_la_carte">Création d’un signalement via la carte</h5>
+<div class="paragraph">
+<p><strong>Objectif</strong> : Faciliter et moderniser le signalement des déchets grâce à une expérience interactive simple et rapide.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Sélection de l’emplacement</strong> :</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Objectif : Permet à un utilisateur de signaler un problème ou une situation nécessitant une intervention, avec des champs pour décrire le problème, le lieu, et joindre une photo.</p>
+<p>L’utilisateur clique sur l’emplacement exact du déchet sur la carte interactive.</p>
 </li>
 <li>
-<p>Fonctionnement : Après soumission, les données sont envoyées au backend via une requête API pour être enregistrées dans une base de données.</p>
+<p>Une <strong>popup contextuelle</strong> s’affiche, indiquant les coordonnées GPS et proposant un bouton "Signaler".</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>Exemple d&#8217;interaction : L&#8217;utilisateur remplit le formulaire, soumet les données, et reçoit un message de confirmation.</p>
+<p><strong>Accès au formulaire de signalement</strong> :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>En cliquant sur "Signaler", l’utilisateur est redirigé vers un formulaire prérempli avec :</p>
+</li>
+<li>
+<p>Les <strong>coordonnées géographiques</strong> du point sélectionné.</p>
+</li>
+<li>
+<p>Un champ pour ajouter une <strong>description</strong> détaillée du déchet.</p>
+</li>
+<li>
+<p>Un champ pour joindre une <strong>photo</strong> du déchet (optionnel mais recommandé).</p>
+</li>
+<li>
+<p>Un champ indiquant l’<strong>adresse approximative</strong>, dérivée automatiquement des coordonnées.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Finalisation</strong> :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Après avoir rempli les informations, l’utilisateur soumet le formulaire pour enregistrer le signalement.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Atout principal</strong> : Ce processus assure une <strong>précision géographique</strong> accrue tout en rendant la création de signalements rapide et intuitive.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_scénarios_dutilisation">Scénarios d’utilisation</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Utilisateur standard</strong> :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Peut créer un signalement.</p>
+</li>
+<li>
+<p>Consulte les signalements existants.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_processus_des_signalements">Processus des signalements</h5>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/diag_carte.png" alt="diagcarte" width="500">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_feature_3">Feature 3</h3>
+<div class="sect3">
+<h4 id="_classement_des_utilisateurs">Classement des utilisateurs</h4>
+<div class="sect4">
+<h5 id="_objectif_général">Objectif général</h5>
+<div class="paragraph">
+<p>Foster une compétition saine et encourager la participation active en mettant en place un système de classement basé sur les actions des utilisateurs.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_fonctionnement_du_système_de_classement">Fonctionnement du système de classement</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Critères de classement</strong> :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Le classement des utilisateurs est basé sur des <strong>points</strong> attribués en fonction de leurs contributions.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Type de classement disponible</strong> :</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Global</strong> : Affiche les meilleurs utilisateurs de la plateforme.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Affichage du classement</strong> :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Classement présenté sous forme de tableau avec :</p>
+</li>
+<li>
+<p>Nom ou pseudonyme de l’utilisateur.</p>
+</li>
+<li>
+<p>Nombre total de points accumulés.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_classement_des_utilisateurs_2">Classement des utilisateurs</h5>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/diam_classement.png" alt="diagclassement" width="500">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_feature_4">Feature 4</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_gestion_dun_programme_de_volontariat_grande_fonctionnalité"><strong>Gestion d&#8217;un Programme de Volontariat (Grande Fonctionnalité)</strong></h3>
+<div class="sect3">
+<h4 id="_description"><strong>Description</strong></h4>
+<div class="paragraph">
+<p>Un système complet conçu pour recruter, former et organiser des volontaires pour des actions de nettoyage. Ce programme assure un processus structuré de gestion des volontaires, depuis leur recrutement jusqu&#8217;au suivi de leurs missions.</p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_implémentation"><strong>Implémentation</strong></h3>
+<div class="sect3">
+<h4 id="_1_recrutement_de_volontaires"><strong>1. Recrutement de Volontaires</strong></h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Objectif</strong> : Permettre aux utilisateurs intéressés de soumettre leur candidature pour devenir volontaires.</p>
+</li>
+<li>
+<p><strong>Fonctionnement</strong> :</p>
+</li>
+<li>
+<p>Les utilisateurs remplissent un formulaire comprenant leur nom, leurs coordonnées et leurs motivations.</p>
+</li>
+<li>
+<p>Les données soumises sont envoyées au backend via une requête <strong>POST</strong> et enregistrées dans une base spécifique pour être examinées.</p>
+</li>
+<li>
+<p><strong>Exemple d’interaction</strong> :</p>
+</li>
+<li>
+<p>Un utilisateur soumet une candidature via un formulaire. Une fois la candidature enregistrée, un message de confirmation s’affiche.</p>
 </li>
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_liste_des_signalements">Liste des signalements</h5>
+<div class="sect3">
+<h4 id="_2_validation_et_affectation"><strong>2. Validation et Affectation</strong></h4>
 <div class="ulist">
 <ul>
 <li>
-<p>Objectif : Afficher tous les signalements et permettre la gestion de leur statut (ouvert/fermé).</p>
+<p><strong>Objectif</strong> : Permettre aux administrateurs de gérer et d&#8217;affecter les volontaires validés.</p>
 </li>
 <li>
-<p>Fonctionnement : Les signalements sont récupérés depuis le backend et peuvent être filtrés, triés et mis à jour par l&#8217;utilisateur.</p>
+<p><strong>Fonctionnement</strong> :</p>
 </li>
 <li>
-<p>Exemple d&#8217;interaction : L&#8217;utilisateur change le statut d&#8217;un signalement de "ouvert" à "fermé", ce qui est mis à jour dans la base de données.</p>
+<p><strong>GET</strong> : Les administrateurs accèdent à la liste des candidatures en attente.</p>
+</li>
+<li>
+<p><strong>PUT</strong> : Ils peuvent valider ou refuser une candidature en ajoutant un commentaire justifiant leur décision.</p>
+</li>
+<li>
+<p>Les volontaires validés sont assignés à des zones ou des événements spécifiques en fonction des besoins.</p>
+</li>
+<li>
+<p><strong>Exemple d’interaction</strong> :</p>
+</li>
+<li>
+<p>Un administrateur valide une candidature et affecte le volontaire à une zone de nettoyage.</p>
 </li>
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_scénarios_dutilisation">Scénarios d&#8217;utilisation</h5>
+<div class="sect3">
+<h4 id="_3_formation_des_volontaires"><strong>3. Formation des Volontaires</strong></h4>
 <div class="ulist">
 <ul>
 <li>
-<p>Utilisateur standard : Crée un signalement, consulte les signalements existants, et met à jour leur statut si autorisé.</p>
+<p><strong>Objectif</strong> : Préparer les volontaires grâce à une bibliothèque de ressources pédagogiques.</p>
 </li>
 <li>
-<p>Administrateur : Gère tous les signalements, peut les fermer, réouvrir et attribuer des actions.</p>
+<p><strong>Fonctionnement</strong> :</p>
 </li>
 <li>
-<p>Responsable du traitement des signalements : Peut uniquement consulter et marquer les signalements comme résolus.</p>
+<p>Une fois validés, les volontaires accèdent via <strong>GET</strong> à une bibliothèque contenant des documents, vidéos et autres supports de formation.</p>
+</li>
+<li>
+<p>Les volontaires confirment qu’ils ont suivi les formations via une requête <strong>POST</strong>, ce qui met à jour leur statut dans la base de données.</p>
+</li>
+<li>
+<p><strong>Exemple d’interaction</strong> :</p>
+</li>
+<li>
+<p>Un volontaire termine une formation vidéo et valide son statut de formation via l&#8217;interface utilisateur.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_4_suivi_des_missions"><strong>4. Suivi des Missions</strong></h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Objectif</strong> : Assurer un suivi des missions réalisées par les volontaires et fournir un retour aux administrateurs.</p>
+</li>
+<li>
+<p><strong>Fonctionnement</strong> :</p>
+</li>
+<li>
+<p><strong>POST</strong> : Les volontaires remplissent un rapport après chaque mission, détaillant :</p>
+</li>
+<li>
+<p>Le travail effectué.</p>
+</li>
+<li>
+<p>Les difficultés rencontrées.</p>
+</li>
+<li>
+<p><strong>GET/PUT</strong> : Les administrateurs consultent ces rapports et peuvent les valider ou ajouter des commentaires pour amélioration.</p>
+</li>
+<li>
+<p><strong>Exemple d’interaction</strong> :</p>
+</li>
+<li>
+<p>Un volontaire soumet un rapport mentionnant les difficultés rencontrées. L’administrateur valide le rapport et informe l’équipe d’améliorations possibles.</p>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scénarios_dutilisation_2"><strong>Scénarios d’Utilisation</strong></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Volontaire</strong> :</p>
+</li>
+<li>
+<p>Soumet sa candidature, suit les formations, et remplit des rapports de mission.</p>
+</li>
+<li>
+<p><strong>Administrateur</strong> :</p>
+</li>
+<li>
+<p>Valide ou refuse les candidatures, affecte les volontaires, gère les formations et valide les rapports de mission.</p>
+</li>
+<li>
+<p><strong>Superviseur de mission</strong> :</p>
+</li>
+<li>
+<p>Suit la progression des volontaires, analyse les rapports pour ajuster les futures missions et optimise les affectations.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Ce système permet une gestion facile des problèmes signalés, avec des fonctionnalités de création, consultation et mise à jour des signalements.</p>
+<p>Ce système centralisé permet une gestion efficace et structurée des volontaires, favorisant une organisation fluide et un suivi rigoureux des activités de nettoyage.</p>
 </div>
-</div>
-<div class="sect4">
-<h5 id="_formulaire_de_signalement_2">Formulaire de signalement</h5>
+<div class="sect3">
+<h4 id="_diagramme_de_séquence_2">Diagramme de Séquence</h4>
 <div class="imageblock text-center">
 <div class="content">
-<img src="images/formulaire.png" alt="formulaire" width="500">
+<img src="images/livraison2.png" alt="Diagramme de Séquence" width="500">
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_liste_des_signalements_2">Liste des signalements</h5>
+<div class="sect3">
+<h4 id="_diagramme_de_classe">Diagramme de  Classe</h4>
 <div class="imageblock text-center">
 <div class="content">
-<img src="images/listeformulaire.png" alt="listeformulaire" width="500">
+<img src="images/livraison2Objet.png" alt="Diagramme de Classe" width="500">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_feature_5_création_et_participation_à_des_événements_de_nettoyage_grande_fonctionnalité">FEATURE 5 : Création et Participation à des Événements de Nettoyage (Grande fonctionnalité)</h3>
+<div class="sect3">
+<h4 id="_description_2">Description</h4>
+<div class="paragraph">
+<p>Cette fonctionnalité permet aux utilisateurs de contribuer activement à la propreté de leur environnement en créant et en participant à des événements de nettoyage communautaires. Elle offre également un outil pratique pour consulter leur historique de participation.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sous_fonctionnalités">Sous-fonctionnalités</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Création d&#8217;événements</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Objectif</strong> : Les utilisateurs peuvent créer un événement de nettoyage en renseignant des informations essentielles, telles que :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Le titre de l’événement.</p>
+</li>
+<li>
+<p>La localisation.</p>
+</li>
+<li>
+<p>La date et l’heure.</p>
+</li>
+<li>
+<p>Une description.</p>
+</li>
+<li>
+<p>Le nombre maximum de participants.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>But principal</strong> : Encourager l’organisation d’initiatives locales en facilitant leur planification et leur partage via la plateforme.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Participation à des événements</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Objectif</strong> : Les utilisateurs peuvent s’inscrire à des événements créés par d&#8217;autres utilisateurs en remplissant un formulaire avec des informations comme :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Leur nom ou pseudo.</p>
+</li>
+<li>
+<p>Un commentaire éventuel (facultatif).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>But principal</strong> : Favoriser l&#8217;engagement communautaire en rendant les événements accessibles et inclusifs.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Historique des événements</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Objectif</strong> : Les utilisateurs peuvent consulter leur historique d’événements, comprenant :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Les événements auxquels ils ont participé.</p>
+</li>
+<li>
+<p>Les événements qu&#8217;ils ont créés.</p>
+</li>
+<li>
+<p>Les événements passés et à venir.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>But principal</strong> : Fournir une vue d&#8217;ensemble de l&#8217;engagement de l&#8217;utilisateur tout en renforçant leur motivation à participer à des initiatives futures.</p>
+<div class="literalblock">
+<div class="content">
+<pre>    ==== Exemple d'Interaction
+- L'utilisateur clique sur "Créer un événement".
+- Il remplit les informations nécessaires dans le formulaire et soumet sa demande.
+- Un message de confirmation s'affiche une fois que l'événement est enregistré.
+- Un autre utilisateur consulte la liste des événements disponibles, choisit un événement et remplit le formulaire d'inscription.
+- Enfin, l'utilisateur peut consulter son historique pour voir les événements auxquels il a participé ou qu’il a créés.</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect4">
+<h5 id="_diagramme_de_séquence_3">Diagramme de Séquence</h5>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/feat3.png" alt="Diagramme de Séquence" width="500">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/feat3-2.png" alt="Diagramme de Séquence" width="500">
 </div>
 </div>
 </div>
@@ -756,7 +1145,66 @@ Grâce à l&#8217;intégration d&#8217;éléments ludiques comme les défis et l
 <h3 id="_feature_2_2">Feature 2</h3>
 <div class="imageblock text-center">
 <div class="content">
-<img src="images/3.png" alt="wire3" width="500">
+<img src="images/5.jpeg" alt="wire5" width="500">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_feature_3_2">Feature 3</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/6.jpeg" alt="wire6" width="500">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_feature_4_2">Feature 4</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/liv1.png" alt="wire3" width="500">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/liv2.png" alt="wire3" width="500">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/liv3.png" alt="wire3" width="500">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/liv4.png" alt="wire3" width="500">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/liv5.png" alt="wire3" width="500">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/liv6.png" alt="wire3" width="500">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_feature_5">Feature 5</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/w1.png" alt="wire3" width="500">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/W2.png" alt="wire3" width="500">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/W3.png" alt="wire3" width="500">
 </div>
 </div>
 </div>
@@ -773,7 +1221,7 @@ Grâce à l&#8217;intégration d&#8217;éléments ludiques comme les défis et l
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-12-21 01:47:18 +0100
+Last updated 2025-01-19 14:36:53 +0100
 </div>
 </div>
 </body>
