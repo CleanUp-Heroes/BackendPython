@@ -48,6 +48,7 @@ urlpatterns = [
     path('register/', user_controller.register, name='register'),
     path('login/', user_controller.login, name='login'),
     path('logout/', user_controller.logout, name='logout'),
+    path('classement/', challenge_controller.leaderboard_global, name='classement'),
     path('reports/resolve_report/', reporting_controller.resolve_report, name='resolve_report'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

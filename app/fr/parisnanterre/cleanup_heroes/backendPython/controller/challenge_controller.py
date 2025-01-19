@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from app.models import Participation, CompletedChallenge, Challenge, Proof
+from app.models import Participation, CompletedChallenge, Challenge, Proof, Userscore
 from django.db.models import Sum
 from datetime import date
 from drf_yasg.utils import swagger_auto_schema
@@ -329,9 +329,6 @@ def check_and_update_completed_challenges(user_id, challenge):
         ).aggregate(total=Sum('action_quantity'))['total'] or 0
     )
 
-    print(f"Total quantity: {total_quantity}")
-    print(challenge.expected_actions)
-
     # Si la quantité totale est égale ou supérieure à la quantité attendue
     if total_quantity >= challenge.expected_actions:
         print("Quantité suffisante pour compléter le défi.")
@@ -346,3 +343,24 @@ def check_and_update_completed_challenges(user_id, challenge):
                 challenge=challenge,
                 completion_date=now()
             )
+            
+            # Ajoute au score total le score du défi complété
+            user_score = Userscore.objects.get(user__id=user_id)
+            user_score.total_score += challenge.points
+            user_score.save()    
+
+@api_view(['GET'])
+def leaderboard_global(request):
+    if not request.headers.get('Authorization'):
+        raise AuthenticationFailed("Token is missing in the request.")
+    
+    leaderboard = Userscore.objects.order_by('-total_score')
+    data = [
+        {
+        "username": score.user.username, 
+        "total_score": score.total_score} 
+        
+        for score in leaderboard
+        ]
+    
+    return JsonResponse({"classement" : data}, status=200)

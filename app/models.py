@@ -219,3 +219,12 @@ class Unit(models.Model):
     class Meta:
         managed = False
         db_table = 'unit'
+        
+class Userscore(models.Model):
+    total_score = models.IntegerField(blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    # region = models.CharField(max_length=100, null=True, blank=True) 
+
+    class Meta:
+        managed = False
+        db_table = 'userscore'
