@@ -23,14 +23,7 @@ from rest_framework import permissions
 from django.conf import settings
 from django.conf.urls.static import static
 from app import views
-from app.controller.create_participate_event import (
-    create_event,
-    participate_event,
-    list_upcoming_events,
-    user_event_history
-)
-
-
+#from app import create_participate_event
 
 
 schema_view = get_schema_view(
@@ -60,10 +53,10 @@ urlpatterns = [
     path('logout/', user_controller.logout, name='logout'),
     
 
-     path('create-event/', create_participate_event, name='create_event'),
-     path('participate-event/', create_participate_event, name='participate_event'),
-     path('upcoming-events/', create_participate_event, name='list_upcoming_events'),
-     path('user-events/<int:user_id>/', create_participate_event, name='user_event_history'),
+     path('create-event/', create_participate_event.create_event, name='create_event'),
+     path('participate-event/', create_participate_event.participate_event, name='participate_event'),
+     #path('upcoming-events/', create_participate_event, name='list_upcoming_events'),
+     path('user-events/<int:user_id>/', create_participate_event.event_history, name='user_event_history'),
 
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
