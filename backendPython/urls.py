@@ -18,10 +18,11 @@ Including another URLconf
 from django.urls import path
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from app.views import *
+from app.views import * # ça import toutes les méthodes mis dans view.py
 from rest_framework import permissions
 from django.conf import settings
 from django.conf.urls.static import static
+
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -50,4 +51,27 @@ urlpatterns = [
     path('logout/', user_controller.logout, name='logout'),
     # urls volontariat
     #path('recrutement/', include('recrutement.urls')),
+    #urls Mission et Candidature
+    # urls.py
+
+    
+    # Routes pour les missions
+    path('volontariat/missions/', volontariat_controller.create_mission, name='create_mission'),
+    path('volontariat/missions/', volontariat_controller.list_missions, name='list-missions'),
+    path('volontariat/missions/', volontariat_controller.get_mission, name='get-mission'),
+    path('volontariat/missions/', volontariat_controller.delete_mission, name='delete_mission'),
+    path('volontariat/missions/', volontariat_controller.update_mission, name='update-mission'),
+
+
+    # Routes pour les candidatures
+    path('volontariat/candidatures/', volontariat_controller.create_candidature, name='create_candidature'),
+    path('volontariat/candidatures/', volontariat_controller.list_candidatures, name='list_candidatures'),
+    path('volontariat/candidatures/', volontariat_controller.get_candidature, name='get_candidature'),
+    path('volontariat/candidatures/', volontariat_controller.update_candidature, name='update_candidature'),
+    path('volontariat/candidatures/', volontariat_controller.delete_candidature, name='delete_candidature'),
+
+    # Route pour la formation 
+    path('formations/<int:formation_id>/complete/', volontariat_controller.mark_formation_completed, name='mark_formation_completed'),
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

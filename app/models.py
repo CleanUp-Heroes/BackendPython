@@ -9,6 +9,9 @@ from django.db import models
 from datetime import datetime
 from django.utils.timezone import now # ajouter par claire sur la fonction creation date pour run le back
 
+from django.core.validators import RegexValidator # ajout par claire la validation du numéro de téléphone
+
+
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 
@@ -213,33 +216,62 @@ class Unit(models.Model):
         managed = False
         db_table = 'unit'
 
+
+
 # La base de données pour le feature vontariat
 
-
-class Mission(models.Model): # pour stocker les informations des missions
-    title = models.CharField(max_length=255, verbose_name="Titre de la mission")
-    description = models.TextField(verbose_name="Description de la mission", blank=True, null=True)
-    location = models.CharField(max_length=255, verbose_name="Localisation")
-    date = models.DateField(verbose_name="Date de la mission")
+# formation
+class Formation(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    is_completed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
 
-class Candidature(models.Model): # pour stocker les informations des candidatures
+from django.db import models
+
+# Création de mission
+class Mission(models.Model):
+    titre = models.CharField(max_length=200)
+    description = models.TextField()
+    localisation = models.CharField(max_length=100)
+    type_pollution = models.CharField(max_length=50)
+    difficulte = models.CharField(max_length=20)
+    date = models.DateField()
+
+    def __str__(self):
+        return self.titre
+    
+    # migration qui a été fait  : Cela vous indique que Django a créé un nouveau fichier de migration 
+    # dans le répertoire app\migrations.
+    #  Ce fichier porte le nom 0003_alter_mission_difficulte_alter_mission_localisation_and_more.py.
+    
+
+class Candidature(models.Model):
     STATUS_CHOICES = [
         ('en attente', 'En attente'),
         ('acceptée', 'Acceptée'),
         ('refusée', 'Refusée'),
     ]
 
+    phone_validator = RegexValidator(
+        regex=r'^\+?1?\d{9,15}$',
+        message="Le numéro de téléphone doit être au format : '+999999999'."
+    )
+
     name = models.CharField(max_length=255, verbose_name="Nom du volontaire")
     email = models.EmailField(verbose_name="Email du volontaire")
-    phone = models.CharField(max_length=20, verbose_name="Téléphone du volontaire")
+    phone = models.CharField(max_length=20, validators=[phone_validator], verbose_name="Téléphone du volontaire")
     mission = models.ForeignKey(Mission, on_delete=models.CASCADE, verbose_name="Mission")
     message = models.TextField(verbose_name="Message du volontaire", blank=True, null=True)
     experience = models.TextField(verbose_name="Expérience du volontaire", blank=True, null=True)
     availability = models.CharField(max_length=255, verbose_name="Disponibilités du volontaire")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='en attente', verbose_name="Statut")
+    date_creation = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Candidature de {self.name} pour {self.mission.title}"
+        return f"Candidature de {self.name} pour {self.mission.titre}"
+
+    class Meta:
+        db_table = 'candidature'  # Nom de la table dans la base de données
