@@ -1,12 +1,7 @@
-# urls.py
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import MissionViewSet, CandidatureViewSet
-
-router = DefaultRouter()
-router.register(r'missions', MissionViewSet)
-router.register(r'candidatures', CandidatureViewSet)
+from django.urls import path
+from .views import MissionList
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('api/missions/', MissionList.as_view(), name='mission-list'),
+    # autres URLs
 ]

@@ -242,6 +242,7 @@ image::images/livraison2Objet.png[Diagramme de Classe, width=500, align=center]
 
 === FEATURE 5 : Création et Participation à des Événements de Nettoyage (Grande fonctionnalité)
 
+<<<<<<< HEAD
 ==== Description
 Cette fonctionnalité permet aux utilisateurs de contribuer activement à la propreté de leur environnement en créant et en participant à des événements de nettoyage communautaires. Elle offre également un outil pratique pour consulter leur historique de participation.
 
@@ -280,6 +281,93 @@ Cette fonctionnalité permet aux utilisateurs de contribuer activement à la pro
 
 image::images/feat3.png[Diagramme de Séquence, width=500, align=center]
 image::images/feat3-2.png[Diagramme de Séquence, width=500, align=center]
+=======
+=== Feature 5
+Participation au Quiz environnement et Obtention des Récompenses (Grande Fonctionnalité)
+
+Description
+Un système interactif permettant aux utilisateurs de participer à des quiz environnementaux, de gagner des points, et d'échanger ces points contre des récompenses. Les récompenses incluent des badges, des rendez-vous pour des sachets poubelles biodégradables, et de l'argent fictif.
+
+Implémentation
+1. Participation au Quiz
+Objectif : Permettre aux utilisateurs de répondre à des questions sur des thèmes environnementaux et de gagner des points.
+
+Fonctionnement :
+
+Les utilisateurs accèdent à une liste de questions via une requête GET.
+
+Ils sélectionnent des réponses, qui sont envoyées au backend via une requête POST pour validation.
+
+Le backend vérifie les réponses et retourne un score.
+
+Exemple d’interaction :
+
+Un utilisateur répond à 10 questions et obtient un score de 4/10.
+
+2. Gestion des Points
+Objectif : Suivre les points gagnés par les utilisateurs et les rendre échangeables contre des récompenses.
+
+Fonctionnement :
+
+Les points sont stockés dans la base de données et mis à jour après chaque quiz.
+
+Les utilisateurs peuvent consulter leur solde de points via une requête GET.
+
+Exemple d’interaction :
+
+Un utilisateur consulte son solde de points (ex : 7 points).
+
+3. Obtention des Récompenses
+Objectif : Permettre aux utilisateurs d'échanger leurs points contre des récompenses.
+
+Fonctionnement :
+
+Les utilisateurs accèdent à une liste de récompenses disponibles via une requête GET.
+
+Ils sélectionnent une récompense, et le backend vérifie si les points sont suffisants via une requête POST.
+
+Si les points sont suffisants, la récompense est confirmée, et les points sont déduits.
+
+Exemple d’interaction :
+
+Un utilisateur échange 10 points contre un badge Éco-Responsable.
+
+4. Réclamation des Récompenses
+Objectif : Permettre aux utilisateurs de réclamer leurs récompenses via un e-mail.
+
+Fonctionnement :
+
+Les utilisateurs envoient un e-mail avec leur badge ou leurs points pour réclamer leur récompense.
+
+Les administrateurs valident la réclamation et envoient la récompense.
+
+Exemple d’interaction :
+
+Un utilisateur envoie un e-mail pour réclamer un rendez-vous pour des sachets poubelles biodégradables.
+
+Scénarios d’Utilisation
+Utilisateur :
+
+Participe à des quiz, consulte son solde de points, et échange des points contre des récompenses.
+
+Administrateur :
+
+Gère les questions du quiz, valide les réclamations de récompenses, et suit les points des utilisateurs.
+
+Ce système encourage l'engagement des utilisateurs en récompensant leurs connaissances et leurs actions en faveur de l'environnement.
+
+
+
+===== Diagramme de Séquence
+
+image::images/seq.png[Diagramme de Séquence, width=500, align=center]
+
+
+===== Diagramme de  Classe
+
+image::images/obj.png[Diagramme de Classe, width=500, align=center]
+
+>>>>>>> volontariatBack
 
 == Wireframe
 === Acceuil
@@ -311,11 +399,18 @@ image::images/liv5.png[wire3, width=500, align=center]
 image::images/liv6.png[wire3, width=500, align=center]
 
 === Feature 5
+<<<<<<< HEAD
 
 image::images/w1.png[wire3, width=500, align=center]
 image::images/W2.png[wire3, width=500, align=center]
 image::images/W3.png[wire3, width=500, align=center]
 
+=======
+image::images/fin7.png[wire3, width=500, align=center]
+image::images/fin8.png[wire3, width=500, align=center]
+
+=== Feature 6
+>>>>>>> volontariatBack
 
 === à propos
 

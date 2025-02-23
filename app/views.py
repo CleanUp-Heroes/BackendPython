@@ -1,8 +1,8 @@
-from app.fr.parisnanterre.cleanup_heroes.backendPython.controller import challenge_controller, reporting_controller, user_controller
+from app.fr.parisnanterre.cleanup_heroes.backendPython.controller import  volontariat_controller, challenge_controller, reporting_controller, user_controller
 
 # views.py pour la base de données du feature volontariat
 #pour
-#Lister les missions.
+#Lister les missions. j'ai mis volontariat-controller
 #Lister les candidatures.
 #Mettre à jour le statut d'une candidature.
 
@@ -29,3 +29,17 @@ class CandidatureViewSet(viewsets.ModelViewSet):
             return Response({"message": f"Statut mis à jour à {new_status}."}, status=status.HTTP_200_OK)
         else:
             return Response({"error": "Statut invalide."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# pour ajouter la liste des missions
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Mission
+from .serializers import MissionSerializer
+
+class MissionList(APIView):
+    def get(self, request):
+        missions = Mission.objects.all()
+        serializer = MissionSerializer(missions, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
