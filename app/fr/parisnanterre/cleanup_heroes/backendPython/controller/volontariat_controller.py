@@ -6,7 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from app.serializers import MissionSerializer, CandidatureSerializer
-from app.models import Mission, Candidature, Formation
+from app.models import Mission, Candidature, AppFormation
+from rest_framework_simplejwt.tokens import RefreshToken
 
 #Formation
 from django.http import JsonResponse
@@ -117,27 +118,54 @@ def delete_candidature(request, candidature_id):
         return Response({"error": "Candidature non trouvée"}, status=status.HTTP_404_NOT_FOUND)
     
 #Formation
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from app.models import AppFormation, UserFormation
 
 @csrf_exempt  # Permet de désactiver la protection CSRF pour cette vue (à utiliser avec précaution)
 def mark_formation_completed(request, formation_id):
     if request.method == 'POST':
-        try:
+        # try:
             # Récupérer les données de la requête
-            data = json.loads(request.body)
-            user_id = data.get('userId')  # Vous pouvez utiliser ceci pour identifier l'utilisateur
-
+            token_value = request.headers.get('Authorization')
+        
+    
+            refresh_token = RefreshToken(token_value)
+            user_id = refresh_token['user_id']
             # Récupérer la formation
-            formation = Formation.objects.get(id=formation_id)
+            formation = AppFormation.objects.get(id=formation_id)
+
+            # Vérifier si une entrée existe déjà pour cet utilisateur et cette formation
+            user_progress, created = UserFormation.objects.get_or_create(user_id=user_id, formation=formation)
 
             # Marquer la formation comme terminée
-            formation.is_completed = True
-            formation.save()
+            user_progress.is_completed = True
+            user_progress.save()
 
             # Répondre avec un succès
-            return JsonResponse({'message': 'Formation marquée comme terminée avec succès !'}, status=200)
-        except Formation.DoesNotExist:
-            return JsonResponse({'error': 'Formation non trouvée'}, status=404)
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'message': f'Formation "{formation.title}" marquée comme terminée pour l\'utilisateur {user_id}.'}, status=200)
+        # except Formation.DoesNotExist:
+        #     return JsonResponse({'error': 'Formation non trouvée'}, status=404)
+        # except Exception as e:
+        #     return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+@csrf_exempt
+def list_user_formation(request):
+    if request.method == 'GET':
+        token_value = request.headers.get('Authorization')
+        refresh_token = RefreshToken(token_value)
+        user_id = refresh_token['user_id']
+        user_progress = UserFormation.objects.filter(user_id=user_id)
+        user_progress_data = []
+        for progress in user_progress:
+            user_progress_data.append({
+                'formation_id': progress.formation.id,
+                'title': progress.formation.title,
+                'is_completed': progress.is_completed,
+            })
+        return JsonResponse({'user_progress': user_progress_data}, status=200)
     else:
         return JsonResponse({'error': 'Méthode non autorisée'}, status=405)

@@ -221,15 +221,30 @@ class Unit(models.Model):
 # La base de données pour le feature vontariat
 
 # formation
-class Formation(models.Model):
+#from django.db import models
+from django.contrib.auth.models import User  # Utilisation du modèle User
+
+# La base de données pour le feature vontariat
+
+# formation
+class AppFormation(models.Model):
+    id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    is_completed = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.title
+    class Meta:
+        managed = False
+        db_table = 'app_formation'
 
-from django.db import models
+class UserFormation(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    formation = models.ForeignKey(AppFormation, models.DO_NOTHING)
+    is_completed = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'user_formation'
 
 # Création de mission
 class Mission(models.Model):

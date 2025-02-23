@@ -29,3 +29,17 @@ class CandidatureViewSet(viewsets.ModelViewSet):
             return Response({"message": f"Statut mis à jour à {new_status}."}, status=status.HTTP_200_OK)
         else:
             return Response({"error": "Statut invalide."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# pour ajouter la liste des missions
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Mission
+from .serializers import MissionSerializer
+
+class MissionList(APIView):
+    def get(self, request):
+        missions = Mission.objects.all()
+        serializer = MissionSerializer(missions, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -55,23 +55,22 @@ urlpatterns = [
     # urls.py
 
     
-    # Routes pour les missions
-    path('volontariat/missions/', volontariat_controller.create_mission, name='create_mission'),
-    path('volontariat/missions/', volontariat_controller.list_missions, name='list-missions'),
-    path('volontariat/missions/', volontariat_controller.get_mission, name='get-mission'),
-    path('volontariat/missions/', volontariat_controller.delete_mission, name='delete_mission'),
-    path('volontariat/missions/', volontariat_controller.update_mission, name='update-mission'),
+    #  Routes pour les missions
+    path('volontariat/missions/', volontariat_controller.list_missions, name='list-missions'),  #  Liste toutes les missions
+    path('volontariat/missions/create/', volontariat_controller.create_mission, name='create-mission'),  #  Créer une mission
+    path('volontariat/missions/<int:id>/', volontariat_controller.get_mission, name='get-mission'),  #  Obtenir une mission spécifique
+    path('volontariat/missions/<int:id>/update/', volontariat_controller.update_mission, name='update-mission'),  #  Mettre à jour une mission
+    path('volontariat/missions/<int:id>/delete/', volontariat_controller.delete_mission, name='delete-mission'),  #  Supprimer une mission
 
-
-    # Routes pour les candidatures
-    path('volontariat/candidatures/', volontariat_controller.create_candidature, name='create_candidature'),
-    path('volontariat/candidatures/', volontariat_controller.list_candidatures, name='list_candidatures'),
-    path('volontariat/candidatures/', volontariat_controller.get_candidature, name='get_candidature'),
-    path('volontariat/candidatures/', volontariat_controller.update_candidature, name='update_candidature'),
-    path('volontariat/candidatures/', volontariat_controller.delete_candidature, name='delete_candidature'),
+    #  Routes pour les candidatures
+    path('volontariat/candidatures/', volontariat_controller.list_candidatures, name='list-candidatures'),  # Liste des candidatures
+    path('volontariat/candidatures/create/', volontariat_controller.create_candidature, name='create-candidature'),  #  Ajouter une candidature
+    path('volontariat/candidatures/<int:id>/', volontariat_controller.get_candidature, name='get-candidature'),  #  Obtenir une candidature spécifique
+    path('volontariat/candidatures/<int:id>/update/', volontariat_controller.update_candidature, name='update-candidature'),  #  Mettre à jour une candidature
+    path('volontariat/candidatures/<int:id>/delete/', volontariat_controller.delete_candidature, name='delete-candidature'),  #  Supprimer une candidature
 
     # Route pour la formation 
-    path('formations/<int:formation_id>/complete/', volontariat_controller.mark_formation_completed, name='mark_formation_completed'),
+    path('formations/list_user_formation/', volontariat_controller.list_user_formation, name='mark_formation_completed'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
