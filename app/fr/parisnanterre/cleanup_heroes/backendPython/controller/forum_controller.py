@@ -21,6 +21,7 @@ from app.models import (
     ForumModerationAction,
 )
 
+@csrf_exempt
 def create_topic(request):
     try:
         token_value = request.headers.get('Authorization')
@@ -61,7 +62,7 @@ def create_topic(request):
                 title=title,
                 content=content,
                 user=user,
-                category=category,
+                category="category",
                 created_at=now()
             )
             

@@ -306,14 +306,10 @@ class Candidature(models.Model):
     date_creation = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-<<<<<<< HEAD
-        return f"Candidature de {self.name} pour {self.mission.title}"
-=======
         return f"Candidature de {self.name} pour {self.mission.titre}"
 
     class Meta:
         db_table = 'candidature'  # Nom de la table dans la base de données
->>>>>>> volontariatBack
 
 class ForumModerationAction(models.Model):
     moderator = models.ForeignKey(AuthUser, models.DO_NOTHING)  # Le modérateur qui effectue l'action
