@@ -263,3 +263,78 @@ class Candidature(models.Model): # pour stocker les informations des candidature
 
     def __str__(self):
         return f"Candidature de {self.name} pour {self.mission.title}"
+
+
+# tables sur le forum
+class ForumCategories(models.Model):
+    name = models.CharField(unique=True, max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_categories'
+
+
+class ForumModerateur(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.OneToOneField(AuthUser, models.DO_NOTHING)
+    date_nomination = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_moderateur'
+
+
+class ForumReponses(models.Model):
+    content = models.TextField()
+    created_at = models.DateTimeField(blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    sujet = models.ForeignKey('ForumSujets', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_reponses'
+
+class ForumSignalementsReponse(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    sujet = models.ForeignKey('ForumSujets', models.DO_NOTHING, blank=True, null=True)
+    reponse = models.ForeignKey(ForumReponses, models.DO_NOTHING, blank=True, null=True)
+    reason = models.TextField()
+    created_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_signalements_reponse'
+
+
+class ForumSignalementsSujet(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    sujet = models.ForeignKey('ForumSujets', models.DO_NOTHING, blank=True, null=True)
+    reason = models.TextField()
+    created_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_signalements_sujet'
+
+class ForumSujets(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    created_at = models.DateTimeField(blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    category = models.ForeignKey(ForumCategories, models.DO_NOTHING)
+    status = models.CharField(max_length=8, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_sujets'
+
+
+class ForumSujetsVotes(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    sujet = models.ForeignKey(ForumSujets, models.DO_NOTHING)
+    created_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_sujets_votes'
+        unique_together = (('user', 'sujet'),)

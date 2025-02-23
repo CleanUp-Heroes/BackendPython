@@ -52,6 +52,21 @@ urlpatterns = [
     path('classement/', challenge_controller.leaderboard_global, name='classement'),
     path('reports/resolve_report/', reporting_controller.resolve_report, name='resolve_report'),
     
+    path('forum/create_topic/', forum_controller.create_topic, name='create_topic'),
+    path('forum/categories/', forum_controller.get_forum_categories, name='get_forum_categories'),
+
+    path('forum/topics/', forum_controller.get_forum_topics, name='get_forum_topics'),
+    path('forum/topics/<int:topic_id>/vote/', forum_controller.vote_forum_topic, name='vote_forum_topic'),
+    
+    path('forum/topics/<int:topic_id>/', forum_controller.get_topic_detail, name='get_topic_detail'),
+    path('forum/topics/<int:topic_id>/replies/', forum_controller.get_topic_replies, name='get_topic_replies'),
+    path('forum/topics/<int:topic_id>/replies/add/', forum_controller.add_reply, name='add_reply'),
+    path("forum/topics/<int:topic_id>/like/", forum_controller.like_topic, name="like_topic"),
+
+    path("forum/report/subject/", forum_controller.report_subject, name="report_subject"),
+    path("forum/report/response/", forum_controller.report_response, name="report_response"),
+    path("forum/reports/", forum_controller.get_reports, name="get_reports"),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
