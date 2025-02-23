@@ -67,6 +67,9 @@ urlpatterns = [
     path("forum/report/response/", forum_controller.report_response, name="report_response"),
     path("forum/reports/", forum_controller.get_reports, name="get_reports"),
 
+    path('moderation/reports/', forum_controller.list_reported_content, name='list_reported_content'),
+    path('moderation/reports/<int:report_id>/moderate/', forum_controller.moderate_report, name='moderate_report'),
+         
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

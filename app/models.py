@@ -264,6 +264,27 @@ class Candidature(models.Model): # pour stocker les informations des candidature
     def __str__(self):
         return f"Candidature de {self.name} pour {self.mission.title}"
 
+class ForumModerationAction(models.Model):
+    moderator = models.ForeignKey(AuthUser, models.DO_NOTHING)  # Le modérateur qui effectue l'action
+    forum_signalements_sujet = models.ForeignKey(
+        'ForumSignalementsSujet',
+        models.DO_NOTHING,
+        blank=True,
+        null=True
+    )
+    forum_signalements_reponse = models.ForeignKey(
+        'ForumSignalementsReponse',
+        models.DO_NOTHING,
+        blank=True,
+        null=True
+    )
+    action = models.CharField(max_length=50)  # Par exemple : "supprimé", "édité"
+    comment = models.TextField(blank=True, null=True)  # Commentaire optionnel du modérateur
+    created_at = models.DateTimeField(default=now)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_moderation_action'
 
 # tables sur le forum
 class ForumCategories(models.Model):
@@ -289,6 +310,7 @@ class ForumReponses(models.Model):
     created_at = models.DateTimeField(blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     sujet = models.ForeignKey('ForumSujets', models.DO_NOTHING)
+    is_deleted = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -300,6 +322,7 @@ class ForumSignalementsReponse(models.Model):
     reponse = models.ForeignKey(ForumReponses, models.DO_NOTHING, blank=True, null=True)
     reason = models.TextField()
     created_at = models.DateTimeField(blank=True, null=True)
+    is_handled = models.BooleanField(default=False)  # Champ pour savoir si le signalement est traité
 
     class Meta:
         managed = False
@@ -311,10 +334,12 @@ class ForumSignalementsSujet(models.Model):
     sujet = models.ForeignKey('ForumSujets', models.DO_NOTHING, blank=True, null=True)
     reason = models.TextField()
     created_at = models.DateTimeField(blank=True, null=True)
+    is_handled = models.BooleanField(default=False)  # Champ pour savoir si le signalement est traité
 
     class Meta:
         managed = False
         db_table = 'forum_signalements_sujet'
+
 
 class ForumSujets(models.Model):
     title = models.CharField(max_length=255)
@@ -323,6 +348,7 @@ class ForumSujets(models.Model):
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     category = models.ForeignKey(ForumCategories, models.DO_NOTHING)
     status = models.CharField(max_length=8, blank=True, null=True)
+    is_deleted = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

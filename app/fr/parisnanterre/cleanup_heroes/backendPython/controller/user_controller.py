@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.tokens import RefreshToken, RefreshToken
 import json
+from app.models import ForumModerateur, AuthUser
 
 @swagger_auto_schema(
     method='post',
@@ -88,10 +89,14 @@ def login(request):
 
         if user is not None:
             token = RefreshToken.for_user(user)
+            user = AuthUser.objects.get(username=username)
+            is_moderator = ForumModerateur.objects.filter(user=user).exists()
+
             return JsonResponse({
-                # 'token': str(refresh.access_token),
-                'token' : str(token),
+                'token': str(token),
+                'is_moderator': is_moderator,  
             }, status=status.HTTP_200_OK)
+            
 
         return JsonResponse({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
