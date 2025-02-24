@@ -346,7 +346,6 @@ class ForumSujets(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    category = models.ForeignKey(ForumCategories, models.DO_NOTHING)
     status = models.CharField(max_length=8, blank=True, null=True)
     is_deleted = models.IntegerField(blank=True, null=True)
 

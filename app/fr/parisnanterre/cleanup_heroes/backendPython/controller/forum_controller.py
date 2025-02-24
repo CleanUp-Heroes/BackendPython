@@ -17,10 +17,59 @@ from app.models import (
     ForumReponses, 
     AuthUser,
     ForumSujetsVotes,
-    ForumCategories,
     ForumModerationAction,
 )
 
+@csrf_exempt
+def update_sujet(request, sujet_id):
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        sujet = get_object_or_404(ForumSujets, id=sujet_id)
+
+        titre = data.get("titre")
+        contenu = data.get("contenu")
+        # Mise à jour du sujet
+        # sujet.title = titre
+        # sujet.content = contenu
+        # sujet.save()
+
+        return JsonResponse({"message": "Sujet mis à jour avec succès", "sujet": {
+            "id": sujet.id,
+            "titre": sujet.title,
+            "contenu": sujet.content
+        }})
+
+@csrf_exempt
+def delete_sujet(request, sujet_id):
+    if request.method == "DELETE":
+        sujet = get_object_or_404(ForumSujets, id=sujet_id)
+        sujet.delete()
+        return JsonResponse({"message": "Sujet supprimé avec succès"})
+
+@csrf_exempt
+def update_reponse(request, reponse_id):
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        reponse = get_object_or_404(ForumReponses, id=reponse_id)
+
+        # Mise à jour de la réponse
+        reponse.content = data.get("contenu", reponse.content)
+        reponse.save()
+
+        return JsonResponse({"message": "Réponse mise à jour avec succès", "reponse": {
+            "id": reponse.id,
+            "contenu": reponse.content
+        }})
+
+@csrf_exempt
+def delete_reponse(request, reponse_id):
+    if request.method == "DELETE":
+        reponse = get_object_or_404(ForumReponses, id=reponse_id)          
+
+        reponse.delete()
+        return JsonResponse({"message": "Réponse supprimée avec succès"})
+
+@csrf_exempt
 def create_topic(request):
     try:
         token_value = request.headers.get('Authorization')
@@ -46,23 +95,19 @@ def create_topic(request):
             
             title = data.get("title")
             content = data.get("content")
-            category_id = data.get("category")
             
-            if not title or not content or not category_id:
+            if not title or not content :
                 return JsonResponse({"error": "Tous les champs sont requis"}, status=400)
             
-            try:
-                category = ForumCategories.objects.get(id=category_id)
-            except ForumCategories.DoesNotExist:
-                return JsonResponse({"error": "Catégorie non trouvée"}, status=400)
-            
+          
             # Créer le sujet
             sujet = ForumSujets.objects.create(
                 title=title,
                 content=content,
                 user=user,
-                category=category,
-                created_at=now()
+                created_at=now(),
+                is_deleted=0,
+                status='actif'
             )
             
             return JsonResponse({
@@ -72,7 +117,6 @@ def create_topic(request):
                     "title": sujet.title,
                     "content": sujet.content,
                     "created_at": sujet.created_at,
-                    "category": sujet.category.name,
                     "user": user.username,
                 }
             }, status=201)
@@ -122,7 +166,6 @@ def get_forum_topics(request):
     Récupère la liste des sujets du forum avec possibilité de filtrer par catégorie,
     de trier par date ou popularité, et d'inclure le nombre de votes et de réponses.
     """
-    category_id = request.GET.get('category', None)
     # sort_by = request.GET.get('sort_by', 'date')  # 'date' (par défaut) ou 'popularité'
     
     topics = ForumSujets.objects.filter(is_deleted=False).annotate(
@@ -143,7 +186,6 @@ def get_forum_topics(request):
         'title': topic.title,
         'author': topic.user.username,
         'created_at': topic.created_at,
-        'category': topic.category.name,
         'like_count': topic.like_count,
         'reply_count': topic.reply_count
     } for topic in topics]
@@ -151,12 +193,12 @@ def get_forum_topics(request):
     return JsonResponse({'topics': topics_data}, status=200)
 
 
-def get_forum_categories(request):
-    """
-    Récupère la liste des catégories de sujets du forum.
-    """
-    categories = ForumCategories.objects.all().values('id', 'name')
-    return JsonResponse({'categories': list(categories)}, status=200)
+# def get_forum_categories(request):
+#     """
+#     Récupère la liste des catégories de sujets du forum.
+#     """
+#     categories = ForumCategories.objects.all().values('id', 'name')
+#     return JsonResponse({'categories': list(categories)}, status=200)
 
 def vote_forum_topic(request, topic_id):
     """
@@ -232,23 +274,41 @@ def get_topic_replies(request, topic_id):
     
     return JsonResponse({'replies': replies_data}, status=200)
 
+
 @csrf_exempt
 def add_reply(request, topic_id):
     """
     Ajoute une réponse à un sujet du forum (nécessite une authentification).
     """
-    content = request.POST.get('reply')
-    if not content:
-        return JsonResponse({'error': 'Le contenu ne peut pas être vide.'}, status=400)
-    
-    token_value = request.headers.get('Authorization')
-    topic = get_object_or_404(ForumSujets, id=topic_id)
-    refresh_token = RefreshToken(token_value)
-    user_id = refresh_token['user_id']
-    user = AuthUser.objects.get(id=user_id)
-    reply = ForumReponses.objects.create(sujet=topic, user=user, content=content)
+    if request.method != "POST":
+        return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
 
-    return JsonResponse({'message': 'Réponse ajoutée avec succès.', 'reply_id': reply.id}, status=201)
+    try:
+        data = json.loads(request.body)  # Récupérer le JSON envoyé
+        content = data.get('reply')
+
+        if not content or not content.strip():
+            return JsonResponse({'error': 'Le contenu ne peut pas être vide.'}, status=400)
+        
+        token_value = request.headers.get('Authorization')
+        if not token_value:
+            return JsonResponse({'error': 'Token manquant'}, status=401)
+
+        refresh_token = RefreshToken(token_value)
+        user_id = refresh_token['user_id']
+        user = AuthUser.objects.get(id=user_id)
+
+        topic = get_object_or_404(ForumSujets, id=topic_id)
+        reply = ForumReponses.objects.create(sujet=topic, user=user, content=content, is_deleted=0)
+
+        return JsonResponse({'message': 'Réponse ajoutée avec succès.', 'reply_id': reply.id}, status=201)
+
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Données invalides, format JSON attendu.'}, status=400)
+    except AuthUser.DoesNotExist:
+        return JsonResponse({'error': 'Utilisateur non trouvé.'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': f'Erreur interne : {str(e)}'}, status=500)
 
 @csrf_exempt
 def report_subject(request):
@@ -334,20 +394,31 @@ def get_reports(request):
     if not request.user.forummoderateur_set.exists():  
         return JsonResponse({"error": "Accès interdit"}, status=403)
 
-    # Récupération des signalements de sujets non traités
-    subject_reports = ForumSignalementsSujet.objects.select_related("user", "sujet").filter(is_handled=False).order_by("-created_at")
+    # Signalements des sujets
+    subject_reports = ForumSignalementsSujet.objects.select_related("user", "sujet", "sujet__user").filter(
+        is_handled=False,
+        sujet__is_deleted=False
+    ).order_by("-created_at")
+
     subject_reports_data = [{
         "id": report.id,
         "type": "sujet",
         "user": report.user.username,
         "sujet_id": report.sujet.id if report.sujet else None,
         "sujet_title": report.sujet.title if report.sujet else None,
+        "sujet_content": report.sujet.content if report.sujet else None,  # Ajout du contenu
+        "sujet_author": report.sujet.user.username if report.sujet and report.sujet.user else None,  # Auteur du sujet
         "reason": report.reason,
         "created_at": report.created_at,
     } for report in subject_reports]
 
-    # Récupération des signalements de réponses non traités
-    response_reports = ForumSignalementsReponse.objects.select_related("user", "reponse", "sujet").filter(is_handled=False).order_by("-created_at")
+    # Signalements des réponses
+    response_reports = ForumSignalementsReponse.objects.select_related("user", "reponse", "reponse__user", "sujet").filter(
+        is_handled=False,
+        sujet__is_deleted=False,
+        reponse__is_deleted=False  # Vérifier aussi que la réponse n'est pas supprimée
+    ).order_by("-created_at")
+
     response_reports_data = [{
         "id": report.id,
         "type": "réponse",
@@ -356,95 +427,109 @@ def get_reports(request):
         "sujet_title": report.sujet.title if report.sujet else None,
         "reponse_id": report.reponse.id if report.reponse else None,
         "reponse_content": report.reponse.content if report.reponse else None,
+        "reponse_author": report.reponse.user.username if report.reponse and report.reponse.user else None,  # Auteur de la réponse
         "reason": report.reason,
         "created_at": report.created_at,
     } for report in response_reports]
 
-    # Fusionner les résultats
-    all_reports = subject_reports_data + response_reports_data
-    all_reports = sorted(all_reports, key=lambda x: x["created_at"], reverse=True)  # Trier par date
+    all_reports = sorted(subject_reports_data + response_reports_data, key=lambda x: x["created_at"], reverse=True)
 
     return JsonResponse({"reports": all_reports}, status=200, safe=False)
 
-
 # @csrf_exempt
 def list_reported_content(request):
-    if request.method == 'GET':
-        try:
-            # Récupérer les signalements de sujets
-            reported_sujets = ForumSignalementsSujet.objects.all()
-            sujets_data = []
-            for report in reported_sujets:
-                sujets_data.append({
-                    'report_id': report.id,
-                    'type': 'sujet',
-                    'user_id': report.user.id,
-                    'sujet_id': report.sujet.id if report.sujet else None,
-                    'reason': report.reason,
-                    'created_at': report.created_at.isoformat() if report.created_at else None,
-                })
-            # Récupérer les signalements de réponses
-            reported_reponses = ForumSignalementsReponse.objects.all()
-            reponses_data = []
-            for report in reported_reponses:
-                reponses_data.append({
-                    'report_id': report.id,
-                    'type': 'reponse',
-                    'user_id': report.user.id,
-                    'sujet_id': report.sujet.id if report.sujet else None,
-                    'reponse_id': report.reponse.id if report.reponse else None,
-                    'reason': report.reason,
-                    'created_at': report.created_at.isoformat() if report.created_at else None,
-                })
-            # Combiner et trier par date (optionnel)
-            all_reports = sujets_data + reponses_data
-            all_reports.sort(key=lambda x: x['created_at'] or '', reverse=True)
-            return JsonResponse({'reports': all_reports}, status=200)
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
-    else:
-        return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
- 
+
+    # Signalements des sujets
+    subject_reports = ForumSignalementsSujet.objects.select_related("user", "sujet", "sujet__user").filter(
+        is_handled=False,
+        sujet__is_deleted=False
+    ).order_by("-created_at")
+
+    subject_reports_data = [{
+        "id": report.id,
+        "type": "sujet",
+        "user": report.user.username,
+        "sujet_id": report.sujet.id if report.sujet else None,
+        "sujet_title": report.sujet.title if report.sujet else None,
+        "sujet_content": report.sujet.content if report.sujet else None,  # Ajout du contenu
+        "sujet_author": report.sujet.user.username if report.sujet and report.sujet.user else None,  # Auteur du sujet
+        "reason": report.reason,
+        "created_at": report.created_at,
+    } for report in subject_reports]
+
+    # Signalements des réponses
+    response_reports = ForumSignalementsReponse.objects.select_related("user", "reponse", "reponse__user", "sujet").filter(
+        is_handled=False,
+        sujet__is_deleted=False,
+        reponse__is_deleted=False  # Vérifier aussi que la réponse n'est pas supprimée
+    ).order_by("-created_at")
+
+    response_reports_data = [{
+        "id": report.id,
+        "type": "réponse",
+        "user": report.user.username,
+        "sujet_id": report.sujet.id if report.sujet else None,
+        "sujet_title": report.sujet.title if report.sujet else None,
+        "reponse_id": report.reponse.id if report.reponse else None,
+        "reponse_content": report.reponse.content if report.reponse else None,
+        "reponse_author": report.reponse.user.username if report.reponse and report.reponse.user else None,  # Auteur de la réponse
+        "reason": report.reason,
+        "created_at": report.created_at,
+    } for report in response_reports]
+
+    all_reports = sorted(subject_reports_data + response_reports_data, key=lambda x: x["created_at"], reverse=True)
+
+    return JsonResponse({"reports": all_reports}, status=200, safe=False)
+
 @csrf_exempt
-def moderate_report(request, report_id):
-    if request.method == "POST":
+@login_required
+def moderation_action(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Méthode non autorisée"}, status=405)
+
+    try:
         data = json.loads(request.body)
+        moderator = request.user
+        report_id = data.get("report_id")
+        report_type = data.get("type")  # 'sujet' ou 'réponse'
         action = data.get("action")
+        comment = data.get("comment", "")
+
+        if not report_id or not action:
+            return JsonResponse({"error": "Données manquantes"}, status=400)
+
+        # Déterminer si c'est un signalement de sujet ou de réponse
+        forum_signalements_sujet = None
+        forum_signalements_reponse = None
+
+        if report_type == "sujet":
+            try:
+                forum_signalements_sujet = ForumSignalementsSujet.objects.get(id=report_id)
+            except ForumSignalementsSujet.DoesNotExist:
+                return JsonResponse({"error": "Signalement de sujet introuvable"}, status=404)
         
-        # Récupérer le rapport
-        report = ForumSignalementsSujet.objects.filter(id=report_id).first() or \
-                ForumSignalementsReponse.objects.filter(id=report_id).first()
-
-        if not report:
-            return JsonResponse({"error": "Signalement non trouvé"}, status=400)
-
-        # Action : Édition ou suppression
-        if action == "edite":
-            if isinstance(report, ForumSignalementsSujet):
-                report.sujet.content = data.get("new_content", report.sujet.content)
-                report.sujet.save()
-            elif isinstance(report, ForumSignalementsReponse):
-                report.reponse.content = data.get("new_content", report.reponse.content)
-                report.reponse.save()
-
-            # Marquer le signalement comme traité
-            report.is_handled = True
-            report.save()
-
-            return JsonResponse({"message": "Contenu édité avec succès et signalement traité"}, status=200)
+        elif report_type == "réponse":
+            try:
+                forum_signalements_reponse = ForumSignalementsReponse.objects.get(id=report_id)
+            except ForumSignalementsReponse.DoesNotExist:
+                return JsonResponse({"error": "Signalement de réponse introuvable"}, status=404)
         
-        elif action == "supprime":
-            if isinstance(report, ForumSignalementsSujet):
-                report.sujet.is_deleted = True
-                report.sujet.save()
-            elif isinstance(report, ForumSignalementsReponse):
-                report.reponse.is_deleted = True
-                report.reponse.save()
+        else:
+            return JsonResponse({"error": "Type de signalement invalide"}, status=400)
 
-            # Marquer le signalement comme traité
-            report.is_handled = True
-            report.save()
+        # Enregistrer l'action de modération
+        moderation_action = ForumModerationAction.objects.create(
+            moderator=moderator,
+            forum_signalements_sujet=forum_signalements_sujet,
+            forum_signalements_reponse=forum_signalements_reponse,
+            action=action,
+            comment=comment,
+            created_at=datetime.now(),
+        )
 
-            return JsonResponse({"message": "Contenu supprimé avec succès et signalement traité"}, status=200)
-        
-        return JsonResponse({"error": "Action non reconnue"}, status=400)
+        return JsonResponse({"message": "Action de modération enregistrée avec succès", "action_id": moderation_action.id}, status=201)
+
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Format JSON invalide"}, status=400)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
