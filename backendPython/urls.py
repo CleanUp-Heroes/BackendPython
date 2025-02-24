@@ -53,21 +53,8 @@ urlpatterns = [
     path('classement/', challenge_controller.leaderboard_global, name='classement'),
     path('reports/resolve_report/', reporting_controller.resolve_report, name='resolve_report'),
     
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-    # urls volontariat
-    #path('recrutement/', include('recrutement.urls')),
-<<<<<<< HEAD
 #] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-=======
-    #urls Mission et Candidature
-    # urls.py
-
-    
     #  Routes pour les missions
     path('volontariat/missions/', volontariat_controller.list_missions, name='list-missions'),  #  Liste toutes les missions
     path('volontariat/missions/create/', volontariat_controller.create_mission, name='create-mission'),  #  Créer une mission
@@ -85,6 +72,8 @@ if settings.DEBUG:
     # Route pour la formation 
     path('formations/list_user_formation/', volontariat_controller.list_user_formation, name='mark_formation_completed'),
 
+#if settings.DEBUG:
+    #urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
->>>>>>> volontariatBack
