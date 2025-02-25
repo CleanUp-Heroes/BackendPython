@@ -282,7 +282,64 @@ Cette fonctionnalité permet aux utilisateurs de contribuer activement à la pro
 image::images/feat3.png[Diagramme de Séquence, width=500, align=center]
 image::images/feat3-2.png[Diagramme de Séquence, width=500, align=center]
 
-=== Feature 5
+### **Feature 6 : Gestion du Forum**  
+
+#### **Description**  
+Un espace de discussion où les utilisateurs peuvent lire, créer et répondre à des sujets. Le forum permet également de signaler des contenus inappropriés et offre aux modérateurs des outils pour gérer ces signalements.  
+
+---
+
+### **Implémentation**  
+
+#### **1. Lecture et Navigation dans le Forum**  
+* **Objectif** : Permettre aux utilisateurs d'explorer les discussions existantes.  
+* **Fonctionnement** :  
+    * **GET** : Affichage de la liste des sujets avec pagination et filtres (par catégorie, popularité, récence).  
+    * **GET** : Consultation d’un sujet avec ses réponses associées.  
+* **Exemple d’interaction** :  
+    * Un utilisateur accède à la page du forum et sélectionne un sujet pour voir son contenu et les réponses existantes.  
+
+#### **2. Création de Sujets et Réponses**  
+* **Objectif** : Permettre aux utilisateurs de participer activement aux discussions.  
+* **Fonctionnement** :  
+    * **POST** : Création d’un nouveau sujet avec titre, contenu et sélection d’une catégorie.  
+    * **POST** : Ajout d’une réponse à un sujet existant.  
+    * **GET** : Rafraîchissement automatique des nouvelles réponses.  
+* **Exemple d’interaction** :  
+    * Un utilisateur crée un sujet en remplissant le formulaire. Une fois soumis, le sujet est affiché dans la liste et accessible aux autres utilisateurs.  
+
+#### **3. Signalement des Contenus**  
+* **Objectif** : Offrir un mécanisme pour signaler les messages inappropriés.  
+* **Fonctionnement** :  
+    * **POST** : Un utilisateur signale un sujet ou une réponse en fournissant un motif.  
+    * **GET** : Affichage de la liste des signalements pour les modérateurs.  
+* **Exemple d’interaction** :  
+    * Un utilisateur signale une réponse abusive. Un modérateur pourra ensuite examiner ce signalement via son interface de gestion.  
+
+#### **4. Modération des Signalements**  
+* **Objectif** : Permettre aux modérateurs de traiter les signalements reçus.  
+* **Fonctionnement** :  
+    * **GET** : Liste des signalements en attente de traitement.  
+    * **POST** : Action du modérateur (suppression du contenu ou rejet du signalement).  
+    * **GET** : Mise à jour de l’état du signalement après action.  
+* **Exemple d’interaction** :  
+    * Un modérateur examine un signalement, décide de supprimer la réponse concernée et enregistre son action.  
+
+---
+
+### **Scénarios d’Utilisation**  
+
+* **Utilisateur** :  
+    * Consulte les discussions, crée des sujets et répond aux messages.  
+    * Signale un contenu inapproprié si nécessaire.  
+
+* **Modérateur** :  
+    * Consulte la liste des signalements et prend une décision (suppression ou rejet du signalement).  
+
+Ce système de forum encourage l’échange structuré tout en garantissant une modération efficace pour maintenir un espace de discussion respectueux.  
+
+
+=== Feature 7 : Education aux ramassages des déchets et récompenses
 Participation au Quiz environnement et Obtention des Récompenses (Grande Fonctionnalité)
 
 Description
@@ -368,63 +425,6 @@ image::images/seq.png[Diagramme de Séquence, width=500, align=center]
 image::images/obj.png[Diagramme de Classe, width=500, align=center]
 
 
-### **Feature 6 : Gestion du Forum**  
-
-#### **Description**  
-Un espace de discussion où les utilisateurs peuvent lire, créer et répondre à des sujets. Le forum permet également de signaler des contenus inappropriés et offre aux modérateurs des outils pour gérer ces signalements.  
-
----
-
-### **Implémentation**  
-
-#### **1. Lecture et Navigation dans le Forum**  
-* **Objectif** : Permettre aux utilisateurs d'explorer les discussions existantes.  
-* **Fonctionnement** :  
-    * **GET** : Affichage de la liste des sujets avec pagination et filtres (par catégorie, popularité, récence).  
-    * **GET** : Consultation d’un sujet avec ses réponses associées.  
-* **Exemple d’interaction** :  
-    * Un utilisateur accède à la page du forum et sélectionne un sujet pour voir son contenu et les réponses existantes.  
-
-#### **2. Création de Sujets et Réponses**  
-* **Objectif** : Permettre aux utilisateurs de participer activement aux discussions.  
-* **Fonctionnement** :  
-    * **POST** : Création d’un nouveau sujet avec titre, contenu et sélection d’une catégorie.  
-    * **POST** : Ajout d’une réponse à un sujet existant.  
-    * **GET** : Rafraîchissement automatique des nouvelles réponses.  
-* **Exemple d’interaction** :  
-    * Un utilisateur crée un sujet en remplissant le formulaire. Une fois soumis, le sujet est affiché dans la liste et accessible aux autres utilisateurs.  
-
-#### **3. Signalement des Contenus**  
-* **Objectif** : Offrir un mécanisme pour signaler les messages inappropriés.  
-* **Fonctionnement** :  
-    * **POST** : Un utilisateur signale un sujet ou une réponse en fournissant un motif.  
-    * **GET** : Affichage de la liste des signalements pour les modérateurs.  
-* **Exemple d’interaction** :  
-    * Un utilisateur signale une réponse abusive. Un modérateur pourra ensuite examiner ce signalement via son interface de gestion.  
-
-#### **4. Modération des Signalements**  
-* **Objectif** : Permettre aux modérateurs de traiter les signalements reçus.  
-* **Fonctionnement** :  
-    * **GET** : Liste des signalements en attente de traitement.  
-    * **POST** : Action du modérateur (suppression du contenu ou rejet du signalement).  
-    * **GET** : Mise à jour de l’état du signalement après action.  
-* **Exemple d’interaction** :  
-    * Un modérateur examine un signalement, décide de supprimer la réponse concernée et enregistre son action.  
-
----
-
-### **Scénarios d’Utilisation**  
-
-* **Utilisateur** :  
-    * Consulte les discussions, crée des sujets et répond aux messages.  
-    * Signale un contenu inapproprié si nécessaire.  
-
-* **Modérateur** :  
-    * Consulte la liste des signalements et prend une décision (suppression ou rejet du signalement).  
-
-Ce système de forum encourage l’échange structuré tout en garantissant une modération efficace pour maintenir un espace de discussion respectueux.  
-
-
 == Wireframe
 === Acceuil
 
@@ -461,13 +461,12 @@ image::images/W2.png[wire3, width=500, align=center]
 image::images/W3.png[wire3, width=500, align=center]
 
 === Feature 6 : 
-image::images/wireframe.png[wire6, width=500, align=center]
+image::images/wirefreame.png[wire6, width=500, align=center]
 
-=======
+=== Feature 7 :
 image::images/fin7.png[wire3, width=500, align=center]
 image::images/fin8.png[wire3, width=500, align=center]
 
-=== Feature 6
 
 === à propos
 
