@@ -1,4 +1,4 @@
-from app.fr.parisnanterre.cleanup_heroes.backendPython.controller import  volontariat_controller, challenge_controller, reporting_controller, user_controller, forum_controller
+from app.fr.parisnanterre.cleanup_heroes.backendPython.controller import  volontariat_controller, challenge_controller, reporting_controller, user_controller,create_participate_event, forum_controller
 
 # views.py pour la base de données du feature volontariat
 #pour
