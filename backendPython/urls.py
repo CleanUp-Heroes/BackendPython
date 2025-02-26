@@ -22,6 +22,9 @@ from app.views import * # ça import toutes les méthodes mis dans view.py
 from rest_framework import permissions
 from django.conf import settings
 from django.conf.urls.static import static
+from app import views
+#from app import create_participate_event
+
 
 
 schema_view = get_schema_view(
