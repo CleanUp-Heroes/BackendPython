@@ -475,3 +475,75 @@ class EventParticipant(models.Model):
 
     def __str__(self):
         return f"{self.user.username} -> {self.event.title}"
+    
+
+   
+
+class CleanupEvent(models.Model):
+    title = models.CharField(max_length=255)  # Titre de l'événement
+    location = models.CharField(max_length=255)  # Lieu sous forme de texte
+    date_time = models.DateTimeField()  # Date et heure de l'événement
+    max_participants = models.IntegerField()  # Nombre maximum de participants
+    description = models.TextField(blank=True, null=True)  # Description optionnelle
+    creator = models.ForeignKey('AuthUser', models.DO_NOTHING, related_name='created_cleanup_events')  # Créateur de l'événement
+    created_at = models.DateTimeField(auto_now_add=True)  # Date de création de l'événement
+
+    class Meta:
+        managed = False
+        db_table = 'cleanup_event'  # Nom de la table spécifique pour les événements de nettoyage
+
+    def __str__(self):
+        return self.title
+
+    def is_full(self):
+        """Vérifie si le nombre maximum de participants est atteint."""
+        return self.registrations.count() >= self.max_participants
+
+    @classmethod
+    def upcoming_events(cls):
+        """Retourne la liste des événements à venir."""
+        return cls.objects.filter(date_time__gte=models.functions.Now()).order_by('date_time')
+
+    @classmethod
+    def past_events(cls):
+        """Retourne la liste des événements passés."""
+        return cls.objects.filter(date_time__lt=models.functions.Now()).order_by('-date_time')
+
+
+class EventRegistration(models.Model):
+    user = models.ForeignKey('AuthUser', models.DO_NOTHING, related_name='event_registrations')  # Utilisateur participant
+    event = models.ForeignKey(CleanupEvent, models.DO_NOTHING, related_name='registrations')  # Référence à l'événement
+    comment = models.TextField(blank=True, null=True)  # Commentaire facultatif du participant
+    registered_at = models.DateTimeField(auto_now_add=True)  # Date d'inscription
+
+    class Meta:
+        managed = False
+        db_table = 'event_registration'
+        unique_together = (('user', 'event'),)  # Un utilisateur ne peut s'inscrire qu'une seule fois à un événement
+
+    def __str__(self):
+        return f"{self.user.username} inscrit à {self.event.title}"
+
+
+class UserEventHistory(models.Model):
+    user = models.OneToOneField('AuthUser', models.DO_NOTHING, related_name='event_history')  # Utilisateur concerné
+
+    class Meta:
+        managed = False
+        db_table = 'user_event_history'
+
+    def created_events(self):
+        """Retourne la liste des événements créés par l'utilisateur."""
+        return self.user.created_cleanup_events.all().order_by('-created_at')
+
+    def participated_events(self):
+        """Retourne la liste des événements auxquels l'utilisateur a participé."""
+        return CleanupEvent.objects.filter(registrations__user=self.user).order_by('-date_time')
+
+    def upcoming_participations(self):
+        """Retourne la liste des événements à venir auxquels l'utilisateur est inscrit."""
+        return self.participated_events().filter(date_time__gte=models.functions.Now())
+
+    def past_participations(self):
+        """Retourne la liste des événements passés auxquels l'utilisateur a participé."""
+        return self.participated_events().filter(date_time__lt=models.functions.Now())
