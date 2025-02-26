@@ -23,7 +23,8 @@ from rest_framework import permissions
 from django.conf import settings
 from django.conf.urls.static import static
 from app import views
-#from app import create_participate_event
+
+
 
 
 
@@ -53,11 +54,17 @@ urlpatterns = [
     path('login/', user_controller.login, name='login'),
     path('logout/', user_controller.logout, name='logout'),
 
+
+     path('create-event/', views.create_event, name='create_event'),
+     path('participate-event/', views.participate_event, name='participate_event'),
+     path('upcoming-events/', views.list_upcoming_events, name='list_upcoming_events'),
+     path('user-events/<int:user_id>/', views.user_event_history, name='user_event_history'),
+
+    
     path('classement/', challenge_controller.leaderboard_global, name='classement'),
     path('reports/resolve_report/', reporting_controller.resolve_report, name='resolve_report'),
     
     path('forum/create_topic/', forum_controller.create_topic, name='create_topic'),
-    path('forum/categories/', forum_controller.get_forum_categories, name='get_forum_categories'),
 
     path('forum/topics/', forum_controller.get_forum_topics, name='get_forum_topics'),
     path('forum/topics/<int:topic_id>/vote/', forum_controller.vote_forum_topic, name='vote_forum_topic'),
@@ -72,7 +79,12 @@ urlpatterns = [
     path("forum/reports/", forum_controller.get_reports, name="get_reports"),
 
     path('moderation/reports/', forum_controller.list_reported_content, name='list_reported_content'),
-    path('moderation/reports/<int:report_id>/moderate/', forum_controller.moderate_report, name='moderate_report'),
+       
+    path("forum/sujet/<int:sujet_id>/update/", forum_controller.update_sujet, name="update_sujet"),
+    path("forum/sujet/<int:sujet_id>/delete/", forum_controller.delete_sujet, name="delete_sujet"),
+    path("forum/reponse/<int:reponse_id>/update/", forum_controller.update_reponse, name="update_reponse"),
+    path("forum/reponse/<int:reponse_id>/delete/", forum_controller.delete_reponse, name="delete_reponse"),  
+    path("forum/moderation/action/", forum_controller.moderation_action, name="moderation_action"),
     
     
     # urls volontariat
@@ -98,11 +110,13 @@ urlpatterns = [
     # Route pour la formation 
     path('formations/list_user_formation/', volontariat_controller.list_user_formation, name='mark_formation_completed'),
 
-         
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+    # urls volontariat
+    #path('recrutement/', include('recrutement.urls')),
+#] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

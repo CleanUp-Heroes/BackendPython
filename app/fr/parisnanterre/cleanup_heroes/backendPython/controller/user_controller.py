@@ -95,6 +95,7 @@ def login(request):
             return JsonResponse({
                 'token': str(token),
                 'is_moderator': is_moderator,  
+                'username' : username
             }, status=status.HTTP_200_OK)
             
 
