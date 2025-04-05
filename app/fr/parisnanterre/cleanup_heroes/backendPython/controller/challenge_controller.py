@@ -12,7 +12,8 @@ from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils.timezone import now
-from django.db.models import Q
+import os, base64, requests
+from django.conf import settings
 
 @swagger_auto_schema(
     method='get',
@@ -278,14 +279,9 @@ def add_participation(request):
             action_date = request.data.get('date')
             action_quantity = request.data.get('quantity')
 
-            required_fields = [challenge_id, action_date, action_quantity]
-            
-            missing_fields = [field for field, value in zip(required_fields, [challenge_id, action_date, action_quantity]) if not value]
+            if not challenge_id or not action_date or not action_quantity:
+                return JsonResponse({'error': 'Missing required fields'}, status=400)
 
-            if missing_fields:
-                return JsonResponse({'error': f'Missing required fields: {", ".join(missing_fields)}'}, status=400)
-
-            # Vérifier si un fichier photo est envoyé dans la requête
             if 'photo' not in request.FILES:
                 return JsonResponse({'error': 'Photo file is required'}, status=400)
 
@@ -295,22 +291,84 @@ def add_participation(request):
             except ObjectDoesNotExist:
                 return JsonResponse({'error': 'Challenge not found'}, status=404)
             
+            expected_class = challenge.unit.name 
+            class_attendu = challenge.unit.nom
             photo = request.FILES['photo']
+            
+            # Sauvegarde de la photo et création de la preuve
             photo_url = save_uploaded_file(photo)
+            
+             # Récupérer l'image depuis le chemin
+            absolute_photo_path = os.path.normpath(os.path.join(settings.MEDIA_ROOT, photo_url))
+            print(absolute_photo_path)
+                        
+            try:
+            # Lire l'image directement depuis le fichier
+                encoded_image = None
+                if os.path.isfile(absolute_photo_path):
+                    # Read the image and convert it into a BytesIO object
+                    with open(absolute_photo_path, "rb") as image_file:
+                        encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+                        print(f"Encoded image (Base64): {encoded_image[:100]}...")
+                    request_payload = {
+                    "requests": [
+                        {
+                            "image": {
+                                "content": encoded_image
+                            },
+                            "features": [
+                                {
+                                    "type": "OBJECT_LOCALIZATION",
+                                    "maxResults": 10
+                                }
+                            ]
+                        }
+                    ]
+                }
+                    
+                url = f"https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCQKNvyDUR1RS3lVhPldWJQ7P0okcJgJcw"
+                response = requests.post(url, json=request_payload)
+                
+            except Exception as e:
+                return JsonResponse({'error': f'Error processing image: {str(e)}'}, status=400)
+            
+            if "localizedObjectAnnotations" not in response.json()["responses"][0]:
+                return JsonResponse({'error': 'Invalid response from inference API'}, status=400)
+            
+            # Filtrer les objets correspondant à l'objet attendu
+            objects = response.json()["responses"][0].get("localizedObjectAnnotations", [])
+            detected_objects = [obj for obj in objects if obj["name"].lower() == expected_class.lower()]
+            detected_quantity = len(detected_objects)
 
             proof = Proof.objects.create(photo=photo_url, creation_date=timezone.now())
 
-            Participation.objects.create(
-                user_id=user_id,
-                challenge=challenge,
-                action_quantity=action_quantity,
-                action_date=action_date,
-                photo_id=proof.id,
-            )
-            
+            # Vérification stricte : la quantité détectée doit être au moins égale à ce que l'utilisateur a indiqué
+            if detected_quantity < int(action_quantity):
+                Participation.objects.create(
+                    user_id=user_id,
+                    challenge=challenge,
+                    action_quantity=action_quantity,
+                    action_date=action_date,
+                    photo_id=proof.id,
+                    is_validated=0
+                )
+                return JsonResponse({
+                    'error': f'Participation refusée. {detected_quantity}/{action_quantity} {class_attendu}(s) détecté(s).'
+                }, status=400)
+            else :                
+                # Création de la participation
+                Participation.objects.create(
+                    user_id=user_id,
+                    challenge=challenge,
+                    action_quantity=action_quantity,
+                    action_date=action_date,
+                    photo_id=proof.id,
+                    is_validated=1 # 1 pour validé et 0 pour refusé
+                )
+               
             check_and_update_completed_challenges(user_id, challenge)
 
-            return JsonResponse({'message': 'Participation and proof added successfully'}, status=201)
+            return JsonResponse({'message': 'Participation acceptée.'}, status=201)
 
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
