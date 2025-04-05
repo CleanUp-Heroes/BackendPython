@@ -12,7 +12,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils.timezone import now
-import os, base64, requests
+import os, base64, requests, json
 from django.conf import settings
 
 @swagger_auto_schema(
@@ -300,7 +300,6 @@ def add_participation(request):
             
              # Récupérer l'image depuis le chemin
             absolute_photo_path = os.path.normpath(os.path.join(settings.MEDIA_ROOT, photo_url))
-            print(absolute_photo_path)
                         
             try:
             # Lire l'image directement depuis le fichier
@@ -309,7 +308,6 @@ def add_participation(request):
                     # Read the image and convert it into a BytesIO object
                     with open(absolute_photo_path, "rb") as image_file:
                         encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
-                        print(f"Encoded image (Base64): {encoded_image[:100]}...")
                     request_payload = {
                     "requests": [
                         {
@@ -325,8 +323,17 @@ def add_participation(request):
                         }
                     ]
                 }
-                    
-                url = f"https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCQKNvyDUR1RS3lVhPldWJQ7P0okcJgJcw"
+                # Charger la clé API depuis le fichier config.json
+                config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+                base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Répertoire parent
+                config_path = os.path.join(base_dir, 'config.json')  # Ajustez le chemin selon votre structure
+
+                GOOGLE_API_KEY = None
+                with open(config_path, 'r') as config_file:
+                    config = json.load(config_file)
+                    GOOGLE_API_KEY = config.get('google_api_key')
+                
+                url = f"https://vision.googleapis.com/v1/images:annotate?key={GOOGLE_API_KEY}"
                 response = requests.post(url, json=request_payload)
                 
             except Exception as e:
@@ -388,12 +395,9 @@ def check_and_update_completed_challenges(user_id, challenge):
     )
 
     # Si la quantité totale est égale ou supérieure à la quantité attendue
-    if total_quantity >= challenge.expected_actions:
-        print("Quantité suffisante pour compléter le défi.")
-        
+    if total_quantity >= challenge.expected_actions:        
         # Vérifier si ce défi n'est pas déjà marqué comme complété
         if not CompletedChallenge.objects.filter(user_id=user_id, challenge_id=challenge.id).exists():
-            print("Marquage du défi comme complété.")
             
             # Ajouter le défi comme complété
             CompletedChallenge.objects.create(
