@@ -54,12 +54,8 @@ urlpatterns = [
     path('login/', user_controller.login, name='login'),
     path('logout/', user_controller.logout, name='logout'),
 
-
-     path('create-event/', views.create_event, name='create_event'),
-     path('participate-event/', views.participate_event, name='participate_event'),
-     path('upcoming-events/', views.list_upcoming_events, name='list_upcoming_events'),
-     path('user-events/<int:user_id>/', views.user_event_history, name='user_event_history'),
-
+    path('create-event/', create_participate_event.create_event, name='create_event'),
+    path('participate-event/', create_participate_event.participate_event, name='participate_event'),
     
     path('classement/', challenge_controller.leaderboard_global, name='classement'),
     path('reports/resolve_report/', reporting_controller.resolve_report, name='resolve_report'),
