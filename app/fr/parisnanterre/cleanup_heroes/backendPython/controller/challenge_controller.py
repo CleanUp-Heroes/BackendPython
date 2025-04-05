@@ -364,3 +364,38 @@ def leaderboard_global(request):
         ]
     
     return JsonResponse({"classement" : data}, status=200)
+
+@api_view(['GET'])
+def get_participations(request):
+    token_value = request.headers.get('Authorization')
+        
+    if not token_value:
+        raise AuthenticationFailed("Token is missing in the request.")
+        
+    user = None
+    try:
+        refresh_token = RefreshToken(token_value)
+        user_id = refresh_token['user_id']
+            
+        user = User.objects.get(id=user_id)
+            
+        if not user.is_active:
+            raise AuthenticationFailed('User is inactive.')
+    except ValueError:
+       raise AuthenticationFailed("Invalid token or token does not exist.")
+
+    participations = Participation.objects.filter(user_id=user_id).select_related('challenge')
+
+    participations_list = [
+        {
+            "id": p.id,
+            "challenge_name": p.challenge.name,  # Accès au nom du challenge
+            "action_quantity": p.action_quantity,
+            "action_date": p.action_date.strftime('%Y-%m-%d'),  # Formatage de la date
+            "photo": p.photo.id if p.photo else None,  # Récupération de l'ID de la photo si présente
+            "status": "Validé" if p.is_validated else "Refusé",
+        }
+        for p in participations
+    ]
+
+    return JsonResponse(participations_list, safe=False)  # safe=False pour envoyer une liste JSON

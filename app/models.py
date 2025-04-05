@@ -155,10 +155,10 @@ class DjangoSession(models.Model):
 class Participation(models.Model):
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     challenge = models.ForeignKey(Challenge, models.DO_NOTHING)
-    action_quantity = models.FloatField()
+    action_quantity = models.IntegerField()
     action_date = models.DateField()
     photo = models.ForeignKey('Proof', models.DO_NOTHING, blank=True, null=True)
-
+    is_validated = models.IntegerField(default=0)
     class Meta:
         managed = False
         db_table = 'participation'
@@ -179,7 +179,7 @@ class Report(models.Model):
     longitude = models.CharField(max_length=255)
     latitude = models.CharField(max_length=255)
     photo = models.ForeignKey(Proof, models.DO_NOTHING, blank=True, null=True)
-    creation_date = models.DateTimeField(default=now)
+    creation_date = models.DateField(default=now())
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     isresolved = models.IntegerField(db_column='isResolved') 
     resolvedby = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='resolvedBy', related_name='report_resolvedby_set', blank=True, null=True)  
