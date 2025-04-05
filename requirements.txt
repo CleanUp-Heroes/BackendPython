@@ -4,3 +4,7 @@ djangorestframework
 drf-yasg
 django-cors-headers
 djangorestframework-simplejwt
+rest_framework_simplejwt
+inference_sdk
+pillow
+requests

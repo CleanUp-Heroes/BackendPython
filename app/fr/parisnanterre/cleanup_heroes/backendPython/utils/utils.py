@@ -4,7 +4,6 @@ from django.http import JsonResponse
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.conf import settings
-from app.models import Proof  # Assurez-vous que Proof est importé si vous devez vérifier dans la BDD
 
 def generate_unique_filename(filename):
     """Générer un nom de fichier unique basé sur un suffixe UUID."""
@@ -15,6 +14,7 @@ def save_uploaded_file(file):
     """Enregistre un fichier uploadé dans le dossier MEDIA_ROOT avec un nom unique."""
     original_name = file.name
     unique_name = generate_unique_filename(original_name)
+    unique_name = f"{os.path.splitext(unique_name)[0]}.jpg"  # Forcer l'extension à .jpg
 
     # Construire le chemin relatif au dossier "proof_photos"
     relative_path = os.path.join('proof_photos', unique_name)
