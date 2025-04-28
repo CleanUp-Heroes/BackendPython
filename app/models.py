@@ -11,6 +11,8 @@ from django.utils.timezone import now # ajouter par claire sur la fonction creat
 
 from django.core.validators import RegexValidator # ajout par claire la validation du numéro de téléphone
 
+from django.utils.timezone import now
+from django.utils.timezone import now
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -153,10 +155,10 @@ class DjangoSession(models.Model):
 class Participation(models.Model):
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     challenge = models.ForeignKey(Challenge, models.DO_NOTHING)
-    action_quantity = models.FloatField()
+    action_quantity = models.IntegerField()
     action_date = models.DateField()
     photo = models.ForeignKey('Proof', models.DO_NOTHING, blank=True, null=True)
-
+    is_validated = models.IntegerField(default=0)
     class Meta:
         managed = False
         db_table = 'participation'
@@ -164,8 +166,7 @@ class Participation(models.Model):
 
 class Proof(models.Model):
     photo = models.CharField(max_length=255)
-    creation_date = models.DateTimeField(datetime.now()) 
-    
+    creation_date = models.DateTimeField(datetime.now())
 
 
     class Meta:
@@ -178,8 +179,7 @@ class Report(models.Model):
     longitude = models.CharField(max_length=255)
     latitude = models.CharField(max_length=255)
     photo = models.ForeignKey(Proof, models.DO_NOTHING, blank=True, null=True)
-    #creation_date = models.DateField(default=datetime.now())problème lors du run du back, donc
-    creation_date = models.DateTimeField(default=now)
+    creation_date = models.DateField(default=now())
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     isresolved = models.IntegerField(db_column='isResolved') 
     resolvedby = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='resolvedBy', related_name='report_resolvedby_set', blank=True, null=True)  
@@ -221,6 +221,7 @@ class TokenBlacklistOutstandingtoken(models.Model):
 
 
 class Unit(models.Model):
+    nom = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
 
     class Meta:
@@ -306,8 +307,244 @@ class Candidature(models.Model):
     date_creation = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Candidature de {self.name} pour {self.mission.title}"
-       # return f"Candidature de {self.name} pour {self.mission.titre}"
+        return f"Candidature de {self.name} pour {self.mission.titre}"
 
     class Meta:
         db_table = 'candidature'  # Nom de la table dans la base de données
+
+class ForumModerationAction(models.Model):
+    moderator = models.ForeignKey(AuthUser, models.DO_NOTHING)  # Le modérateur qui effectue l'action
+    forum_signalements_sujet = models.ForeignKey(
+        'ForumSignalementsSujet',
+        models.DO_NOTHING,
+        blank=True,
+        null=True
+    )
+    forum_signalements_reponse = models.ForeignKey(
+        'ForumSignalementsReponse',
+        models.DO_NOTHING,
+        blank=True,
+        null=True
+    )
+    action = models.CharField(max_length=50)  # Par exemple : "supprimé", "édité"
+    comment = models.TextField(blank=True, null=True)  # Commentaire optionnel du modérateur
+    created_at = models.DateTimeField(default=now)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_moderation_action'
+
+# tables sur le forum
+class ForumCategories(models.Model):
+    name = models.CharField(unique=True, max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_categories'
+
+
+class ForumModerateur(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.OneToOneField(AuthUser, models.DO_NOTHING)
+    date_nomination = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_moderateur'
+
+
+class ForumReponses(models.Model):
+    content = models.TextField()
+    created_at = models.DateTimeField(blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    sujet = models.ForeignKey('ForumSujets', models.DO_NOTHING)
+    is_deleted = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_reponses'
+
+class ForumSignalementsReponse(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    sujet = models.ForeignKey('ForumSujets', models.DO_NOTHING, blank=True, null=True)
+    reponse = models.ForeignKey(ForumReponses, models.DO_NOTHING, blank=True, null=True)
+    reason = models.TextField()
+    created_at = models.DateTimeField(blank=True, null=True)
+    is_handled = models.BooleanField(default=False)  # Champ pour savoir si le signalement est traité
+
+    class Meta:
+        managed = False
+        db_table = 'forum_signalements_reponse'
+
+
+class ForumSignalementsSujet(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    sujet = models.ForeignKey('ForumSujets', models.DO_NOTHING, blank=True, null=True)
+    reason = models.TextField()
+    created_at = models.DateTimeField(blank=True, null=True)
+    is_handled = models.BooleanField(default=False)  # Champ pour savoir si le signalement est traité
+
+    class Meta:
+        managed = False
+        db_table = 'forum_signalements_sujet'
+
+
+class ForumSujets(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    created_at = models.DateTimeField(blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    status = models.CharField(max_length=8, blank=True, null=True)
+    is_deleted = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_sujets'
+
+
+class ForumSujetsVotes(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    sujet = models.ForeignKey(ForumSujets, models.DO_NOTHING)
+    created_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'forum_sujets_votes'
+        unique_together = (('user', 'sujet'),)
+
+
+
+class Event(models.Model):
+    title = models.CharField(max_length=255)  # Titre de l'événement
+    location = models.CharField(max_length=255)  # Lieu sous forme de texte
+    date_time = models.DateTimeField()  # Date et heure de l'événement
+    max_participants = models.IntegerField()  # Nombre maximum de participants
+    description = models.TextField(blank=True, null=True)  # Description optionnelle
+    creator = models.ForeignKey('AuthUser', models.DO_NOTHING)  # Créateur de l'événement
+    created_at = models.DateTimeField(auto_now_add=True)  # Date de création de l'événement
+
+    class Meta:
+        managed = False
+        db_table = 'event'
+
+    def __str__(self):
+        return self.title
+
+
+class EventParticipant(models.Model):
+    user = models.ForeignKey('AuthUser', models.DO_NOTHING)  # Utilisateur participant
+    event = models.ForeignKey(Event, models.DO_NOTHING)  # Référence à l'événement
+    registered_at = models.DateTimeField(auto_now_add=True)  # Date d'inscription
+
+    class Meta:
+        managed = False
+        db_table = 'event_participant'
+        unique_together = (('user', 'event'),)  # Un utilisateur ne peut participer qu'une fois à un événement
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.event.title}"
+
+
+
+
+class Event(models.Model):
+    title = models.CharField(max_length=255)  # Titre de l'événement
+    location = models.CharField(max_length=255)  # Lieu sous forme de texte
+    date_time = models.DateTimeField()  # Date et heure de l'événement
+    max_participants = models.IntegerField()  # Nombre maximum de participants
+    description = models.TextField(blank=True, null=True)  # Description optionnelle
+    creator = models.ForeignKey('AuthUser', models.DO_NOTHING)  # Créateur de l'événement
+    created_at = models.DateTimeField(auto_now_add=True)  # Date de création de l'événement
+
+    class Meta:
+        managed = False
+        db_table = 'event'
+
+    def __str__(self):
+        return self.title
+
+
+class EventParticipant(models.Model):
+    user = models.ForeignKey('AuthUser', models.DO_NOTHING)  # Utilisateur participant
+    event = models.ForeignKey(Event, models.DO_NOTHING)  # Référence à l'événement
+    registered_at = models.DateTimeField(auto_now_add=True)  # Date d'inscription
+
+    class Meta:
+        managed = False
+        db_table = 'event_participant'
+        unique_together = (('user', 'event'),)  # Un utilisateur ne peut participer qu'une fois à un événement
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.event.title}"
+    
+
+   
+
+class CleanupEvent(models.Model):
+    title = models.CharField(max_length=255)  # Titre de l'événement
+    location = models.CharField(max_length=255)  # Lieu sous forme de texte
+    date_time = models.DateTimeField()  # Date et heure de l'événement
+    max_participants = models.IntegerField()  # Nombre maximum de participants
+    description = models.TextField(blank=True, null=True)  # Description optionnelle
+    creator = models.ForeignKey('AuthUser', models.DO_NOTHING, related_name='created_cleanup_events')  # Créateur de l'événement
+    created_at = models.DateTimeField(auto_now_add=True)  # Date de création de l'événement
+
+    class Meta:
+        managed = False
+        db_table = 'cleanup_event'  # Nom de la table spécifique pour les événements de nettoyage
+
+    def __str__(self):
+        return self.title
+
+    def is_full(self):
+        """Vérifie si le nombre maximum de participants est atteint."""
+        return self.registrations.count() >= self.max_participants
+
+    @classmethod
+    def upcoming_events(cls):
+        """Retourne la liste des événements à venir."""
+        return cls.objects.filter(date_time__gte=models.functions.Now()).order_by('date_time')
+
+    @classmethod
+    def past_events(cls):
+        """Retourne la liste des événements passés."""
+        return cls.objects.filter(date_time__lt=models.functions.Now()).order_by('-date_time')
+
+
+class EventRegistration(models.Model):
+    user = models.ForeignKey('AuthUser', models.DO_NOTHING, related_name='event_registrations')  # Utilisateur participant
+    event = models.ForeignKey(CleanupEvent, models.DO_NOTHING, related_name='registrations')  # Référence à l'événement
+    comment = models.TextField(blank=True, null=True)  # Commentaire facultatif du participant
+    registered_at = models.DateTimeField(auto_now_add=True)  # Date d'inscription
+
+    class Meta:
+        managed = False
+        db_table = 'event_registration'
+        unique_together = (('user', 'event'),)  # Un utilisateur ne peut s'inscrire qu'une seule fois à un événement
+
+    def __str__(self):
+        return f"{self.user.username} inscrit à {self.event.title}"
+
+
+class UserEventHistory(models.Model):
+    user = models.OneToOneField('AuthUser', models.DO_NOTHING, related_name='event_history')  # Utilisateur concerné
+
+    class Meta:
+        managed = False
+        db_table = 'user_event_history'
+
+    def created_events(self):
+        """Retourne la liste des événements créés par l'utilisateur."""
+        return self.user.created_cleanup_events.all().order_by('-created_at')
+
+    def participated_events(self):
+        """Retourne la liste des événements auxquels l'utilisateur a participé."""
+        return CleanupEvent.objects.filter(registrations__user=self.user).order_by('-date_time')
+
+    def upcoming_participations(self):
+        """Retourne la liste des événements à venir auxquels l'utilisateur est inscrit."""
+        return self.participated_events().filter(date_time__gte=models.functions.Now())
+
+    def past_participations(self):
+        """Retourne la liste des événements passés auxquels l'utilisateur a participé."""
+        return self.participated_events().filter(date_time__lt=models.functions.Now())
