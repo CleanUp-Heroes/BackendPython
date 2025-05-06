@@ -89,7 +89,7 @@ def get_challenges_statistiques(request):
 
     # Quantités totales réalisées par unité
     total_quantity = (
-        Participation.objects.filter(user_id=user.id)
+         Participation.objects.filter(user_id=user.id, is_validated=1)  # 🔁 Ajout de ce filtre
         .values('challenge__unit__name')
         .annotate(total=Sum('action_quantity'))
     )
@@ -121,6 +121,7 @@ def get_progress(user):
     participations = Participation.objects.filter(
         user_id=user.id,
         challenge__end_date__gte=date.today(),
+         is_validated=1  # 🔁 Ajout ici
     ).exclude(challenge_id__in=completed_challenge_ids)
     
     progress_dict = {}  # Utilisé pour éviter les doublons
@@ -133,7 +134,7 @@ def get_progress(user):
         expected_quantity = challenge.expected_actions
         unit = challenge.unit.name
         realized_quantity = (
-            Participation.objects.filter(user_id=user.id, challenge_id=challenge.id)
+            Participation.objects.filter(user_id=user.id, challenge_id=challenge.id, is_validated=1)
             .aggregate(total=Sum('action_quantity'))['total'] or 0
         )
 
@@ -381,6 +382,103 @@ def add_participation(request):
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+@api_view(['POST'])
+def re_soumettre_photo(request, participation_id):
+    token_value = request.headers.get('Authorization')
+
+    if not token_value:
+        raise AuthenticationFailed("Token is missing in the request.")
+
+    try:
+        refresh_token = RefreshToken(token_value)
+        user_id = refresh_token['user_id']
+        user = User.objects.get(id=user_id)
+
+        if not user.is_active:
+            raise AuthenticationFailed('User is inactive.')
+
+    except ValueError:
+        raise AuthenticationFailed("Invalid token or token does not exist.")
+
+    try:
+        participation = Participation.objects.get(id=participation_id, user_id=user_id)
+
+        if not participation or not participation.is_validated == 0:
+            return JsonResponse({'error': 'Re-soumission impossible. Participation non refusée ou inexistante.'}, status=400)
+
+        if 'photo' not in request.FILES:
+            return JsonResponse({'error': 'Photo file is required'}, status=400)
+
+        photo = request.FILES['photo']
+        challenge = participation.challenge
+        expected_class = challenge.unit.name
+        class_attendu = challenge.unit.nom
+
+        # Sauvegarde de la photo
+        photo_url = save_uploaded_file(photo)
+        absolute_photo_path = os.path.normpath(os.path.join(settings.MEDIA_ROOT, photo_url))
+
+        # Encodage de l’image en base64
+        if not os.path.isfile(absolute_photo_path):
+            return JsonResponse({'error': 'Photo not found on server'}, status=400)
+
+        with open(absolute_photo_path, "rb") as image_file:
+            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+
+        request_payload = {
+            "requests": [
+                {
+                    "image": {"content": encoded_image},
+                    "features": [{"type": "OBJECT_LOCALIZATION", "maxResults": 10}]
+                }
+            ]
+        }
+
+        # Clé API Google
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        config_path = os.path.join(base_dir, 'config.json')
+        with open(config_path, 'r') as config_file:
+            config = json.load(config_file)
+            GOOGLE_API_KEY = config.get('google_api_key')
+
+        url = f"https://vision.googleapis.com/v1/images:annotate?key={GOOGLE_API_KEY}"
+        response = requests.post(url, json=request_payload)
+
+        if "localizedObjectAnnotations" not in response.json()["responses"][0]:
+            return JsonResponse({'error': 'Invalid response from inference API'}, status=400)
+
+        # Vérification de la quantité
+        objects = response.json()["responses"][0].get("localizedObjectAnnotations", [])
+        detected_objects = [obj for obj in objects if obj["name"].lower() == expected_class.lower()]
+        detected_quantity = len(detected_objects)
+        action_quantity = participation.action_quantity
+
+        # Mise à jour de la preuve et du statut
+        proof = Proof.objects.create(photo=photo_url, creation_date=timezone.now())
+        participation.photo = photo_url
+        participation.photo_id = proof.id
+
+        if detected_quantity < int(action_quantity):
+            participation.is_validated = 0
+            participation.save()
+            return JsonResponse({
+                'error': f'Re-soumission refusée. {detected_quantity}/{action_quantity} {class_attendu}(s) détecté(s).'
+            }, status=400)
+        else:
+            participation.is_validated = 1
+            participation.save()
+
+        check_and_update_completed_challenges(user_id, challenge)
+
+        return JsonResponse({'message': 'Re-soumission acceptée.'}, status=200)
+
+    except Participation.DoesNotExist:
+        return JsonResponse({'error': 'Participation introuvable.'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+    
 
 def check_and_update_completed_challenges(user_id, challenge):
     # Vérifie si l'utilisateur a atteint ou dépassé la quantité attendue pour un défi et marque le défi comme complété si ce n'est pas déjà fait.
