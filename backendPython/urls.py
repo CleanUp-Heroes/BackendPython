@@ -108,6 +108,9 @@ urlpatterns = [
     # Route pour la formation 
     path('formations/list_user_formation/', volontariat_controller.list_user_formation, name='mark_formation_completed'),
 
+#if settings.DEBUG:
+    #urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
