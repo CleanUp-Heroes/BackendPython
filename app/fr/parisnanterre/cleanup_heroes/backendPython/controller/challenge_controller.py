@@ -361,8 +361,8 @@ def add_participation(request):
                     is_validated=0
                 )
                 return JsonResponse({
-                    'error': f'Participation refusée. {detected_quantity}/{action_quantity} {class_attendu}(s) détecté(s).'
-                }, status=400)
+                    'error': f'Votre participation a été refusée : seulement {detected_quantity} {class_attendu} détecté(s) sur les {action_quantity} annoncé(s). Pour corriger cela, vous pouvez soumettre une nouvelle photo dans la section "Mes participations".'
+                }, status=420)
             else :                
                 # Création de la participation
                 Participation.objects.create(

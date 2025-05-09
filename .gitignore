@@ -10,3 +10,4 @@ app/docs/main.html
 __pycache__/
 config.json
 *.pyc
+*.csv
