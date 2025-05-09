@@ -134,7 +134,7 @@ b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
 b.button::before{content:"[";padding:0 3px 0 2px}
 b.button::after{content:"]";padding:0 2px 0 3px}
 p a>code:hover{color:rgba(0,0,0,.9)}
-#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
 #header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
 #header::after,#content::after,#footnotes::after,#footer::after{clear:both}
 #content{margin-top:1.25em}
@@ -1002,11 +1002,10 @@ Grâce à l&#8217;intégration d&#8217;éléments ludiques comme les défis et l
 </div>
 <div class="sect2">
 <h3 id="_feature_5_création_et_participation_à_des_événements_de_nettoyage_grande_fonctionnalité">FEATURE 5 : Création et Participation à des Événements de Nettoyage (Grande fonctionnalité)</h3>
-<div class="sect3">
-<h4 id="_description_2">Description</h4>
 <div class="paragraph">
-<p>Cette fonctionnalité permet aux utilisateurs de contribuer activement à la propreté de leur environnement en créant et en participant à des événements de nettoyage communautaires. Elle offre également un outil pratique pour consulter leur historique de participation.</p>
-</div>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+==== Description
+Cette fonctionnalité permet aux utilisateurs de contribuer activement à la propreté de leur environnement en créant et en participant à des événements de nettoyage communautaires. Elle offre également un outil pratique pour consulter leur historique de participation.</p>
 </div>
 <div class="sect3">
 <h4 id="_sous_fonctionnalités">Sous-fonctionnalités</h4>
@@ -1120,6 +1119,356 @@ Grâce à l&#8217;intégration d&#8217;éléments ludiques comme les défis et l
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_feature_6_gestion_du_forum"><strong>Feature 6 : Gestion du Forum</strong></h3>
+<div class="sect3">
+<h4 id="_description_2"><strong>Description</strong></h4>
+<div class="paragraph">
+<p>Un espace de discussion où les utilisateurs peuvent lire, créer et répondre à des sujets. Le forum permet également de signaler des contenus inappropriés et offre aux modérateurs des outils pour gérer ces signalements.</p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_implémentation_2"><strong>Implémentation</strong></h3>
+<div class="sect3">
+<h4 id="_1_lecture_et_navigation_dans_le_forum"><strong>1. Lecture et Navigation dans le Forum</strong></h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Objectif</strong> : Permettre aux utilisateurs d&#8217;explorer les discussions existantes.</p>
+</li>
+<li>
+<p><strong>Fonctionnement</strong> :</p>
+</li>
+<li>
+<p><strong>GET</strong> : Affichage de la liste des sujets avec pagination et filtres (par catégorie, popularité, récence).</p>
+</li>
+<li>
+<p><strong>GET</strong> : Consultation d’un sujet avec ses réponses associées.</p>
+</li>
+<li>
+<p><strong>Exemple d’interaction</strong> :</p>
+</li>
+<li>
+<p>Un utilisateur accède à la page du forum et sélectionne un sujet pour voir son contenu et les réponses existantes.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_2_création_de_sujets_et_réponses"><strong>2. Création de Sujets et Réponses</strong></h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Objectif</strong> : Permettre aux utilisateurs de participer activement aux discussions.</p>
+</li>
+<li>
+<p><strong>Fonctionnement</strong> :</p>
+</li>
+<li>
+<p><strong>POST</strong> : Création d’un nouveau sujet avec titre, contenu et sélection d’une catégorie.</p>
+</li>
+<li>
+<p><strong>POST</strong> : Ajout d’une réponse à un sujet existant.</p>
+</li>
+<li>
+<p><strong>GET</strong> : Rafraîchissement automatique des nouvelles réponses.</p>
+</li>
+<li>
+<p><strong>Exemple d’interaction</strong> :</p>
+</li>
+<li>
+<p>Un utilisateur crée un sujet en remplissant le formulaire. Une fois soumis, le sujet est affiché dans la liste et accessible aux autres utilisateurs.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_3_signalement_des_contenus"><strong>3. Signalement des Contenus</strong></h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Objectif</strong> : Offrir un mécanisme pour signaler les messages inappropriés.</p>
+</li>
+<li>
+<p><strong>Fonctionnement</strong> :</p>
+</li>
+<li>
+<p><strong>POST</strong> : Un utilisateur signale un sujet ou une réponse en fournissant un motif.</p>
+</li>
+<li>
+<p><strong>GET</strong> : Affichage de la liste des signalements pour les modérateurs.</p>
+</li>
+<li>
+<p><strong>Exemple d’interaction</strong> :</p>
+</li>
+<li>
+<p>Un utilisateur signale une réponse abusive. Un modérateur pourra ensuite examiner ce signalement via son interface de gestion.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_4_modération_des_signalements"><strong>4. Modération des Signalements</strong></h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Objectif</strong> : Permettre aux modérateurs de traiter les signalements reçus.</p>
+</li>
+<li>
+<p><strong>Fonctionnement</strong> :</p>
+</li>
+<li>
+<p><strong>GET</strong> : Liste des signalements en attente de traitement.</p>
+</li>
+<li>
+<p><strong>POST</strong> : Action du modérateur (suppression du contenu ou rejet du signalement).</p>
+</li>
+<li>
+<p><strong>GET</strong> : Mise à jour de l’état du signalement après action.</p>
+</li>
+<li>
+<p><strong>Exemple d’interaction</strong> :</p>
+</li>
+<li>
+<p>Un modérateur examine un signalement, décide de supprimer la réponse concernée et enregistre son action.</p>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scénarios_dutilisation_3"><strong>Scénarios d’Utilisation</strong></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Utilisateur</strong> :</p>
+</li>
+<li>
+<p>Consulte les discussions, crée des sujets et répond aux messages.</p>
+</li>
+<li>
+<p>Signale un contenu inapproprié si nécessaire.</p>
+</li>
+<li>
+<p><strong>Modérateur</strong> :</p>
+</li>
+<li>
+<p>Consulte la liste des signalements et prend une décision (suppression ou rejet du signalement).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Ce système de forum encourage l’échange structuré tout en garantissant une modération efficace pour maintenir un espace de discussion respectueux.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_feature_7_education_aux_ramassages_des_déchets_et_récompenses">Feature 7 : Education aux ramassages des déchets et récompenses</h3>
+<div class="paragraph">
+<p>Participation au Quiz environnement et Obtention des Récompenses (Grande Fonctionnalité)</p>
+</div>
+<div class="paragraph">
+<p>Description
+Un système interactif permettant aux utilisateurs de participer à des quiz environnementaux, de gagner des points, et d&#8217;échanger ces points contre des récompenses. Les récompenses incluent des badges, des rendez-vous pour des sachets poubelles biodégradables, et de l&#8217;argent fictif.</p>
+</div>
+<div class="paragraph">
+<p>Implémentation
+1. Participation au Quiz
+Objectif : Permettre aux utilisateurs de répondre à des questions sur des thèmes environnementaux et de gagner des points.</p>
+</div>
+<div class="paragraph">
+<p>Fonctionnement :</p>
+</div>
+<div class="paragraph">
+<p>Les utilisateurs accèdent à une liste de questions via une requête GET.</p>
+</div>
+<div class="paragraph">
+<p>Ils sélectionnent des réponses, qui sont envoyées au backend via une requête POST pour validation.</p>
+</div>
+<div class="paragraph">
+<p>Le backend vérifie les réponses et retourne un score.</p>
+</div>
+<div class="paragraph">
+<p>Exemple d’interaction :</p>
+</div>
+<div class="paragraph">
+<p>Un utilisateur répond à 10 questions et obtient un score de 4/10.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Gestion des Points
+Objectif : Suivre les points gagnés par les utilisateurs et les rendre échangeables contre des récompenses.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Fonctionnement :</p>
+</div>
+<div class="paragraph">
+<p>Les points sont stockés dans la base de données et mis à jour après chaque quiz.</p>
+</div>
+<div class="paragraph">
+<p>Les utilisateurs peuvent consulter leur solde de points via une requête GET.</p>
+</div>
+<div class="paragraph">
+<p>Exemple d’interaction :</p>
+</div>
+<div class="paragraph">
+<p>Un utilisateur consulte son solde de points (ex : 7 points).</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Obtention des Récompenses
+Objectif : Permettre aux utilisateurs d&#8217;échanger leurs points contre des récompenses.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Fonctionnement :</p>
+</div>
+<div class="paragraph">
+<p>Les utilisateurs accèdent à une liste de récompenses disponibles via une requête GET.</p>
+</div>
+<div class="paragraph">
+<p>Ils sélectionnent une récompense, et le backend vérifie si les points sont suffisants via une requête POST.</p>
+</div>
+<div class="paragraph">
+<p>Si les points sont suffisants, la récompense est confirmée, et les points sont déduits.</p>
+</div>
+<div class="paragraph">
+<p>Exemple d’interaction :</p>
+</div>
+<div class="paragraph">
+<p>Un utilisateur échange 10 points contre un badge Éco-Responsable.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Réclamation des Récompenses
+Objectif : Permettre aux utilisateurs de réclamer leurs récompenses via un e-mail.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Fonctionnement :</p>
+</div>
+<div class="paragraph">
+<p>Les utilisateurs envoient un e-mail avec leur badge ou leurs points pour réclamer leur récompense.</p>
+</div>
+<div class="paragraph">
+<p>Les administrateurs valident la réclamation et envoient la récompense.</p>
+</div>
+<div class="paragraph">
+<p>Exemple d’interaction :</p>
+</div>
+<div class="paragraph">
+<p>Un utilisateur envoie un e-mail pour réclamer un rendez-vous pour des sachets poubelles biodégradables.</p>
+</div>
+<div class="paragraph">
+<p>Scénarios d’Utilisation
+Utilisateur :</p>
+</div>
+<div class="paragraph">
+<p>Participe à des quiz, consulte son solde de points, et échange des points contre des récompenses.</p>
+</div>
+<div class="paragraph">
+<p>Administrateur :</p>
+</div>
+<div class="paragraph">
+<p>Gère les questions du quiz, valide les réclamations de récompenses, et suit les points des utilisateurs.</p>
+</div>
+<div class="paragraph">
+<p>Ce système encourage l&#8217;engagement des utilisateurs en récompensant leurs connaissances et leurs actions en faveur de l&#8217;environnement.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_feature_8_vérification_automatique_des_participations_via_photo">Feature 8 : Vérification automatique des participations via photo</h3>
+<div class="paragraph">
+<div class="title"><strong>Objectif</strong> :</div>
+<p>Renforcer la fiabilité des participations aux défis en analysant automatiquement les preuves visuelles à l’aide d’une API de reconnaissance d’objets (ex : Google Vision API). L’objectif est de s’assurer que la quantité déclarée correspond réellement au contenu visible sur la photo.</p>
+</div>
+<div class="ulist">
+<div class="title"><strong>Fonctionnement</strong> :</div>
+<ul>
+<li>
+<p>Lorsqu’un utilisateur soumet une participation à un défi :</p>
+</li>
+<li>
+<p>Il renseigne la <strong>quantité réalisée</strong>.</p>
+</li>
+<li>
+<p>Il ajoute une <strong>photo</strong> comme preuve.</p>
+</li>
+<li>
+<p>La photo est envoyée au backend, qui utilise une <strong>API de reconnaissance d’objets</strong>.</p>
+</li>
+<li>
+<p>Le backend compare :</p>
+</li>
+<li>
+<p>Le <strong>nombre ou type d’objets détectés</strong> sur la photo.</p>
+</li>
+<li>
+<p>La <strong>quantité indiquée</strong> dans le formulaire.</p>
+</li>
+<li>
+<p>Deux cas sont possibles :</p>
+</li>
+<li>
+<p><strong>Correspondance</strong> : La participation est <strong>validée automatiquement</strong>.</p>
+</li>
+<li>
+<p><strong>Écart détecté</strong> : La participation est <strong>refusée</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title"><strong>Nouvelle interface utilisateur : liste des participations</strong></div>
+<ul>
+<li>
+<p>Une nouvelle page liste les <strong>participations passées</strong> à un défi.</p>
+</li>
+<li>
+<p>Pour chaque participation :</p>
+</li>
+<li>
+<p>le nom du défi.</p>
+</li>
+<li>
+<p>La <strong>date de la participation</strong>.</p>
+</li>
+<li>
+<p>La <strong>quantité</strong> déclarée.</p>
+</li>
+<li>
+<p>Statut affiché (Validée, Refusée).</p>
+</li>
+<li>
+<p>S’il s’agit d’une participation <strong>refusée</strong>, un formulaire intégré est affiché directement dans l’encadré :</p>
+</li>
+<li>
+<p>Un champ quantité modifiable.</p>
+</li>
+<li>
+<p>Un champ pour joindre une nouvelle image.</p>
+</li>
+<li>
+<p>Un bouton de resoumission.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>À la validation de ce formulaire, une nouvelle vérification est lancée via l’API, et la participation est à nouveau traitée.</p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>But principal</strong> :</div>
+<p>Renforcer la <strong>vérifiabilité</strong>, <strong>limiter les abus</strong>, et <strong>fiabiliser les statistiques</strong> tout en offrant à l’utilisateur une <strong>seconde chance</strong> en cas d’erreur.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1209,6 +1558,27 @@ Grâce à l&#8217;intégration d&#8217;éléments ludiques comme les défis et l
 </div>
 </div>
 <div class="sect2">
+<h3 id="_feature_6">Feature 6 :</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/wirefreame.png" alt="wire6" width="500">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_feature_7">Feature 7 :</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/fin7.png" alt="wire3" width="500">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/fin8.png" alt="wire3" width="500">
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_à_propos">à propos</h3>
 <div class="imageblock text-center">
 <div class="content">
@@ -1221,7 +1591,7 @@ Grâce à l&#8217;intégration d&#8217;éléments ludiques comme les défis et l
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-01-19 14:36:53 +0100
+Last updated 2025-05-09 14:15:14 +0200
 </div>
 </div>
 </body>

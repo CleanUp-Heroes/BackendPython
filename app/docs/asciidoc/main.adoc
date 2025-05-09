@@ -413,16 +413,45 @@ Gère les questions du quiz, valide les réclamations de récompenses, et suit l
 
 Ce système encourage l'engagement des utilisateurs en récompensant leurs connaissances et leurs actions en faveur de l'environnement.
 
+=== Feature 8 : Vérification automatique des participations via photo
 
+.**Objectif** :
+Renforcer la fiabilité des participations aux défis en analysant automatiquement les preuves visuelles à l’aide d’une API de reconnaissance d’objets (ex : Google Vision API). L’objectif est de s’assurer que la quantité déclarée correspond réellement au contenu visible sur la photo.
 
-===== Diagramme de Séquence
+.**Fonctionnement** :
 
-image::images/seq.png[Diagramme de Séquence, width=500, align=center]
+* Lorsqu’un utilisateur soumet une participation à un défi :
 
+  * Il renseigne la **quantité réalisée**.
+  * Il ajoute une **photo** comme preuve.
+* La photo est envoyée au backend, qui utilise une **API de reconnaissance d’objets**.
+* Le backend compare :
 
-===== Diagramme de  Classe
+  * Le **nombre ou type d’objets détectés** sur la photo.
+  * La **quantité indiquée** dans le formulaire.
+* Deux cas sont possibles :
 
-image::images/obj.png[Diagramme de Classe, width=500, align=center]
+  * **Correspondance** : La participation est **validée automatiquement**.
+  * **Écart détecté** : La participation est **refusée**.
+
+.**Nouvelle interface utilisateur : liste des participations**
+
+* Une nouvelle page liste les **participations passées** à un défi.
+* Pour chaque participation :
+  * le nom du défi.
+  * La **date de la participation**.
+  * La **quantité** déclarée.
+  * Statut affiché (Validée, Refusée).
+  * S’il s’agit d’une participation **refusée**, un formulaire intégré est affiché directement dans l’encadré :
+
+    * Un champ quantité modifiable.
+    * Un champ pour joindre une nouvelle image.
+    * Un bouton de resoumission.
+
+À la validation de ce formulaire, une nouvelle vérification est lancée via l’API, et la participation est à nouveau traitée.
+
+.**But principal** :
+Renforcer la **vérifiabilité**, **limiter les abus**, et **fiabiliser les statistiques** tout en offrant à l’utilisateur une **seconde chance** en cas d’erreur.
 
 
 == Wireframe

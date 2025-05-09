@@ -117,12 +117,12 @@ Ensuite, vous pouvez générer les fichiers de documentation :
 
 1. **Génération du fichier HTML :**
    ```bash
-   asciidoc -b html5 app/docs/asciidoc/main.adoc
+   asciidoctor app/docs/asciidoc/main.adoc
    ```
 
 2. **Génération du fichier PDF :**
    ```bash
-   asciidoc -b pdf app/docs/asciidoc/main.adoc
+   asciidoctor-pdf app/docs/asciidoc/main.adoc
    ```
 
 Les fichiers générés se trouveront dans le répertoire `docs`.
