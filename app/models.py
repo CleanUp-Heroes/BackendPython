@@ -158,7 +158,7 @@ class Participation(models.Model):
     action_quantity = models.IntegerField()
     action_date = models.DateField()
     photo = models.ForeignKey('Proof', models.DO_NOTHING, blank=True, null=True)
-    photo_re_soumise = models.ImageField(upload_to="challenges/ressoumision/", null=True, blank=True)
+    #photo_re_soumise = models.ImageField(upload_to="challenges/ressoumision/", null=True, blank=True)
     is_validated = models.IntegerField(default=0)
     class Meta:
         managed = False
