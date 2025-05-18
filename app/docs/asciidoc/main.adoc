@@ -460,7 +460,9 @@ image::images/imgclaire1Api.png[Diagramme de l'API , width=500]
 
 image::images/imgclaire2Api.png[Diagramme de séquence, pdfwidth=75%]  
 
-==== Diagramme de Classe
+==== Diagramme de Classe  : choisir l'un des deux
+image::images/api1diagobjet1.png[Diagramme de classe, pdfwidth=75%] 
+image::images/api1diagobjet2.png[Diagramme de classe, pdfwidth=75%] 
 
 == Wireframe
 === Acceuil
