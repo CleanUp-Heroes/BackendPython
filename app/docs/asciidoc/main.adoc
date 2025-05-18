@@ -453,6 +453,14 @@ Renforcer la fiabilité des participations aux défis en analysant automatiqueme
 .**But principal** :
 Renforcer la **vérifiabilité**, **limiter les abus**, et **fiabiliser les statistiques** tout en offrant à l’utilisateur une **seconde chance** en cas d’erreur.
 
+==== Diagramme de Séquence
+
+
+image::images/imgclaire1Api.png[Diagramme de l'API , width=500]  
+
+image::images/imgclaire2Api.png[Diagramme de séquence, pdfwidth=75%]  
+
+==== Diagramme de Classe
 
 == Wireframe
 === Acceuil

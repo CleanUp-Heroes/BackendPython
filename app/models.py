@@ -479,8 +479,6 @@ class EventParticipant(models.Model):
         return f"{self.user.username} -> {self.event.title}"
     
 
-   
-
 class CleanupEvent(models.Model):
     title = models.CharField(max_length=255)  # Titre de l'événement
     location = models.CharField(max_length=255)  # Lieu sous forme de texte
