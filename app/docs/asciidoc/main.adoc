@@ -416,7 +416,7 @@ Ce système encourage l'engagement des utilisateurs en récompensant leurs conna
 === Feature 8 : Vérification automatique des participations via photo
 
 .**Objectif** :
-Renforcer la fiabilité des participations aux défis en analysant automatiquement les preuves visuelles à l’aide d’une API de reconnaissance d’objets (ex : Google Vision API). L’objectif est de s’assurer que la quantité déclarée correspond réellement au contenu visible sur la photo.
+Renforcer la fiabilité des participations aux défis en analysant automatiquement les preuves visuelles à l’aide d’une API de reconnaissance d’objets (Google Vision API). L’objectif est de s’assurer que la quantité déclarée correspond réellement au contenu visible sur la photo.
 
 .**Fonctionnement** :
 
@@ -427,8 +427,8 @@ Renforcer la fiabilité des participations aux défis en analysant automatiqueme
 * La photo est envoyée au backend, qui utilise une **API de reconnaissance d’objets**.
 * Le backend compare :
 
-  * Le **nombre ou type d’objets détectés** sur la photo.
-  * La **quantité indiquée** dans le formulaire.
+  * Le **nombre et type d’objets détectés** sur la photo.
+  * La **quantité indiquée** dans le formulaire et le **type d'objets attendu**.
 * Deux cas sont possibles :
 
   * **Correspondance** : La participation est **validée automatiquement**.
@@ -437,12 +437,12 @@ Renforcer la fiabilité des participations aux défis en analysant automatiqueme
 .**Nouvelle interface utilisateur : liste des participations**
 
 * Une nouvelle page liste les **participations passées** à un défi.
-* Pour chaque participation :
+  Pour chaque participation :
   * le nom du défi.
   * La **date de la participation**.
   * La **quantité** déclarée.
   * Statut affiché (Validée, Refusée).
-  * S’il s’agit d’une participation **refusée**, un formulaire intégré est affiché directement dans l’encadré :
+  S’il s’agit d’une participation **refusée**, un formulaire intégré est affiché directement dans l’encadré :
 
     * Un champ quantité modifiable.
     * Un champ pour joindre une nouvelle image.
@@ -451,7 +451,7 @@ Renforcer la fiabilité des participations aux défis en analysant automatiqueme
 À la validation de ce formulaire, une nouvelle vérification est lancée via l’API, et la participation est à nouveau traitée.
 
 .**But principal** :
-Renforcer la **vérifiabilité**, **limiter les abus**, et **fiabiliser les statistiques** tout en offrant à l’utilisateur une **seconde chance** en cas d’erreur.
+Renforcer la **vérifiabilité**, **limiter les abus**, et **fiabiliser les statistiques** tout en offrant à l’utilisateur une **nouvelle chance** en cas d’erreur.
 
 ==== Diagramme de Séquence
 
