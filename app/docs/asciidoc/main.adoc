@@ -280,7 +280,6 @@ Cette fonctionnalité permet aux utilisateurs de contribuer activement à la pro
 
 image::images/feat3.png[Diagramme de Séquence, width=500, align=center]
 image::images/feat3-2.png[Diagramme de Séquence, width=500, align=center]
-=== Feature 7
 
 ### **Feature 6 : Gestion du Forum**  
 

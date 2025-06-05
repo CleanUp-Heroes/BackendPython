@@ -1121,10 +1121,6 @@ Grâce à l&#8217;intégration d&#8217;éléments ludiques comme les défis et l
 </div>
 </div>
 <div class="sect2">
-<h3 id="_feature_7">Feature 7</h3>
-
-</div>
-<div class="sect2">
 <h3 id="_feature_6_gestion_du_forum"><strong>Feature 6 : Gestion du Forum</strong></h3>
 <div class="sect3">
 <h4 id="_description_3"><strong>Description</strong></h4>
@@ -1394,7 +1390,7 @@ Utilisateur :</p>
 <h3 id="_feature_8_vérification_automatique_des_participations_via_photo">Feature 8 : Vérification automatique des participations via photo</h3>
 <div class="paragraph">
 <div class="title"><strong>Objectif</strong> :</div>
-<p>Renforcer la fiabilité des participations aux défis en analysant automatiquement les preuves visuelles à l’aide d’une API de reconnaissance d’objets (ex : Google Vision API). L’objectif est de s’assurer que la quantité déclarée correspond réellement au contenu visible sur la photo.</p>
+<p>Renforcer la fiabilité des participations aux défis en analysant automatiquement les preuves visuelles à l’aide d’une API de reconnaissance d’objets (Google Vision API). L’objectif est de s’assurer que la quantité déclarée correspond réellement au contenu visible sur la photo.</p>
 </div>
 <div class="ulist">
 <div class="title"><strong>Fonctionnement</strong> :</div>
@@ -1415,10 +1411,10 @@ Utilisateur :</p>
 <p>Le backend compare :</p>
 </li>
 <li>
-<p>Le <strong>nombre ou type d’objets détectés</strong> sur la photo.</p>
+<p>Le <strong>nombre et type d’objets détectés</strong> sur la photo.</p>
 </li>
 <li>
-<p>La <strong>quantité indiquée</strong> dans le formulaire.</p>
+<p>La <strong>quantité indiquée</strong> dans le formulaire et le <strong>type d&#8217;objets attendu</strong>.</p>
 </li>
 <li>
 <p>Deux cas sont possibles :</p>
@@ -1435,10 +1431,8 @@ Utilisateur :</p>
 <div class="title"><strong>Nouvelle interface utilisateur : liste des participations</strong></div>
 <ul>
 <li>
-<p>Une nouvelle page liste les <strong>participations passées</strong> à un défi.</p>
-</li>
-<li>
-<p>Pour chaque participation :</p>
+<p>Une nouvelle page liste les <strong>participations passées</strong> à un défi.
+Pour chaque participation :</p>
 </li>
 <li>
 <p>le nom du défi.</p>
@@ -1450,10 +1444,8 @@ Utilisateur :</p>
 <p>La <strong>quantité</strong> déclarée.</p>
 </li>
 <li>
-<p>Statut affiché (Validée, Refusée).</p>
-</li>
-<li>
-<p>S’il s’agit d’une participation <strong>refusée</strong>, un formulaire intégré est affiché directement dans l’encadré :</p>
+<p>Statut affiché (Validée, Refusée).
+S’il s’agit d’une participation <strong>refusée</strong>, un formulaire intégré est affiché directement dans l’encadré :</p>
 </li>
 <li>
 <p>Un champ quantité modifiable.</p>
@@ -1471,7 +1463,7 @@ Utilisateur :</p>
 </div>
 <div class="paragraph">
 <div class="title"><strong>But principal</strong> :</div>
-<p>Renforcer la <strong>vérifiabilité</strong>, <strong>limiter les abus</strong>, et <strong>fiabiliser les statistiques</strong> tout en offrant à l’utilisateur une <strong>seconde chance</strong> en cas d’erreur.</p>
+<p>Renforcer la <strong>vérifiabilité</strong>, <strong>limiter les abus</strong>, et <strong>fiabiliser les statistiques</strong> tout en offrant à l’utilisateur une <strong>nouvelle chance</strong> en cas d’erreur.</p>
 </div>
 <div class="sect3">
 <h4 id="_diagramme_de_séquence_4">Diagramme de Séquence</h4>
@@ -1490,12 +1482,7 @@ Utilisateur :</p>
 <h4 id="_diagramme_de_classe_choisir_lun_des_deux">Diagramme de Classe  : choisir l&#8217;un des deux</h4>
 <div class="imageblock">
 <div class="content">
-<img src="images/api1diagobjet1.png" alt="Diagramme de classe">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/api1diagobjet2.png" alt="Diagramme de classe">
+<img src="images/api1diagobjet3.png" alt="Diagramme de classe">
 </div>
 </div>
 </div>
@@ -1597,7 +1584,7 @@ Utilisateur :</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_feature_7_2">Feature 7 :</h3>
+<h3 id="_feature_7">Feature 7 :</h3>
 <div class="imageblock text-center">
 <div class="content">
 <img src="images/fin7.png" alt="wire3" width="500">
@@ -1613,7 +1600,7 @@ Utilisateur :</p>
 <h3 id="_feature_8">Feature 8 :</h3>
 <div class="imageblock text-center">
 <div class="content">
-<img src="images/wire8.png" alt="wire8" width="500">
+<img src="images/wire8.png" alt="wire8" width="1000">
 </div>
 </div>
 </div>
@@ -1630,7 +1617,7 @@ Utilisateur :</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-21 10:19:40 +0200
+Last updated 2025-06-05 12:39:24 +0200
 </div>
 </div>
 </body>
