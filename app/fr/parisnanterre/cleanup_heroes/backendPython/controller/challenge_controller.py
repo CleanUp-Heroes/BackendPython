@@ -14,6 +14,10 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils.timezone import now
 import os, base64, requests, json
 from django.conf import settings
+from app.services.co2 import compute_and_save_impact  
+from django.db.models.functions import TruncDate
+from datetime import timedelta
+
 
 @swagger_auto_schema(
     method='get',
@@ -274,115 +278,113 @@ def add_participation(request):
         except ValueError:
             raise AuthenticationFailed("Invalid token or token does not exist.")
    
+        # try:
+        # Récupérer les données des champs du formulaire
+        challenge_id = request.data.get('challenge_id')
+        action_date = request.data.get('date')
+        action_quantity = request.data.get('quantity')
+
+        if not challenge_id or not action_date or not action_quantity:
+            return JsonResponse({'error': 'Missing required fields'}, status=400)
+
+        if 'photo' not in request.FILES:
+            return JsonResponse({'error': 'Photo file is required'}, status=400)
+
+        # Vérifier si le challenge existe
         try:
-            # Récupérer les données des champs du formulaire
-            challenge_id = request.data.get('challenge_id')
-            action_date = request.data.get('date')
-            action_quantity = request.data.get('quantity')
-
-            if not challenge_id or not action_date or not action_quantity:
-                return JsonResponse({'error': 'Missing required fields'}, status=400)
-
-            if 'photo' not in request.FILES:
-                return JsonResponse({'error': 'Photo file is required'}, status=400)
-
-            # Vérifier si le challenge existe
-            try:
-                challenge = Challenge.objects.get(id=challenge_id)
-            except ObjectDoesNotExist:
-                return JsonResponse({'error': 'Challenge not found'}, status=404)
+            challenge = Challenge.objects.get(id=challenge_id)
+        except ObjectDoesNotExist:
+            return JsonResponse({'error': 'Challenge not found'}, status=404)
             
-            expected_class = challenge.unit.name 
-            class_attendu = challenge.unit.nom
-            photo = request.FILES['photo']
+        expected_class = challenge.unit.name 
+        class_attendu = challenge.unit.nom
+        photo = request.FILES['photo']
             
-            # Sauvegarde de la photo et création de la preuve
-            photo_url = save_uploaded_file(photo)
-            
-             # Récupérer l'image depuis le chemin
-            absolute_photo_path = os.path.normpath(os.path.join(settings.MEDIA_ROOT, photo_url))
-                        
-            try:
-            # Lire l'image directement depuis le fichier
-                encoded_image = None
-                if os.path.isfile(absolute_photo_path):
-                    # Read the image and convert it into a BytesIO object
-                    with open(absolute_photo_path, "rb") as image_file:
-                        encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
-                    request_payload = {
-                    "requests": [
-                        {
-                            "image": {
-                                "content": encoded_image
-                            },
-                            "features": [
-                                {
-                                    "type": "OBJECT_LOCALIZATION",
-                                    "maxResults": 10
-                                }
-                            ]
-                        }
-                    ]
-                }
-                # Charger la clé API depuis le fichier config.json
-                config_path = os.path.join(os.path.dirname(__file__), 'config.json')
-                base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Répertoire parent
-                config_path = os.path.join(base_dir, 'config.json')  # Ajustez le chemin selon votre structure
+        # Sauvegarde de la photo et création de la preuve
+        photo_url = save_uploaded_file(photo)
+        
+         # Récupérer l'image depuis le chemin
+        absolute_photo_path = os.path.normpath(os.path.join(settings.MEDIA_ROOT, photo_url))
+                    
+        try:
+        # Lire l'image directement depuis le fichier
+            encoded_image = None
+            if os.path.isfile(absolute_photo_path):
+                # Read the image and convert it into a BytesIO object
+                with open(absolute_photo_path, "rb") as image_file:
+                    encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+            request_payload = {
+                "requests": [{
+                    "image": {"content": encoded_image},
+                    "features": [{"type": "OBJECT_LOCALIZATION", "maxResults": 10}]
+                }]
+            }
+            # Charger la clé API depuis le fichier config.json
+            config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Répertoire parent
+            config_path = os.path.join(base_dir, 'config.json')  # Ajustez le chemin selon votre structure
 
-                GOOGLE_API_KEY = None
-                with open(config_path, 'r') as config_file:
-                    config = json.load(config_file)
-                    GOOGLE_API_KEY = config.get('google_api_key')
+            GOOGLE_API_KEY = None
+            with open(config_path, 'r') as config_file:
+                config = json.load(config_file)
+                GOOGLE_API_KEY = config.get('google_api_key')
+            
+            url = f"https://vision.googleapis.com/v1/images:annotate?key={GOOGLE_API_KEY}"
+            response = requests.post(url, json=request_payload)
                 
-                url = f"https://vision.googleapis.com/v1/images:annotate?key={GOOGLE_API_KEY}"
-                response = requests.post(url, json=request_payload)
-                
-            except Exception as e:
-                return JsonResponse({'error': f'Error processing image: {str(e)}'}, status=400)
+        except Exception as e:
+           return JsonResponse({'error': f'Error processing image: {str(e)}'}, status=400)
             
-            if "localizedObjectAnnotations" not in response.json()["responses"][0]:
-                return JsonResponse({'error': 'Invalid response from inference API'}, status=400)
+        if "localizedObjectAnnotations" not in response.json()["responses"][0]:
+            return JsonResponse({'error': 'Invalid response from inference API'}, status=400)
             
-            # Filtrer les objets correspondant à l'objet attendu
-            objects = response.json()["responses"][0].get("localizedObjectAnnotations", [])
-            detected_objects = [obj for obj in objects if obj["name"].lower() == expected_class.lower()]
-            detected_quantity = len(detected_objects)
+        # Filtrer les objets correspondant à l'objet attendu
+        objects = response.json()["responses"][0].get("localizedObjectAnnotations", [])
+        detected_objects = [obj for obj in objects if obj["name"].lower() == expected_class.lower()]
+        detected_quantity = len(detected_objects)
 
-            proof = Proof.objects.create(photo=photo_url, creation_date=timezone.now())
+        proof = Proof.objects.create(photo=photo_url, creation_date=timezone.now())
 
-            # Vérification stricte : la quantité détectée doit être au moins égale à ce que l'utilisateur a indiqué
-            if detected_quantity < int(action_quantity):
-                Participation.objects.create(
-                    user_id=user_id,
-                    challenge=challenge,
-                    action_quantity=action_quantity,
-                    action_date=action_date,
-                    photo_id=proof.id,
-                    is_validated=0
-                )
-                return JsonResponse({
-                    'error': f'Votre participation a été refusée : seulement {detected_quantity} {class_attendu} détecté(s) sur les {action_quantity} annoncé(s). Pour corriger cela, vous pouvez soumettre une nouvelle photo dans la section "Mes participations".'
-                }, status=420)
-            else :                
-                # Création de la participation
-                Participation.objects.create(
-                    user_id=user_id,
-                    challenge=challenge,
-                    action_quantity=action_quantity,
-                    action_date=action_date,
-                    photo_id=proof.id,
-                    is_validated=1 # 1 pour validé et 0 pour refusé
-                )
-               
+        # Vérification stricte : la quantité détectée doit être au moins égale à ce que l'utilisateur a indiqué
+        if detected_quantity < int(action_quantity):
+            Participation.objects.create(
+                user_id=user_id,
+                challenge=challenge,
+                action_quantity=action_quantity,
+                action_date=action_date,
+                photo_id=proof.id,
+                is_validated=0
+            )
+            return JsonResponse({
+                'error': f'Votre participation a été refusée : seulement {detected_quantity} {class_attendu} détecté(s) sur les {action_quantity} annoncé(s). Pour corriger cela, vous pouvez soumettre une nouvelle photo dans la section "Mes participations".'
+            }, status=420)
+        else :                
+            # Création de la participation
+            participation = Participation.objects.create(
+                user_id=user_id,
+                challenge=challenge,
+                action_quantity=action_quantity,
+                action_date=action_date,
+                photo_id=proof.id,
+                is_validated=1, # 1 pour validé et 0 pour refusé
+                impact_status = "PENDING"
+            )
+
             check_and_update_completed_challenges(user_id, challenge)
+
+            if participation.is_validated == 1 and participation.impact_co2e is None:
+                # try:
+                    compute_and_save_impact(participation)
+                # except Exception:
+                #     pass
+
 
             return JsonResponse({'message': 'Participation acceptée.'}, status=201)
 
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+        # except Exception as e:
+        #     return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
-
 
 @api_view(['POST'])
 def re_soumettre_photo(request, participation_id):
@@ -468,7 +470,15 @@ def re_soumettre_photo(request, participation_id):
             }, status=400)
         else:
             participation.is_validated = 1
+            participation.impact_status = "PENDING"
             participation.save()
+
+        if participation.is_validated == 1 and participation.impact_co2e is None:
+            try:
+                compute_and_save_impact(participation)
+            except Exception:
+                pass  
+
 
         check_and_update_completed_challenges(user_id, challenge)
 
@@ -559,3 +569,51 @@ def get_participations(request):
     ]
 
     return JsonResponse(participations_list, safe=False)  # safe=False pour envoyer une liste JSON
+
+@api_view(['GET'])
+def impact_summary(request):
+    token_value = request.headers.get('Authorization')
+    if not token_value:
+        raise AuthenticationFailed("Token is missing in the request.")
+
+    try:
+        user_id = RefreshToken(token_value)['user_id']
+        user = User.objects.get(id=user_id)
+        if not user.is_active:
+            raise AuthenticationFailed('User is inactive.')
+    except Exception:
+        raise AuthenticationFailed("Invalid token or token does not exist.")
+
+    try:
+        range_param = request.GET.get('range', 'all')  
+        qs = (Participation.objects
+                .filter(user_id=user_id,
+                        is_validated=1,
+                        impact_co2e__isnull=False))
+
+        if range_param == '30d':
+            qs = qs.filter(impact_calculated_at__gte=timezone.now()-timedelta(days=30))
+        elif range_param == '12m':
+            qs = qs.filter(impact_calculated_at__gte=timezone.now()-timedelta(days=365))
+
+        total = qs.aggregate(Sum('impact_co2e'))['impact_co2e__sum'] or 0
+
+        by_day = (qs.annotate(day=TruncDate('impact_calculated_at'))
+                     .values('day')
+                     .annotate(kg=Sum('impact_co2e'))
+                     .order_by('day'))
+
+        series = [
+            {'date': str(row['day']), 'kg': round(row['kg'], 2)}
+            for row in by_day
+        ]
+
+        return JsonResponse({
+            'total': round(total, 2),
+            'unit': 'kg',
+            'series': series
+        }, status=200)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+

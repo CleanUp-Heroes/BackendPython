@@ -158,8 +158,15 @@ class Participation(models.Model):
     action_quantity = models.IntegerField()
     action_date = models.DateField()
     photo = models.ForeignKey('Proof', models.DO_NOTHING, blank=True, null=True)
-    #photo_re_soumise = models.ImageField(upload_to="challenges/ressoumision/", null=True, blank=True)
     is_validated = models.IntegerField(default=0)
+    impact_co2e          = models.FloatField(null=True, blank=True)
+    impact_unit          = models.CharField(max_length=4, default="kg")
+    impact_calculated_at = models.DateTimeField(null=True)
+    impact_status        = models.CharField(
+        max_length=8,
+        default="DONE",            # DONE, PENDING ou ERROR
+        choices=[("DONE","DONE"),("PENDING","PENDING"),("ERROR","ERROR")]
+    )
     class Meta:
         managed = False
         db_table = 'participation'
@@ -224,6 +231,11 @@ class TokenBlacklistOutstandingtoken(models.Model):
 class Unit(models.Model):
     nom = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
+    weight_kg    = models.FloatField(default=0.05)  
+    activity_id  = models.CharField(                  
+        max_length=120,
+        default="waste_type_plastic-waste_method_recycled"
+    )
 
     class Meta:
         managed = False

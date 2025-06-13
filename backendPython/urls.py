@@ -50,6 +50,8 @@ urlpatterns = [
     path('challenges/participation/', challenge_controller.add_participation, name='add_participation'),
     path('challenges/ressoumision/', challenge_controller.re_soumettre_photo, name='re_soumettre_photo'),
     path('challenges/mes_participations/', challenge_controller.get_participations),
+    path('challenges/impact/summary/', challenge_controller.impact_summary, name='impact-summary'),
+
 
     path('reports/report/', reporting_controller.add_report, name='add_report'),
     path('reports/get_reports/', reporting_controller.get_reports, name='get_report'),
