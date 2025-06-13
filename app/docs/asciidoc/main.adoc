@@ -459,9 +459,41 @@ image::images/imgclaire1Api.png[Diagramme de l'API , width=500]
 
 image::images/imgclaire2Api.png[Diagramme de séquence, pdfwidth=75%]  
 
-==== Diagramme de Classe  : choisir l'un des deux
+==== Diagramme de Classe 
 image::images/api1diagobjet3.png[Diagramme de classe, pdfwidth=75%] 
 
+=== Feature 9 : Suivi de l’impact environnemental
+
+.**Objectif** :  
+Donner à l’utilisateur une mesure claire et motivante de l’impact positif de ses actions, exprimé en kilogrammes de CO₂ évités.  
+
+.**Fonctionnement** :
+
+* À chaque participation **validée** :
+  * Le système évalue la quantité totale de déchets traités.
+  * Une **API d’empreinte carbone** calcule l’équivalent CO₂ évité.
+  * Cette valeur est ajoutée au cumul personnel de l’utilisateur.
+* L’ensemble de ces valeurs est agrégé pour produire :
+  * Un **total** actualisé en temps réel.
+  * Une **courbe d’évolution** qui montre la progression jour après jour.
+
+.**Nouvelle interface utilisateur : page “Mon Impact”**
+
+* Accessible depuis le menu principal.
+* Affiche :
+  * Un **compteur** indiquant le total de CO₂ évités.
+  * Un **graphique interactif**..
+
+.**But principal** :  
+Rendre tangible l’effet écologique de chaque geste, renforcer la motivation et encourager la poursuite des défis grâce à une visualisation valorisante et cumulative.
+
+==== Diagramme de Séquence
+
+image::images/f9_diagSeq.png[Diagramme de séquence, pdfwidth=75%]
+
+==== Diagramme de Classe
+
+image::images/f9_diagClass.png[Diagramme de classe, pdfwidth=75%]
 
 == Wireframe
 === Acceuil
@@ -508,6 +540,16 @@ image::images/fin8.png[wire3, width=500, align=center]
 === Feature 8 :
 
 image::images/wire8.png[wire8, width=1000, align=center]
+
+=== Feature 9 : 
+
+image::images/image.png[wire9.1, width=1000, align=center]
+
+image::images/image(1).png[wire9.2, width=1000, align=center]
+
+image::images/image(2).png[wire9.3, width=1000, align=center]
+
+image::images/image(4).png[wire9.4, width=1000, align=center]
 
 === à propos
 

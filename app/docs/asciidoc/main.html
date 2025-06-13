@@ -1479,10 +1479,80 @@ S’il s’agit d’une participation <strong>refusée</strong>, un formulaire i
 </div>
 </div>
 <div class="sect3">
-<h4 id="_diagramme_de_classe_choisir_lun_des_deux">Diagramme de Classe  : choisir l&#8217;un des deux</h4>
+<h4 id="_diagramme_de_classe_2">Diagramme de Classe</h4>
 <div class="imageblock">
 <div class="content">
 <img src="images/api1diagobjet3.png" alt="Diagramme de classe">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_feature_9_suivi_de_limpact_environnemental">Feature 9 : Suivi de l’impact environnemental</h3>
+<div class="paragraph">
+<div class="title"><strong>Objectif</strong> :</div>
+<p>Donner à l’utilisateur une mesure claire et motivante de l’impact positif de ses actions, exprimé en kilogrammes de CO₂ évités.</p>
+</div>
+<div class="ulist">
+<div class="title"><strong>Fonctionnement</strong> :</div>
+<ul>
+<li>
+<p>À chaque participation <strong>validée</strong> :</p>
+</li>
+<li>
+<p>Le système évalue la quantité totale de déchets traités.</p>
+</li>
+<li>
+<p>Une <strong>API d’empreinte carbone</strong> calcule l’équivalent CO₂ évité.</p>
+</li>
+<li>
+<p>Cette valeur est ajoutée au cumul personnel de l’utilisateur.</p>
+</li>
+<li>
+<p>L’ensemble de ces valeurs est agrégé pour produire :</p>
+</li>
+<li>
+<p>Un <strong>total</strong> actualisé en temps réel.</p>
+</li>
+<li>
+<p>Une <strong>courbe d’évolution</strong> qui montre la progression jour après jour.</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title"><strong>Nouvelle interface utilisateur : page “Mon Impact”</strong></div>
+<ul>
+<li>
+<p>Accessible depuis le menu principal.</p>
+</li>
+<li>
+<p>Affiche :</p>
+</li>
+<li>
+<p>Un <strong>compteur</strong> indiquant le total de CO₂ évités.</p>
+</li>
+<li>
+<p>Un <strong>graphique interactif</strong>..</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title"><strong>But principal</strong> :</div>
+<p>Rendre tangible l’effet écologique de chaque geste, renforcer la motivation et encourager la poursuite des défis grâce à une visualisation valorisante et cumulative.</p>
+</div>
+<div class="sect3">
+<h4 id="_diagramme_de_séquence_5">Diagramme de Séquence</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/f9_diagSeq.png" alt="Diagramme de séquence">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_diagramme_de_classe_3">Diagramme de Classe</h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/f9_diagClass.png" alt="Diagramme de classe">
 </div>
 </div>
 </div>
@@ -1605,6 +1675,29 @@ S’il s’agit d’une participation <strong>refusée</strong>, un formulaire i
 </div>
 </div>
 <div class="sect2">
+<h3 id="_feature_9">Feature 9 :</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/image.png" alt="wire9.1" width="1000">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/image(1).png" alt="wire9.2" width="1000">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/image(2).png" alt="wire9.3" width="1000">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="images/image(4).png" alt="wire9.4" width="1000">
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_à_propos">à propos</h3>
 <div class="imageblock text-center">
 <div class="content">
@@ -1617,7 +1710,7 @@ S’il s’agit d’une participation <strong>refusée</strong>, un formulaire i
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-06-05 12:39:24 +0200
+Last updated 2025-06-13 22:43:54 +0200
 </div>
 </div>
 </body>
